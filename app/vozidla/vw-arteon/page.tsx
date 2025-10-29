@@ -63,9 +63,18 @@ export default function VWArteonPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Modern background with multiple layers */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0f0f0f] via-[#242426] via-[#3a3a3c] to-[#6a6a6c]"></div>
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#242426]/20 to-[#ffffff]/10"></div>
+      <div className="absolute inset-0" style={{
+        background: `radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                     radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                     radial-gradient(circle at 40% 40%, rgba(255,255,255,0.03) 0%, transparent 70%)`
+      }}></div>
+      
       {/* Header */}
-      <header className="bg-gray-900 shadow-lg">
+      <header className="relative z-50 shadow-lg" style={{ backgroundColor: '#343534' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <Link href="/" className="flex items-center">
@@ -78,19 +87,19 @@ export default function VWArteonPage() {
               />
             </Link>
             <nav className="hidden md:flex space-x-8">
-              <Link href="/#o-nas" className="text-gray-300 hover:text-yellow-400 font-medium transition-colors">
+              <Link href="/#o-nas" className="text-gray-300 hover:text-[#c1ac68] font-medium transition-colors">
                 O nás
               </Link>
-              <Link href="/#jak-to-probiha" className="text-gray-300 hover:text-yellow-400 font-medium transition-colors">
+              <Link href="/#jak-to-probiha" className="text-gray-300 hover:text-[#c1ac68] font-medium transition-colors">
                 Jak to probíhá?
               </Link>
-              <Link href="/#proc-nas" className="text-gray-300 hover:text-yellow-400 font-medium transition-colors">
+              <Link href="/#proc-nas" className="text-gray-300 hover:text-[#c1ac68] font-medium transition-colors">
                 Proč zvolit nás?
               </Link>
-              <Link href="/#vozidla" className="text-gray-300 hover:text-yellow-400 font-medium transition-colors">
+              <Link href="/#vozidla" className="text-gray-300 hover:text-[#c1ac68] font-medium transition-colors">
                 Dovezená vozidla
               </Link>
-              <Link href="/#kontakt" className="text-gray-300 hover:text-yellow-400 font-medium transition-colors">
+              <Link href="/#kontakt" className="text-gray-300 hover:text-[#c1ac68] font-medium transition-colors">
                 Kontakty
               </Link>
             </nav>
@@ -99,24 +108,24 @@ export default function VWArteonPage() {
       </header>
 
       {/* Breadcrumb */}
-      <div className="bg-gray-800 py-4">
+      <div className="relative z-30 py-4" style={{ backgroundColor: '#434242' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center space-x-2 text-sm">
-            <Link href="/" className="text-gray-400 hover:text-yellow-400 transition-colors">
+            <Link href="/" className="text-gray-400 hover:text-[#c1ac68] transition-colors">
               Domů
             </Link>
             <span className="text-gray-500">/</span>
-            <Link href="/#vozidla" className="text-gray-400 hover:text-yellow-400 transition-colors">
+            <Link href="/#vozidla" className="text-gray-400 hover:text-[#c1ac68] transition-colors">
               Vozidla
             </Link>
             <span className="text-gray-500">/</span>
-            <span className="text-yellow-400">{vehicle.title}</span>
+            <span className="text-[#c1ac68]">{vehicle.title}</span>
           </nav>
         </div>
       </div>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Images */}
           <div className="space-y-4">
@@ -168,15 +177,15 @@ export default function VWArteonPage() {
               <h1 className="text-4xl font-bold text-white mb-4">{vehicle.title}</h1>
               <p className="text-xl text-gray-300 mb-6">{vehicle.description}</p>
               
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-2xl border border-gray-700">
+              <div className="bg-[#434242] p-6 rounded-2xl shadow-2xl border border-gray-700">
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-3xl font-bold text-yellow-400">{vehicle.price}</p>
+                    <p className="text-3xl font-bold text-[#c1ac68]">{vehicle.price}</p>
                     <p className="text-gray-400">Cena</p>
                   </div>
                   <Link 
                     href="/#kontakt"
-                    className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-8 py-3 rounded-full font-bold text-lg hover:from-yellow-400 hover:to-yellow-500 transition-all duration-300 shadow-2xl hover:shadow-yellow-500/25 transform hover:scale-105"
+                    className="bg-gradient-to-r from-[#c1ac68] to-[#a8955a] text-black px-8 py-3 rounded-full font-bold text-lg hover:from-[#c1ac68] hover:to-[#a8955a] transition-all duration-300 shadow-2xl hover:shadow-[#c1ac68]/25 transform hover:scale-105"
                   >
                     Chci dovézt podobné
                   </Link>
@@ -185,7 +194,7 @@ export default function VWArteonPage() {
             </div>
 
             {/* Specifications */}
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-2xl border border-gray-700">
+            <div className="bg-[#434242] p-6 rounded-2xl shadow-2xl border border-gray-700">
               <h3 className="text-2xl font-bold text-white mb-6">Specifikace</h3>
               <div className="grid grid-cols-2 gap-4">
                 {Object.entries(vehicle.specifications).map(([key, value]) => (
@@ -198,12 +207,12 @@ export default function VWArteonPage() {
             </div>
 
             {/* Equipment */}
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-2xl border border-gray-700">
+            <div className="bg-[#434242] p-6 rounded-2xl shadow-2xl border border-gray-700">
               <h3 className="text-2xl font-bold text-white mb-6">Vybavení</h3>
               <div className="grid grid-cols-2 gap-3">
                 {vehicle.equipment.map((item, index) => (
                   <div key={index} className="flex items-center">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full mr-3"></div>
+                    <div className="w-2 h-2 bg-[#c1ac68] rounded-full mr-3"></div>
                     <span className="text-gray-300">{item}</span>
                   </div>
                 ))}
@@ -214,7 +223,7 @@ export default function VWArteonPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 border-t border-gray-800">
+      <footer className="relative z-30 text-white py-12" style={{ background: 'linear-gradient(to bottom, #000000, #262527, #000000)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <Image
@@ -243,7 +252,7 @@ export default function VWArteonPage() {
                 e.stopPropagation();
                 closeModal();
               }}
-              className="absolute top-4 right-4 text-white text-4xl font-bold hover:text-yellow-400 transition-colors z-10"
+              className="absolute top-4 right-4 text-white text-4xl font-bold hover:text-[#c1ac68] transition-colors z-10"
             >
               ×
             </button>
@@ -252,7 +261,7 @@ export default function VWArteonPage() {
                 e.stopPropagation();
                 prevImage();
               }}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-4xl font-bold hover:text-yellow-400 transition-colors z-10"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-4xl font-bold hover:text-[#c1ac68] transition-colors z-10"
             >
               ‹
             </button>
@@ -261,7 +270,7 @@ export default function VWArteonPage() {
                 e.stopPropagation();
                 nextImage();
               }}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl font-bold hover:text-yellow-400 transition-colors z-10"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl font-bold hover:text-[#c1ac68] transition-colors z-10"
             >
               ›
             </button>
