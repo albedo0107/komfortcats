@@ -60,13 +60,11 @@ export default function Home() {
 
       {/* O nás Section */}
       <section id="o-nas" className="pt-32 pb-20 relative overflow-visible">
-        <div className="absolute inset-0 z-0">
-          <Image
+        <div className="absolute top-0 left-0 z-0 pointer-events-none">
+          <img
             src="/background_final.jpg"
             alt="Pozadí KomfortCars"
-            fill
-            className="object-cover"
-            priority
+            className="block"
           />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,9 +93,9 @@ export default function Home() {
             </div>
 
             {/* Pravý sloupec - Minimal řádky vpravo se separátory */}
-            <div className="flex items-center lg:absolute lg:-bottom-20 lg:-right-6 lg:w-[420px]">
+            <div className="flex items-center lg:absolute lg:top-1/2 lg:left-[80%] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:w-[420px]">
               <div className="w-full">
-                <div className="rounded-2xl bg-transparent shadow-2xl overflow-hidden">
+                <div className="rounded-2xl bg-black/15 backdrop-blur shadow-2xl overflow-hidden">
                   <table className="w-full text-left">
                     <tbody>
                       <tr>
