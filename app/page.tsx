@@ -256,7 +256,7 @@ export default function Home() {
       {/* Jak to probíhá Section */}
 <section id="jak-to-probiha" className="relative z-50 overflow-hidden pt-8 pb-16" style={{ backgroundColor: '#353434' }}>
   {/* Nadpis */}
-  <div className="relative z-20 pb-8">
+  <div className="relative z-20 pb-4">
     <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
       <h3 className="text-3xl lg:text-4xl font-light text-white text-center">
         Jak to u nás probíhá?
@@ -264,183 +264,211 @@ export default function Home() {
     </div>
   </div>
 
-  {/* Hlavní kontejner s fixní výškou */}
+  {/* Hlavní kontejner */}
   <div className="hidden lg:block relative w-full max-w-[1920px] mx-auto px-6">
-    {/* Kontejner s fixní výškou 600px */}
-    <div className="relative w-full" style={{ height: '600px' }}>
+    <div className="relative w-full" style={{ paddingBottom: '45%' }}>
       
-      {/* Absolutní kontejner - vše uvnitř se škáluje společně */}
       <div className="absolute inset-0">
         
-        {/* SVG Wave na pozadí - fixní výška */}
+        {/* SVG Wave na pozadí - čárkovaný střed, plné okraje */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative w-full" style={{ height: '600px' }}>
-            <Image
-              src="/wave.svg"
-              alt="Wave"
-              fill
-              className="object-contain"
-              style={{ objectPosition: 'center' }}
-              priority
+          <svg className="w-full h-full" viewBox="0 0 1920 864" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            {/* Horní plná vlnovka */}
+            <path 
+              d="M 0 302 
+                 Q 200 302 300 350 
+                 Q 400 398 422 449 
+                 Q 444 500 550 480 
+                 Q 656 460 800 380 
+                 Q 900 330 960 302 
+                 Q 1020 274 1120 330 
+                 Q 1220 386 1300 449 
+                 Q 1380 512 1500 480 
+                 Q 1620 448 1750 350 
+                 Q 1850 280 1920 302" 
+              stroke="url(#gradient)" 
+              strokeWidth="2" 
+              fill="none"
+              opacity="0.4"
+              transform="translate(0, -40)"
             />
-          </div>
+            
+            {/* Hlavní ČÁRKOVANÁ vlnovka uprostřed */}
+            <path 
+              d="M 0 302 
+                 Q 200 302 300 350 
+                 Q 400 398 422 449 
+                 Q 444 500 550 480 
+                 Q 656 460 800 380 
+                 Q 900 330 960 302 
+                 Q 1020 274 1120 330 
+                 Q 1220 386 1300 449 
+                 Q 1380 512 1500 480 
+                 Q 1620 448 1750 350 
+                 Q 1850 280 1920 302" 
+              stroke="url(#gradient)" 
+              strokeWidth="3" 
+              fill="none"
+              opacity="0.8"
+              strokeDasharray="15 15"
+            />
+            
+            {/* Dolní plná vlnovka */}
+            <path 
+              d="M 0 302 
+                 Q 200 302 300 350 
+                 Q 400 398 422 449 
+                 Q 444 500 550 480 
+                 Q 656 460 800 380 
+                 Q 900 330 960 302 
+                 Q 1020 274 1120 330 
+                 Q 1220 386 1300 449 
+                 Q 1380 512 1500 480 
+                 Q 1620 448 1750 350 
+                 Q 1850 280 1920 302" 
+              stroke="url(#gradient)" 
+              strokeWidth="2" 
+              fill="none"
+              opacity="0.4"
+              transform="translate(0, 40)"
+            />
+            
+            {/* Gradient definice */}
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#cfb270', stopOpacity: 1 }} />
+                <stop offset="50%" style={{ stopColor: '#d4ba7f', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#cfb270', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
 
-        {/* Vnitřní kontejner pro kroky - používá % pozice vůči rodiči */}
-        <div className="absolute inset-0" style={{ fontSize: 'clamp(8px, 0.83vw, 16px)' }}>
+        {/* Vnitřní kontejner */}
+        <div className="absolute inset-0" style={{ fontSize: 'clamp(10px, 1vw, 18px)' }}>
           
-          {/* Krok 1 - levý horní */}
-          <div className="absolute" style={{ left: '2%', top: '35%' }}>
-            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
-              <div className="flex items-start" style={{ gap: '1.5em' }}>
-                <div className="flex" style={{ gap: '1em' }}>
-                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>01</span>
-                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
-                    <div>Specifikace</div>
-                    <div>vozidla</div>
-                  </h4>
-                </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
-                  První konzultace proběhne u nás,<br />
-                  nebo v případě větší vzdálenosti telefonicky.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Obrázek 01.jpg */}
-          <div className="absolute" style={{ left: '8.7%', top: '55%', width: '8.33%', paddingBottom: '8.33%' }}>
-            <div className="absolute inset-0">
+          {/* KROK 1 - Start vlny (x=0-15%, y=35%) - NAD vlnou */}
+          <div className="absolute" style={{ left: '5%', top: '23%' }}>
+            {/* Obrázek nahoře */}
+            <div className="relative mx-auto mb-3" style={{ width: '11em', height: '11em' }}>
               <Image
                 src="/01.jpg"
-                alt="Ilustrace"
+                alt="Specifikace vozidla"
                 fill
-                className="rounded-lg shadow-lg object-cover"
+                className="rounded-lg shadow-xl object-cover"
               />
+            </div>
+            {/* Text pod obrázkem */}
+            <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
+              <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
+                <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>01</span>
+                <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
+                  Specifikace<br />vozidla
+                </h4>
+              </div>
+              <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
+                První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
+              </p>
             </div>
           </div>
 
-          {/* Obrázek 02.jpg */}
-          <div className="absolute" style={{ left: '26.9%', top: '18%', width: '8.33%', paddingBottom: '8.33%' }}>
-            <div className="absolute inset-0">
+          {/* KROK 2 - První propad vlny (x=22%, y=52%) - POD vlnou */}
+          <div className="absolute" style={{ left: '26%', top: '55%' }}>
+            {/* Text nahoře */}
+            <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl mb-3" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
+              <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
+                <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>02</span>
+                <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
+                  Hledání<br />vozidla
+                </h4>
+              </div>
+              <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
+                Posíláme konkrétní nabídky vozidel k osobní kontrole.
+              </p>
+            </div>
+            {/* Obrázek dole */}
+            <div className="relative mx-auto" style={{ width: '11em', height: '11em' }}>
               <Image
                 src="/02.jpg"
-                alt="Ilustrace"
+                alt="Hledání vozidla"
                 fill
-                className="rounded-lg shadow-lg object-cover"
+                className="rounded-lg shadow-xl object-cover"
               />
             </div>
           </div>
-          
-          {/* Krok 2 */}
-          <div className="absolute" style={{ left: '22%', top: '52%' }}>
-            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
-              <div className="flex items-start" style={{ gap: '1.5em' }}>
-                <div className="flex" style={{ gap: '1em' }}>
-                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>02</span>
-                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
-                    <div>Hledání</div>
-                    <div>vozidla</div>
-                  </h4>
-                </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
-                  Posíláme konkrétní nabídky vozidel<br />
-                  k osobní kontrole.
-                </p>
-              </div>
-            </div>
-          </div>
 
-          {/* Obrázek 03.jpg */}
-          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '55%', width: '8.33%', paddingBottom: '8.33%' }}>
-            <div className="absolute inset-0">
+          {/* KROK 3 - Střed vlny (x=50%, y=35%) - NAD vlnou */}
+          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '23%' }}>
+            {/* Obrázek nahoře */}
+            <div className="relative mx-auto mb-3" style={{ width: '11em', height: '11em' }}>
               <Image
                 src="/03.jpg"
-                alt="Ilustrace"
+                alt="Odjezd do Německa"
                 fill
-                className="rounded-lg shadow-lg object-cover"
+                className="rounded-lg shadow-xl object-cover"
               />
             </div>
-          </div>
-          
-          {/* Krok 3 - střed */}
-          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '35%' }}>
-            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
-              <div className="flex items-start" style={{ gap: '1.5em' }}>
-                <div className="flex" style={{ gap: '1em' }}>
-                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>03</span>
-                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
-                    <div>Odjezd</div>
-                    <div>do Německa</div>
-                  </h4>
-                </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
-                  Posíláme odkazy a ceny vozidel<br />
-                  s možností účasti klienta.
-                </p>
+            {/* Text pod obrázkem */}
+            <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
+              <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
+                <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>03</span>
+                <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
+                  Odjezd do<br />Německa
+                </h4>
               </div>
+              <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
+                Posíláme odkazy a ceny vozidel s možností účasti klienta.
+              </p>
             </div>
           </div>
-          
-          {/* Obrázek 04.jpg */}
-          <div className="absolute" style={{ right: '28.1%', top: '18%', width: '8.33%', paddingBottom: '8.33%' }}>
-            <div className="absolute inset-0">
+
+          {/* KROK 4 - Druhý propad vlny (x=68%, y=52%) - POD vlnou */}
+          <div className="absolute" style={{ left: '64%', top: '55%' }}>
+            {/* Text nahoře */}
+            <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl mb-3" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
+              <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
+                <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>04</span>
+                <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
+                  Prohlídka<br />vozidla
+                </h4>
+              </div>
+              <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
+                Kompletní prohlídka a zkušební jízda s technikem.
+              </p>
+            </div>
+            {/* Obrázek dole */}
+            <div className="relative mx-auto" style={{ width: '11em', height: '11em' }}>
               <Image
                 src="/04.jpg"
-                alt="Ilustrace"
+                alt="Prohlídka vozidla"
                 fill
-                className="rounded-lg shadow-lg object-cover"
+                className="rounded-lg shadow-xl object-cover"
               />
             </div>
           </div>
 
-          {/* Obrázek 05.jpg */}
-          <div className="absolute" style={{ right: '9.7%', top: '55%', width: '8.33%', paddingBottom: '8.33%' }}>
-            <div className="absolute inset-0">
+          {/* KROK 5 - Konec vlny (x=90%, y=35%) - NAD vlnou */}
+          <div className="absolute" style={{ right: '5%', top: '23%' }}>
+            {/* Obrázek nahoře */}
+            <div className="relative mx-auto mb-3" style={{ width: '11em', height: '11em' }}>
               <Image
                 src="/05.jpg"
-                alt="Ilustrace"
+                alt="Předání vozidla"
                 fill
-                className="rounded-lg shadow-lg object-cover"
+                className="rounded-lg shadow-xl object-cover"
               />
             </div>
-          </div>
-          
-          {/* Krok 4 */}
-          <div className="absolute" style={{ left: '60%', top: '52%' }}>
-            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
-              <div className="flex items-start" style={{ gap: '1.5em' }}>
-                <div className="flex" style={{ gap: '1em' }}>
-                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>04</span>
-                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
-                    <div>Prohlídka</div>
-                    <div>vozidla</div>
-                  </h4>
-                </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
-                  Kompletní prohlídka<br />
-                  a zkušební jízda s technikem.
-                </p>
+            {/* Text pod obrázkem */}
+            <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
+              <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
+                <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>05</span>
+                <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
+                  Předání<br />vozidla
+                </h4>
               </div>
-            </div>
-          </div>
-          
-          {/* Krok 5 - pravý horní */}
-          <div className="absolute" style={{ right: '2%', top: '35%' }}>
-            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
-              <div className="flex items-start" style={{ gap: '1.5em' }}>
-                <div className="flex" style={{ gap: '1em' }}>
-                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>05</span>
-                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
-                    <div>Předání</div>
-                    <div>vozidla</div>
-                  </h4>
-                </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
-                  Servisujeme, připravujeme a vyřizujeme<br />
-                  vše potřebné - STK, emise, SPZ po dovozu.
-                </p>
-              </div>
+              <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
+                Servisujeme, připravujeme a vyřizujeme vše potřebné - STK, emise, SPZ po dovozu.
+              </p>
             </div>
           </div>
           
