@@ -1,11 +1,77 @@
 'use client';
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+
+// Data vozidel
+const carsData = {
+  staria: {
+    name: "Hyundai Staria",
+    images: ["/staria.jpg", "/1-17.png", "/4-18.png", "/4-18.png"],
+    specs: [
+      "Rok výroby: 2023",
+      "Motor: 2.2 CRDi",
+      "Výkon: 130 kW",
+      "Km: 15 000 km",
+      "Kompletní servisní historie"
+    ]
+  },
+  kodiaq: {
+    name: "Škoda Kodiaq",
+    images: ["/kodiaq1-1.jpg", "/kodiaq1-1.jpg", "/kodiaq1-1.jpg", "/kodiaq1-1.jpg"],
+    specs: [
+      "Rok výroby: 2022",
+      "Motor: 2.0 TDI",
+      "Výkon: 110 kW",
+      "Km: 28 000 km",
+      "Kompletní výbava"
+    ]
+  },
+  bmw: {
+    name: "BMW",
+    images: ["/bmw1.png", "/bmw2.png", "/bmw3.png", "/bmw2.png"],
+    specs: [
+      "Rok výroby: 2021",
+      "Motor: 2.0i",
+      "Výkon: 135 kW",
+      "Km: 32 000 km",
+      "Prověřený původ"
+    ]
+  },
+  arteon: {
+    name: "Volkswagen Arteon",
+    images: ["/2-18.png", "/arteon2.jpg", "/4-12.jpg", "/4-18.png"],
+    specs: [
+      "Rok výroby: 2022",
+      "Motor: 2.0 TSI R-line",
+      "Výkon: 140 kW",
+      "Km: 22 000 km",
+      "Plná výbava R-line"
+    ]
+  }
+};
+
+// Google recenze data - seřazené od nejnovějších
+const reviewsData = [
+  { name: "Anna Köttová", initial: "A", text: "Skvělá zkušenost s dovozem vozidla z Německa. Profesionální přístup, vše proběhlo hladce a rychle. Mohu jen doporučit!", date: "před 2 týdny", rating: 5 },
+  { name: "Pavel Žižkovský", initial: "P", text: "Absolutní spokojenost. Vozidlo v perfektním stavu, kompletní servis a vyřízení všech formalit. Pan Bystřičan odvedl skvělou práci.", date: "před 1 měsícem", rating: 5 },
+  { name: "Evka", initial: "E", text: "Doporučuji! Pán Bystřičan je velmi vstřícný a ochotný. Auto přesně podle představ. Děkuji za individuální přístup.", date: "před 2 měsíci", rating: 5 },
+  { name: "Andrea Opluštilová", initial: "A", text: "Perfektní komunikace, rychlé vyřízení. Vozidlo odpovídá popisu, žádné skryté vady. Velmi profesionální jednání.", date: "před 3 měsíci", rating: 5 },
+  { name: "Martin Novák", initial: "M", text: "Díky KomfortCars mám auto snů! Celý proces byl transparentní a profesionální. Opravdu kvalitní služby.", date: "před 4 měsíci", rating: 5 },
+  { name: "Jana Svobodová", initial: "J", text: "Spolehlivá firma s dlouholetými zkušenostmi. Dovoz proběhl bez problémů. Vřele doporučuji všem.", date: "před 5 měsíci", rating: 5 },
+  { name: "Tomáš Černý", initial: "T", text: "Vynikající servis od začátku do konce. Auto dorazilo přesně jak bylo domluveno. Děkuji!", date: "před 6 měsíci", rating: 5 },
+  { name: "Petra Málková", initial: "P", text: "Nejlepší volba pro dovoz auta! Férové jednání, žádné skryté poplatky. Moc děkuji.", date: "před 7 měsíci", rating: 5 }
+];
 
 export default function Home() {
   const [isVideoRevealed, setIsVideoRevealed] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [selectedCar, setSelectedCar] = useState<string | null>(null);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+  const [googleReviews, setGoogleReviews] = useState<any[]>([]);
+  const [googleRating, setGoogleRating] = useState<number>(4.9);
+  const [totalReviews, setTotalReviews] = useState<number>(63);
 
   useEffect(() => {
     // Spustit animaci odhalení videa po načtení stránky
@@ -39,6 +105,37 @@ export default function Home() {
     };
   }, []);
 
+
+  const nextReview = () => {
+    setCurrentReviewIndex((prev) => (prev + 1) % reviewsData.length);
+  };
+
+  const prevReview = () => {
+    const totalLength = googleReviews.length > 0 ? googleReviews.length : reviewsData.length;
+    setCurrentReviewIndex((prev) => (prev - 1 + totalLength) % totalLength);
+  };
+
+  // Načíst Google recenze
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch('/api/reviews');
+        const data = await response.json();
+        
+        if (data.reviews && data.reviews.length > 0) {
+          setGoogleReviews(data.reviews);
+          setGoogleRating(data.rating);
+          setTotalReviews(data.totalReviews);
+        }
+      } catch (error) {
+        console.log('Using fallback reviews');
+        // Pokud API selže, použijeme manuální data
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
   return (
     <div className="min-h-screen bg-black">
       {/* Navigation */}
@@ -46,7 +143,7 @@ export default function Home() {
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 lg:h-20">
             <div className="flex items-center gap-12">
-        <Image
+              <Image
                 src="/komfortcars_logo.png"
                 alt="Komfort Cars Logo"
                 width={180}
@@ -55,17 +152,16 @@ export default function Home() {
           priority
               />
               <div className="hidden lg:flex gap-8">
-                <a href="#" className="text-sm font-medium text-white hover:text-gray-300 transition">O nás</a>
-                <a href="#" className="text-sm font-medium text-white hover:text-gray-300 transition">Jak to u nás probíhá?</a>
-                <a href="#" className="text-sm font-medium text-white hover:text-gray-300 transition">Proč zvolit nás?</a>
-                <a href="#" className="text-sm font-medium text-white hover:text-gray-300 transition">Dovezená vozidla</a>
-                <a href="#" className="text-sm font-medium text-white hover:text-gray-300 transition">Kontakty</a>
+                <Link href="/o-nas" className="text-sm font-medium text-white hover:text-gray-300 transition">O nás</Link>
+                <a href="#jak-to-probiha" className="text-sm font-medium text-white hover:text-gray-300 transition">Jak to u nás probíhá?</a>
+                <a href="#vozidla" className="text-sm font-medium text-white hover:text-gray-300 transition">Dovezená vozidla</a>
+                <a href="#kontakt" className="text-sm font-medium text-white hover:text-gray-300 transition">Kontakty</a>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <button className="hidden lg:block px-6 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200 transition">
+              <a href="#formular" className="hidden lg:block px-6 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200 transition">
                 Chci dovést vozidlo
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -84,9 +180,10 @@ export default function Home() {
       >
         {/* Efekt odhalení - černý overlay který zmizí */}
         <div 
-          className={`absolute inset-0 bg-black z-30 transition-opacity duration-[2000ms] ${
-            isVideoRevealed ? 'opacity-0' : 'opacity-100'
+          className={`absolute inset-0 bg-black transition-opacity duration-[2000ms] ${
+            isVideoRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
+          style={{ zIndex: 30 }}
         />
         
         <div className="absolute inset-0 bg-black/50 z-10" />
@@ -101,10 +198,9 @@ export default function Home() {
           <source src="/video_finall.mp4" type="video/mp4" />
         </video>
         
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-white px-6">
-          <h2 className="text-5xl lg:text-7xl font-normal tracking-wider text-center mb-6 drop-shadow-[0_6px_12px_rgba(0,0,0,1)] [text-shadow:_2px_2px_8px_rgb(0_0_0_/_90%)]">
-            Dovážíme vozidla vašich snů
-          </h2>
+        <div className="absolute inset-0 z-40 flex flex-col items-center justify-center text-white px-6">
+          <h2 className="text-5xl lg:text-7xl font-light tracking-wider text-center mb-6 drop-shadow-[0_6px_12px_rgba(0,0,0,1)] [text-shadow:_2px_2px_8px_rgb(0_0_0_/_90%)]">
+            Dovážíme vozidla vašich          </h2>
           <p className="text-xl lg:text-2xl font-light tracking-wide mb-4 text-center max-w-3xl drop-shadow-[0_4px_8px_rgba(0,0,0,1)] [text-shadow:_1px_1px_6px_rgb(0_0_0_/_80%)]">
             Spolehlivost, kvalita a individuální přístup k vašim potřebám
           </p>
@@ -112,14 +208,14 @@ export default function Home() {
             Zkušenosti od roku 1999 • Přes 3000 spokojených zákazníků
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="px-8 py-4 bg-white text-black font-medium hover:bg-gray-100 transition">
+            <a href="#vozidla" className="px-8 py-4 bg-white text-black font-medium hover:bg-gray-100 transition text-center">
               Dovezená vozidla
-            </button>
-            <button className="px-8 py-4 bg-transparent border-2 border-white text-white font-medium hover:bg-white/10 transition">
+            </a>
+            <a href="#formular" className="px-8 py-4 bg-transparent border-2 border-white text-white font-medium hover:bg-white/10 transition text-center">
               Chci dovést vozidlo
-            </button>
-          </div>
-        </div>
+            </a>
+              </div>
+            </div>
       </section>
 
       {/* Video Section - Elektrická mobilita - Fixed, vyjíždí zdola */}
@@ -157,209 +253,204 @@ export default function Home() {
       {/* Spacer po crossfade efektu */}
       <div className="h-screen"></div>
 
-      {/* O nás & Jak to probíhá Section */}
-      <section className="py-16 lg:py-20 bg-white relative z-50">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* O nás */}
-            <div className="p-10 bg-white relative overflow-hidden">
-              {/* Background Image */}
-              <div className="absolute inset-0">
-                <Image
-                  src="/background-sharp-blue.jpg"
-                  alt="Background"
-                  fill
-                  className="object-cover brightness-140"
-                  unoptimized
-                />
-              </div>
-              
-              <div className="relative z-10">
-                <h2 className="text-3xl lg:text-4xl font-light mb-8" style={{ color: '#cfb270' }}>
-                  O nás
-                </h2>
-                <div className="space-y-4 text-white leading-relaxed drop-shadow-lg">
-                <p>
-                  Firma KomfortCars je na českém trhu s ojetými vozy již od roku 1999.
-                </p>
-                <p>
-                  Máme dlouholeté zkušenosti s výběrem a nákupem vozů v zahraničí. Věnujeme se především dovozu vozů z Německa, které mají kompletní servisní historii a garanci původu.
-                </p>
-                <p>
-                  Za dobu působení jsme dovezli více než 3000 vozidel. Doporučení od našich klientů jsou důkazem spolehlivé a kvalitní práce.
-                </p>
-                <p>
-                  Vaše spokojenost je pro nás prioritou.
-                </p>
-                
-                {/* Mapa Německa */}
-                <div className="mt-10 flex justify-center">
-                  <div className="relative w-full max-w-xl">
-                    <Image
-                      src="/nemecko-transparent.png"
-                      alt="Německo"
-                      width={900}
-                      height={900}
-                      className="w-full h-auto object-contain"
-                    />
-                  </div>
+      {/* Jak to probíhá Section */}
+      <section id="jak-to-probiha" className="relative z-50 overflow-hidden min-h-[600px] pb-32" style={{ backgroundColor: '#353434' }}>
+        {/* Nadpis v horní pětině */}
+        <div className="relative z-20 pt-16 pb-8">
+          <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+            <h3 className="text-3xl lg:text-4xl font-light text-white text-center">
+              Jak to u nás probíhá?
+            </h3>
+          </div>
+        </div>
+
+        {/* Center Wave - roztažený přes celou výšku */}
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+          <Image
+            src="/wave.svg"
+            alt="Wave"
+            fill
+            className="object-cover"
+          />
+        </div>
+
+        {/* Kroky rozmístěné podél wave křivky */}
+        <div className="relative z-20">
+          {/* Krok 1 - přesně vlevo, těsně nad křivkou */}
+          <div className="absolute left-0 pl-2 top-[100px]">
+            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
+              <div className="flex gap-6 items-start">
+                <div className="flex gap-4">
+                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>01</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
+                    <div className="text-base">Specifikace</div>
+                    <div className="text-base">vozidla</div>
+                  </h4>
                 </div>
-              </div>
+                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                  První konzultace proběhne u nás,<br />
+                  nebo v případě větší vzdálenosti telefonicky.
+                </p>
               </div>
             </div>
+          </div>
 
-            {/* Jak to u nás probíhá */}
-            <div className="p-10" style={{ backgroundColor: '#353434' }}>
-              <h3 className="text-3xl lg:text-4xl font-light text-white mb-10">
-                Jak to u nás probíhá?
-              </h3>
+          {/* Obrázek mezi bodem 1 a 2 */}
+          <div className="absolute left-[8.7%] top-[190px]">
+            <Image
+              src="/01.jpg"
+              alt="Ilustrace"
+              width={160}
+              height={160}
+              className="rounded-lg shadow-lg"
+            />
+          </div>
+
+          {/* Obrázek 02.jpg mezi 01 a 03 */}
+          <div className="absolute left-[26.9%] top-[-25px]">
+            <Image
+              src="/02.jpg"
+              alt="Ilustrace"
+              width={160}
+              height={160}
+              className="rounded-lg shadow-lg"
+            />
+          </div>
+          
+          {/* Krok 2 - první vrchol nahoru */}
+          <div className="absolute left-[22%] top-[180px]">
+            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
+              <div className="flex gap-6 items-start">
+                <div className="flex gap-4">
+                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>02</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
+                    <div className="text-base">Hledání</div>
+                    <div className="text-base">vozidla</div>
+                  </h4>
+                </div>
+                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                  Posíláme konkrétní nabídky vozidel<br />
+                  k osobní kontrole.
+                </p>
+              </div>
+                </div>
+              </div>
               
-              <div className="space-y-8">
-                {/* Krok 1 */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-2xl font-light" style={{ color: '#cfb270' }}>01</span>
-                    <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Specifikace vozidla</h4>
-                  </div>
-                  <p className="text-gray-300">
-                    První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
-                  </p>
+          {/* Krok 3 - druhý vrchol dolů */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-[100px]">
+            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
+              <div className="flex gap-6 items-start">
+                <div className="flex gap-4">
+                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>03</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
+                    <div className="text-base">Odjezd</div>
+                    <div className="text-base">do Německa</div>
+                  </h4>
                 </div>
+                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                  Posíláme odkazy a ceny vozidel<br />
+                  s možností účasti klienta.
+                </p>
+              </div>
+            </div>
+              </div>
 
-                {/* Krok 2 */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-2xl font-light" style={{ color: '#cfb270' }}>02</span>
-                    <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Hledání a výběr vozidla</h4>
-                  </div>
-                  <p className="text-gray-300">
-                    Posíláme konkrétní nabídky vozidel k osobní kontrole ještě před odjezdem do Německa.
-                  </p>
+          {/* Obrázek pod bodem 3 */}
+          <div className="absolute left-[49.5%] -translate-x-1/2 top-[190px]">
+            <Image
+              src="/03.jpg"
+              alt="Ilustrace"
+              width={160}
+              height={160}
+              className="rounded-lg shadow-lg"
+            />
+              </div>
+              
+          {/* Krok 4 - druhý vrchol nahoru */}
+          <div className="absolute left-[60%] top-[180px]">
+            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
+              <div className="flex gap-6 items-start">
+                <div className="flex gap-4">
+                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>04</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
+                    <div className="text-base">Prohlídka</div>
+                    <div className="text-base">vozidla</div>
+                  </h4>
                 </div>
+                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                  Kompletní prohlídka<br />
+                  a zkušební jízda s technikem.
+                </p>
+              </div>
+            </div>
+              </div>
 
-                {/* Krok 3 */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-2xl font-light" style={{ color: '#cfb270' }}>03</span>
-                    <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Odjezd do Německa</h4>
-                  </div>
-                  <p className="text-gray-300">
-                    Posíláme odkazy a ceny vozidel, následuje telefonát s možností účasti klienta při výběru.
-                  </p>
-                </div>
+          {/* Obrázek 04.jpg symetricky k 02.jpg */}
+          <div className="absolute right-[28.1%] top-[-25px]">
+            <Image
+              src="/04.jpg"
+              alt="Ilustrace"
+              width={160}
+              height={160}
+              className="rounded-lg shadow-lg"
+            />
+          </div>
 
-                {/* Krok 4 */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-2xl font-light" style={{ color: '#cfb270' }}>04</span>
-                    <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Prohlídka a nákup vozidla</h4>
-                  </div>
-                  <p className="text-gray-300">
-                    Kompletní prohlídka a zkušební jízda s technikem, doporučení nebo pokračování v hledání.
-                  </p>
+          {/* Obrázek mezi bodem 4 a 5 */}
+          <div className="absolute right-[9.7%] top-[190px]">
+            <Image
+              src="/05.jpg"
+              alt="Ilustrace"
+              width={160}
+              height={160}
+              className="rounded-lg shadow-lg"
+            />
+              </div>
+              
+          {/* Krok 5 - přesně vpravo */}
+          <div className="absolute right-0 pr-8 top-[100px]">
+            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
+              <div className="flex gap-6 items-start">
+                <div className="flex gap-4">
+                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>05</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
+                    <div className="text-base">Předání</div>
+                    <div className="text-base">vozidla</div>
+                  </h4>
                 </div>
-
-                {/* Krok 5 */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-2xl font-light" style={{ color: '#cfb270' }}>05</span>
-                    <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Předání vozidla</h4>
-                  </div>
-                  <p className="text-gray-300">
-                    Servisujeme, připravujeme a vyřizujeme vše potřebné - STK, emise, SPZ po dovozu.
-                  </p>
-                </div>
+                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                  Servisujeme, připravujeme a vyřizujeme<br />
+                  vše potřebné - STK, emise, SPZ po dovozu.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Proč zvolit nás Section */}
-      <section className="bg-white relative z-50">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-20">
-            {/* Levá strana - šedý box roztažený na celou polovinu */}
-            <div className="p-16 min-h-[600px] flex flex-col justify-center" style={{ backgroundColor: '#353434' }}>
-              <h3 className="text-4xl lg:text-5xl font-light text-white mb-16">
-                Proč zvolit nás?
-              </h3>
-              
-              <div className="grid grid-cols-2 gap-x-12 gap-y-12">
-                {/* Zkušenosti */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Zkušenosti</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Dlouholeté znalosti německého trhu.
-                  </p>
-                </div>
-
-                {/* Původ automobilu */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Původ automobilu</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Prověřujeme kilometry, historii a původ.
-                  </p>
-                </div>
-
-                {/* Naše standardy */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Naše standardy</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Nevyhovující vozidla nekupujeme.
-                  </p>
-                </div>
-
-                {/* 100% Důvěra */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>100% Důvěra</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Dovážíme jen ověřená vozidla.
-                  </p>
-                </div>
-
-                {/* Váš komfort */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Váš komfort</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Zajišťujeme kompletní servis včetně SPZ.
-                  </p>
-                </div>
-
-                {/* Doplňkové služby */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Doplňkové služby</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Pojištění, likvidace škod a pravidelný servis.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Pravá strana - obrázek */}
-            <div className="relative min-h-[600px]">
-              <Image
-                src="/background.jpg"
-                alt="Komfort Cars"
-                fill
-                className="object-cover brightness-140"
-              />
-            </div>
-          </div>
-        </div>
+      {/* Full Width Image Section */}
+      <section className="relative w-full h-[600px] z-50 bg-white">
+        <Image
+          src="/background1.jpg"
+          alt="Komfort Cars"
+          fill
+          className="object-cover brightness-140"
+          quality={100}
+          unoptimized
+        />
       </section>
 
       {/* Aktuálně předaná vozidla Section */}
-      <section className="py-12 lg:py-16 bg-white relative z-50">
+      <section id="vozidla" className="py-12 lg:py-16 bg-white relative z-50">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <h2 className="text-2xl lg:text-3xl font-light text-gray-900 mb-8">
             Aktuálně předaná vozidla našim zákazníkům
-          </h2>
+            </h2>
           
           {/* Galerie vozidel */}
           <div className="grid grid-cols-4 gap-3">
             {/* Vozidlo 1 */}
-            <a href="#" className="group cursor-pointer">
+            <div onClick={() => setSelectedCar('staria')} className="group cursor-pointer">
               <div className="aspect-square overflow-hidden">
                 <Image
                   src="/staria.jpg"
@@ -370,11 +461,11 @@ export default function Home() {
                   unoptimized
                 />
               </div>
-              <p className="text-center text-xs mt-2 text-gray-700 group-hover:text-black transition">Hyundai Staria</p>
-            </a>
+              <p className="text-center text-sm font-medium mt-2 text-gray-700 group-hover:text-[#cfb270] transition">Hyundai Staria</p>
+                </div>
 
             {/* Vozidlo 2 */}
-            <a href="#" className="group cursor-pointer">
+            <div onClick={() => setSelectedCar('kodiaq')} className="group cursor-pointer">
               <div className="aspect-square overflow-hidden">
                 <Image
                   src="/kodiaq1-1.jpg"
@@ -385,11 +476,11 @@ export default function Home() {
                   unoptimized
                 />
               </div>
-              <p className="text-center text-xs mt-2 text-gray-700 group-hover:text-black transition">Škoda Kodiaq</p>
-            </a>
-
+              <p className="text-center text-sm font-medium mt-2 text-gray-700 group-hover:text-[#cfb270] transition">Škoda Kodiaq</p>
+            </div>
+            
             {/* Vozidlo 3 */}
-            <a href="#" className="group cursor-pointer">
+            <div onClick={() => setSelectedCar('bmw')} className="group cursor-pointer">
               <div className="aspect-square overflow-hidden">
                 <Image
                   src="/bmw1.png"
@@ -400,11 +491,11 @@ export default function Home() {
                   unoptimized
                 />
               </div>
-              <p className="text-center text-xs mt-2 text-gray-700 group-hover:text-black transition">BMW</p>
-            </a>
-
+              <p className="text-center text-sm font-medium mt-2 text-gray-700 group-hover:text-[#cfb270] transition">BMW</p>
+              </div>
+            
             {/* Vozidlo 4 */}
-            <a href="#" className="group cursor-pointer">
+            <div onClick={() => setSelectedCar('arteon')} className="group cursor-pointer">
               <div className="aspect-square overflow-hidden">
                 <Image
                   src="/2-18.png"
@@ -415,8 +506,8 @@ export default function Home() {
                   unoptimized
                 />
               </div>
-              <p className="text-center text-xs mt-2 text-gray-700 group-hover:text-black transition">Volkswagen Arteon</p>
-            </a>
+              <p className="text-center text-sm font-medium mt-2 text-gray-700 group-hover:text-[#cfb270] transition">Volkswagen Arteon</p>
+              </div>
           </div>
         </div>
       </section>
@@ -431,8 +522,8 @@ export default function Home() {
             fill
             className="object-cover"
           />
-        </div>
-        
+          </div>
+          
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Levá strana - Kontakt */}
@@ -445,21 +536,21 @@ export default function Home() {
                   <p className="font-medium mb-1">Provozovna:</p>
                   <p>KOMFORTCARS</p>
                   <p>Ostravská 494, Sviadnov 739 25</p>
-        </div>
-
+            </div>
+            
                 {/* Fakturační údaje */}
             <div>
                   <p className="font-medium mb-1">Fakturační údaje:</p>
                   <p>Josef Bystřičan</p>
                   <p>Chlebovice 269, Frýdek-Místek 739 42</p>
             </div>
-
+            
                 {/* IČO a DIČ */}
             <div>
                   <p>IČO: 69236356</p>
                   <p>DIČ: CZ7908094942</p>
             </div>
-
+            
                 {/* Kontaktní údaje */}
             <div>
                   <p>+420 608 808 285</p>
@@ -467,28 +558,28 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
+            
             {/* Pravá strana - Formulář */}
-            <div>
-              <h2 className="text-3xl lg:text-4xl font-light text-gray-900 mb-6">
+            <div id="formular">
+              <h2 id="formular-nadpis" className="text-3xl lg:text-4xl font-light text-gray-900 mb-6">
                 Mám zájem o dovoz auta
               </h2>
               
               <form className="space-y-4">
-                <input
-                  type="text"
+                  <input
+                    type="text"
                   placeholder="Jméno a příjmení"
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition"
                 />
                 
-                <input
-                  type="tel"
+                  <input
+                    type="tel"
                   placeholder="Telefon"
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition"
                 />
                 
-                <input
-                  type="email"
+                  <input
+                    type="email"
                   placeholder="E-mail"
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition"
                 />
@@ -499,7 +590,7 @@ export default function Home() {
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition"
                 />
                 
-                <textarea
+                  <textarea
                   placeholder="Informace o požadovaném autu"
                   rows={4}
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition resize-none"
@@ -515,19 +606,19 @@ export default function Home() {
                     Souhlasím se všeobecnými obchodními podmínkami
                   </label>
                 </div>
-                
-                <button
-                  type="submit"
+
+                  <button
+                    type="submit"
                   className="w-full px-8 py-4 bg-black text-white font-medium hover:bg-gray-800 transition"
-                >
-                  Odeslat
-                </button>
+                  >
+                    Odeslat
+                  </button>
               </form>
             </div>
           </div>
           
           {/* Náš tým */}
-          <div className="mt-20 pt-16 border-t border-gray-900/20">
+          <div id="kontakt" className="mt-20 pt-16 border-t border-gray-900/20">
             <h2 className="text-3xl lg:text-4xl font-light text-gray-900 mb-12">
               Náš tým
             </h2>
@@ -582,15 +673,210 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer - Recenze (bude doplněno) */}
-      <footer className="bg-black text-white py-20 lg:py-32 relative z-50">
+      {/* Recenze Section - Google Style */}
+      <section className="bg-[#f1f1f1] py-16 lg:py-20 relative z-50">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-light text-gray-900 mb-4">
+              Co říkají naši zákazníci
+            </h2>
+            <div className="flex items-center justify-center gap-2">
+              <span className="text-5xl font-normal text-gray-900">{googleRating.toFixed(1)}</span>
+              <div className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-2xl text-yellow-500">★</span>
+                ))}
+              </div>
+            </div>
+            <p className="text-sm text-gray-600 mt-2">Na základě {totalReviews} hodnocení</p>
+          </div>
+
+          {/* Carousel s recenzemi */}
+          <div className="relative">
+            {/* Navigační šipky */}
+            <button
+              onClick={prevReview}
+              className="absolute -left-16 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition border-2 hover:scale-110"
+              style={{ backgroundColor: '#353434', borderColor: '#cfb270' }}
+              aria-label="Předchozí recenze"
+            >
+              <span className="text-white text-2xl font-light">‹</span>
+            </button>
+
+            <button
+              onClick={nextReview}
+              className="absolute -right-16 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition border-2 hover:scale-110"
+              style={{ backgroundColor: '#353434', borderColor: '#cfb270' }}
+              aria-label="Další recenze"
+            >
+              <span className="text-white text-2xl font-light">›</span>
+            </button>
+
+            {/* Recenze cards */}
+            <div className="overflow-hidden">
+              <div 
+                className="grid md:grid-cols-3 gap-4 transition-all duration-500"
+                style={{ transform: `translateX(0)` }}
+              >
+                {[0, 1, 2].map((offset) => {
+                  const activeReviews = googleReviews.length > 0 ? googleReviews : reviewsData;
+                  const review = activeReviews[(currentReviewIndex + offset) % activeReviews.length];
+                  
+                  // Google API formát vs manuální formát
+                  const authorName = review.author_name || review.name;
+                  const authorPhoto = review.profile_photo_url;
+                  const rating = review.rating;
+                  const text = review.text;
+                  const timeDescription = review.relative_time_description || review.date;
+                  
+                  return (
+                    <div key={`${currentReviewIndex}-${offset}`} className="bg-white border border-gray-200 p-5 rounded-lg hover:shadow-md transition-shadow">
+                      <div className="flex items-start gap-3 mb-3">
+                        {authorPhoto ? (
+                          <>
+                            <img 
+                              src={authorPhoto} 
+                              alt={authorName}
+                              className="w-10 h-10 rounded-full flex-shrink-0 object-cover"
+                              referrerPolicy="no-referrer"
+                            />
+                          </>
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
+                            {(review.initial || authorName?.charAt(0) || '?').toUpperCase()}
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm text-gray-900 truncate">{authorName}</p>
+                          <div className="flex items-center gap-1 mt-0.5">
+                            {[...Array(rating)].map((_, i) => (
+                              <span key={i} className="text-yellow-500 text-base">★</span>
+                            ))}
+                            {[...Array(5 - rating)].map((_, i) => (
+                              <span key={i} className="text-gray-300 text-base">★</span>
+                            ))}
+                          </div>
+                          <p className="text-xs text-gray-500 mt-0.5">{timeDescription}</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-4">
+                        {text}
+                      </p>
+                      <div className="mt-3 pt-3 border-t border-gray-100">
+                        <Image src="/globe.svg" alt="Zveřejněno na Google" width={12} height={12} className="inline opacity-40" />
+                        <span className="text-xs text-gray-400 ml-1">Zveřejněno na Google</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Indikátory */}
+            <div className="flex justify-center gap-2 mt-6">
+              {(googleReviews.length > 0 ? googleReviews : reviewsData).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentReviewIndex(idx)}
+                  className={`h-2 rounded-full transition-all ${
+                    idx === currentReviewIndex ? 'w-8' : 'w-2'
+                  }`}
+                  style={{ backgroundColor: idx === currentReviewIndex ? '#cfb270' : '#d1d5db' }}
+                  aria-label={`Přejít na recenzi ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Odkaz na Google */}
+          <div className="text-center mt-10">
+            <a 
+              href="https://www.google.com/search?q=KomfortCars+Dovoz+vozidel+na+objednávku+Recenze" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition-all hover:scale-105"
+              style={{ backgroundColor: '#cfb270', color: '#000' }}
+            >
+              <Image src="/globe.svg" alt="Google" width={16} height={16} />
+              Zobrazit všechny recenze na Google
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black text-white py-12 relative z-50">
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <h2 className="text-4xl lg:text-5xl font-light text-white">
-            Recenze
-          </h2>
-          {/* Zde budou recenze */}
+          <div className="text-center">
+            <Image
+              src="/komfortcars_logo.png"
+              alt="KomfortCars"
+              width={200}
+              height={60}
+              className="h-12 w-auto mx-auto mb-6"
+            />
+            <p className="text-gray-400">
+              © 2024 Dovoz aut z Německa | KomfortCars
+            </p>
+          </div>
         </div>
       </footer>
+
+      {/* Modal pro detail vozidla */}
+      {selectedCar && (
+        <div 
+          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4"
+          onClick={() => setSelectedCar(null)}
+        >
+          <div 
+            className="bg-[#353434] max-w-5xl w-full rounded-lg overflow-hidden relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Zavírací tlačítko */}
+            <button
+              onClick={() => setSelectedCar(null)}
+              className="absolute top-4 right-4 text-white text-3xl font-light hover:text-[#cfb270] transition z-10"
+            >
+              ×
+            </button>
+
+            <div className="p-8 lg:p-12">
+              <h2 className="text-3xl lg:text-4xl font-light text-white mb-8" style={{ color: '#cfb270' }}>
+                {carsData[selectedCar as keyof typeof carsData].name}
+              </h2>
+
+              {/* Grid fotky */}
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                {carsData[selectedCar as keyof typeof carsData].images.map((img, idx) => (
+                  <div key={idx} className="aspect-video relative overflow-hidden rounded-lg">
+            <Image
+                      src={img}
+                      alt={`${carsData[selectedCar as keyof typeof carsData].name} ${idx + 1}`}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Specifikace */}
+              <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
+                <h3 className="text-xl font-medium mb-4" style={{ color: '#cfb270' }}>Specifikace</h3>
+                <ul className="space-y-2">
+                  {carsData[selectedCar as keyof typeof carsData].specs.map((spec, idx) => (
+                    <li key={idx} className="text-gray-300 text-sm flex items-start">
+                      <span className="mr-2" style={{ color: '#cfb270' }}>•</span>
+                      {spec}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
