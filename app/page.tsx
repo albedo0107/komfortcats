@@ -266,7 +266,7 @@ export default function Home() {
 
   {/* Hlavní kontejner */}
   <div className="hidden lg:block relative w-full max-w-[1920px] mx-auto px-6">
-    <div className="relative w-full" style={{ paddingBottom: '45%' }}>
+    <div className="relative w-full" style={{ paddingBottom: '50%' }}>
       
       <div className="absolute inset-0">
         
@@ -369,8 +369,8 @@ export default function Home() {
               <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
                 První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
               </p>
-            </div>
-          </div>
+                  </div>
+                </div>
 
           {/* KROK 2 - První propad vlny (x=22%, y=52%) - POD vlnou */}
           <div className="absolute" style={{ left: '26%', top: '55%' }}>
@@ -394,8 +394,8 @@ export default function Home() {
                 fill
                 className="rounded-lg shadow-xl object-cover"
               />
-            </div>
-          </div>
+                  </div>
+                </div>
 
           {/* KROK 3 - Střed vlny (x=50%, y=35%) - NAD vlnou */}
           <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '23%' }}>
@@ -444,20 +444,20 @@ export default function Home() {
                 fill
                 className="rounded-lg shadow-xl object-cover"
               />
-            </div>
           </div>
+        </div>
 
           {/* KROK 5 - Konec vlny (x=90%, y=35%) - NAD vlnou */}
           <div className="absolute" style={{ right: '5%', top: '23%' }}>
             {/* Obrázek nahoře */}
             <div className="relative mx-auto mb-3" style={{ width: '11em', height: '11em' }}>
-              <Image
+          <Image
                 src="/05.jpg"
                 alt="Předání vozidla"
-                fill
+            fill
                 className="rounded-lg shadow-xl object-cover"
-              />
-            </div>
+          />
+        </div>
             {/* Text pod obrázkem */}
             <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
               <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
@@ -489,8 +489,8 @@ export default function Home() {
               <p className="text-white text-sm leading-relaxed">
                 První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
               </p>
-            </div>
-
+              </div>
+              
             {/* Krok 2 */}
             <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
               <div className="flex items-baseline gap-3 mb-2">
@@ -500,8 +500,8 @@ export default function Home() {
               <p className="text-white text-sm leading-relaxed">
                 Posíláme konkrétní nabídky vozidel k osobní kontrole.
               </p>
-            </div>
-
+              </div>
+              
             {/* Krok 3 */}
             <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
               <div className="flex items-baseline gap-3 mb-2">
@@ -511,8 +511,8 @@ export default function Home() {
               <p className="text-white text-sm leading-relaxed">
                 Posíláme odkazy a ceny vozidel s možností účasti klienta.
               </p>
-            </div>
-
+              </div>
+              
             {/* Krok 4 */}
             <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
               <div className="flex items-baseline gap-3 mb-2">
@@ -522,8 +522,8 @@ export default function Home() {
               <p className="text-white text-sm leading-relaxed">
                 Kompletní prohlídka a zkušební jízda s technikem.
               </p>
-            </div>
-
+              </div>
+              
             {/* Krok 5 */}
             <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
               <div className="flex items-baseline gap-3 mb-2">
@@ -536,7 +536,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-</section>
+      </section>
 
       {/* Full Width Image Section */}
       <section className="relative w-full h-[600px] z-50 bg-white">
@@ -727,59 +727,6 @@ export default function Home() {
             </div>
           </div>
           
-          {/* Náš tým */}
-          <div id="kontakt" className="mt-20 pt-16 border-t border-gray-900/20">
-            <h2 className="text-3xl lg:text-4xl font-light text-gray-900 mb-12">
-              Náš tým
-            </h2>
-            
-            <div className="grid md:grid-cols-3 gap-12">
-              {/* Člen týmu 1 */}
-              <div className="text-center">
-                <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                  <Image
-                    src="/Josef_Bystrican.png"
-                    alt="Josef Bystřičan"
-                    width={128}
-                    height={128}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">Josef Bystřičan</h3>
-                <p className="text-sm text-gray-700">+420 608 808 285</p>
-              </div>
-
-              {/* Člen týmu 2 */}
-              <div className="text-center">
-                <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                  <Image
-                    src="/Josef_Bystrican_ml.png"
-                    alt="Josef Bystřičan ml."
-                    width={128}
-                    height={128}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">Josef Bystřičan ml.</h3>
-                <p className="text-sm text-gray-700">+420 608 200 021</p>
-              </div>
-
-              {/* Člen týmu 3 */}
-              <div className="text-center">
-                <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                  <Image
-                    src="/Sarka_Bystricanova.png"
-                    alt="Mgr. Šárka Bystřičanová"
-                    width={128}
-                    height={128}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">Mgr. Šárka Bystřičanová</h3>
-                <p className="text-sm text-gray-700">+420 774 353 529</p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
