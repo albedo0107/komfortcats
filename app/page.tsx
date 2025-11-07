@@ -264,23 +264,26 @@ export default function Home() {
     </div>
   </div>
 
-  {/* Hlavní kontejner s fixním aspect ratio - škáluje se jako celek */}
+  {/* Hlavní kontejner s fixní výškou */}
   <div className="hidden lg:block relative w-full max-w-[1920px] mx-auto px-6">
-    {/* Aspect ratio wrapper - zachovává proporce 1920x600 */}
-    <div className="relative w-full" style={{ paddingBottom: '31.25%' }}> {/* 600/1920 = 31.25% */}
+    {/* Kontejner s fixní výškou 600px */}
+    <div className="relative w-full" style={{ height: '600px' }}>
       
       {/* Absolutní kontejner - vše uvnitř se škáluje společně */}
       <div className="absolute inset-0">
         
-        {/* SVG Wave na pozadí */}
+        {/* SVG Wave na pozadí - fixní výška */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <Image
-            src="/wave.svg"
-            alt="Wave"
-            fill
-            className="object-contain"
-            priority
-          />
+          <div className="relative w-full" style={{ height: '600px' }}>
+            <Image
+              src="/wave.svg"
+              alt="Wave"
+              fill
+              className="object-contain"
+              style={{ objectPosition: 'center' }}
+              priority
+            />
+          </div>
         </div>
 
         {/* Vnitřní kontejner pro kroky - používá % pozice vůči rodiči */}
