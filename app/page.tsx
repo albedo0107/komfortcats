@@ -274,8 +274,8 @@ export default function Home() {
           />
         </div>
 
-        {/* Kroky rozmístěné podél wave křivky */}
-        <div className="relative z-20">
+        {/* Kroky rozmístěné podél wave křivky - DESKTOP */}
+        <div className="hidden lg:block relative z-20">
           {/* Krok 1 - přesně vlevo, těsně nad křivkou */}
           <div className="absolute left-0 pl-2 top-[100px]">
             <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
@@ -423,6 +423,66 @@ export default function Home() {
                   vše potřebné - STK, emise, SPZ po dovozu.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobilní verze - jednoduchý seznam */}
+        <div className="lg:hidden relative z-20 py-8">
+          <div className="max-w-[600px] mx-auto px-6 space-y-6">
+            {/* Krok 1 */}
+            <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
+              <div className="flex items-baseline gap-3 mb-2">
+                <span className="text-3xl font-light" style={{ color: '#cfb270' }}>01</span>
+                <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Specifikace vozidla</h4>
+              </div>
+              <p className="text-white text-sm leading-relaxed">
+                První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
+              </p>
+            </div>
+
+            {/* Krok 2 */}
+            <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
+              <div className="flex items-baseline gap-3 mb-2">
+                <span className="text-3xl font-light" style={{ color: '#cfb270' }}>02</span>
+                <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Hledání vozidla</h4>
+              </div>
+              <p className="text-white text-sm leading-relaxed">
+                Posíláme konkrétní nabídky vozidel k osobní kontrole.
+              </p>
+            </div>
+
+            {/* Krok 3 */}
+            <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
+              <div className="flex items-baseline gap-3 mb-2">
+                <span className="text-3xl font-light" style={{ color: '#cfb270' }}>03</span>
+                <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Odjezd do Německa</h4>
+              </div>
+              <p className="text-white text-sm leading-relaxed">
+                Posíláme odkazy a ceny vozidel s možností účasti klienta.
+              </p>
+            </div>
+
+            {/* Krok 4 */}
+            <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
+              <div className="flex items-baseline gap-3 mb-2">
+                <span className="text-3xl font-light" style={{ color: '#cfb270' }}>04</span>
+                <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Prohlídka vozidla</h4>
+              </div>
+              <p className="text-white text-sm leading-relaxed">
+                Kompletní prohlídka a zkušební jízda s technikem.
+              </p>
+            </div>
+
+            {/* Krok 5 */}
+            <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
+              <div className="flex items-baseline gap-3 mb-2">
+                <span className="text-3xl font-light" style={{ color: '#cfb270' }}>05</span>
+                <h4 className="text-lg font-medium" style={{ color: '#cfb270' }}>Předání vozidla</h4>
+              </div>
+              <p className="text-white text-sm leading-relaxed">
+                Servisujeme, připravujeme a vyřizujeme vše potřebné.
+              </p>
             </div>
           </div>
         </div>
