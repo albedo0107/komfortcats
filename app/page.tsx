@@ -246,17 +246,17 @@ export default function Home() {
             <p className="text-xl lg:text-2xl font-light drop-shadow-[0_4px_8px_rgba(0,0,0,1)] [text-shadow:_1px_1px_6px_rgb(0_0_0_/_80%)]">
               Nově dovážíme i elektrická vozidla šetrná k životnímu prostředí
             </p>
-          </div>
-        </div>
+                  </div>
+                </div>
       </section>
 
       {/* Spacer po crossfade efektu */}
       <div className="h-screen"></div>
 
       {/* Jak to probíhá Section */}
-      <section id="jak-to-probiha" className="relative z-50 overflow-hidden min-h-[600px] pb-32" style={{ backgroundColor: '#353434' }}>
+      <section id="jak-to-probiha" className="relative z-50 overflow-hidden pt-8 pb-16" style={{ backgroundColor: '#353434' }}>
         {/* Nadpis v horní pětině */}
-        <div className="relative z-20 pt-16 pb-8">
+        <div className="relative z-20 pb-2">
           <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
             <h3 className="text-3xl lg:text-4xl font-light text-white text-center">
               Jak to u nás probíhá?
@@ -264,30 +264,36 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Center Wave - roztažený přes celou výšku */}
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center">
-          <Image
-            src="/wave.svg"
-            alt="Wave"
-            fill
-            className="object-cover"
-          />
-        </div>
+        {/* Responzivní kontejner - škáluje se proporcionálně */}
+        <div className="hidden lg:block relative w-full" style={{ height: 'clamp(400px, 40vw, 600px)' }}>
+          {/* Center Wave - proporcionálně responzivní */}
+          <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+            <Image
+              src="/wave.svg"
+              alt="Wave"
+              fill
+              className="object-cover"
+            />
+                  </div>
 
-        {/* Kroky rozmístěné podél wave křivky - DESKTOP */}
-        <div className="hidden lg:block relative z-20">
-          {/* Krok 1 - přesně vlevo, těsně nad křivkou */}
-          <div className="absolute left-0 pl-2 top-[100px]">
-            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
-              <div className="flex gap-6 items-start">
-                <div className="flex gap-4">
-                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>01</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
-                    <div className="text-base">Specifikace</div>
-                    <div className="text-base">vozidla</div>
+          {/* Kroky rozmístěné podél wave křivky - všechno se škáluje společně */}
+          <div className="relative z-20 w-full h-full" style={{ 
+            fontSize: 'clamp(10px, 1vw, 16px)',
+            transform: 'scale(1)',
+            transformOrigin: 'center center'
+          }}>
+          {/* Krok 1 */}
+          <div className="absolute left-0" style={{ top: '35%', paddingLeft: '0.5rem' }}>
+            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
+                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>01</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+                    <div>Specifikace</div>
+                    <div>vozidla</div>
                   </h4>
                 </div>
-                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
                   První konzultace proběhne u nás,<br />
                   nebo v případě větší vzdálenosti telefonicky.
                 </p>
@@ -296,39 +302,37 @@ export default function Home() {
           </div>
 
           {/* Obrázek mezi bodem 1 a 2 */}
-          <div className="absolute left-[8.7%] top-[190px]">
-            <Image
+          <div className="absolute left-[8.7%]" style={{ top: '55%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
+          <Image
               src="/01.jpg"
               alt="Ilustrace"
-              width={160}
-              height={160}
-              className="rounded-lg shadow-lg"
-            />
-          </div>
+            fill
+              className="rounded-lg shadow-lg object-cover"
+          />
+        </div>
 
           {/* Obrázek 02.jpg mezi 01 a 03 */}
-          <div className="absolute left-[26.9%] top-[-25px]">
+          <div className="absolute left-[26.9%]" style={{ top: '18%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
             <Image
               src="/02.jpg"
               alt="Ilustrace"
-              width={160}
-              height={160}
-              className="rounded-lg shadow-lg"
+              fill
+              className="rounded-lg shadow-lg object-cover"
             />
           </div>
           
-          {/* Krok 2 - první vrchol nahoru */}
-          <div className="absolute left-[22%] top-[180px]">
-            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
-              <div className="flex gap-6 items-start">
-                <div className="flex gap-4">
-                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>02</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
-                    <div className="text-base">Hledání</div>
-                    <div className="text-base">vozidla</div>
+          {/* Krok 2 */}
+          <div className="absolute left-[22%]" style={{ top: '52%' }}>
+            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
+                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>02</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+                    <div>Hledání</div>
+                    <div>vozidla</div>
                   </h4>
                 </div>
-                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
                   Posíláme konkrétní nabídky vozidel<br />
                   k osobní kontrole.
                 </p>
@@ -336,95 +340,93 @@ export default function Home() {
                 </div>
               </div>
               
-          {/* Krok 3 - druhý vrchol dolů */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[100px]">
-            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
-              <div className="flex gap-6 items-start">
-                <div className="flex gap-4">
-                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>03</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
-                    <div className="text-base">Odjezd</div>
-                    <div className="text-base">do Německa</div>
+          {/* Obrázek pod bodem 3 */}
+          <div className="absolute left-[49.5%] -translate-x-1/2" style={{ top: '55%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
+            <Image
+              src="/03.jpg"
+              alt="Ilustrace"
+              fill
+              className="rounded-lg shadow-lg object-cover"
+            />
+          </div>
+          
+          {/* Krok 3 */}
+          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '35%' }}>
+            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
+                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>03</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+                    <div>Odjezd</div>
+                    <div>do Německa</div>
                   </h4>
                 </div>
-                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
                   Posíláme odkazy a ceny vozidel<br />
                   s možností účasti klienta.
                 </p>
               </div>
             </div>
-              </div>
-
-          {/* Obrázek pod bodem 3 */}
-          <div className="absolute left-[49.5%] -translate-x-1/2 top-[190px]">
+          </div>
+          
+          {/* Obrázek 04.jpg symetricky k 02.jpg */}
+          <div className="absolute right-[28.1%]" style={{ top: '18%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
             <Image
-              src="/03.jpg"
+              src="/04.jpg"
               alt="Ilustrace"
-              width={160}
-              height={160}
-              className="rounded-lg shadow-lg"
+              fill
+              className="rounded-lg shadow-lg object-cover"
+            />
+          </div>
+
+          {/* Obrázek mezi bodem 4 a 5 */}
+          <div className="absolute right-[9.7%]" style={{ top: '55%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
+            <Image
+              src="/05.jpg"
+              alt="Ilustrace"
+              fill
+              className="rounded-lg shadow-lg object-cover"
             />
               </div>
               
-          {/* Krok 4 - druhý vrchol nahoru */}
-          <div className="absolute left-[60%] top-[180px]">
-            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
-              <div className="flex gap-6 items-start">
-                <div className="flex gap-4">
-                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>04</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
-                    <div className="text-base">Prohlídka</div>
-                    <div className="text-base">vozidla</div>
+          {/* Krok 4 */}
+          <div className="absolute left-[60%]" style={{ top: '52%' }}>
+            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
+                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>04</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+                    <div>Prohlídka</div>
+                    <div>vozidla</div>
                   </h4>
                 </div>
-                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
                   Kompletní prohlídka<br />
                   a zkušební jízda s technikem.
                 </p>
               </div>
             </div>
               </div>
-
-          {/* Obrázek 04.jpg symetricky k 02.jpg */}
-          <div className="absolute right-[28.1%] top-[-25px]">
-            <Image
-              src="/04.jpg"
-              alt="Ilustrace"
-              width={160}
-              height={160}
-              className="rounded-lg shadow-lg"
-            />
-          </div>
-
-          {/* Obrázek mezi bodem 4 a 5 */}
-          <div className="absolute right-[9.7%] top-[190px]">
-            <Image
-              src="/05.jpg"
-              alt="Ilustrace"
-              width={160}
-              height={160}
-              className="rounded-lg shadow-lg"
-            />
-              </div>
               
-          {/* Krok 5 - přesně vpravo */}
-          <div className="absolute right-0 pr-8 top-[100px]">
-            <div className="border-l-2 pl-6 max-w-[600px]" style={{ borderColor: '#cfb270' }}>
-              <div className="flex gap-6 items-start">
-                <div className="flex gap-4">
-                  <span className="text-5xl font-light" style={{ color: '#cfb270' }}>05</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270' }}>
-                    <div className="text-base">Předání</div>
-                    <div className="text-base">vozidla</div>
+          {/* Krok 5 */}
+          <div className="absolute right-0" style={{ top: '35%', paddingRight: 'clamp(1rem, 2vw, 2rem)' }}>
+            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
+                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
+                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>05</span>
+                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+                    <div>Předání</div>
+                    <div>vozidla</div>
                   </h4>
                 </div>
-                <p className="text-white text-sm leading-relaxed flex-1 drop-shadow-md">
+                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
                   Servisujeme, připravujeme a vyřizujeme<br />
                   vše potřebné - STK, emise, SPZ po dovozu.
                 </p>
               </div>
             </div>
           </div>
+        </div>
         </div>
 
         {/* Mobilní verze - jednoduchý seznam */}
@@ -794,14 +796,14 @@ export default function Home() {
                     <div key={`${currentReviewIndex}-${offset}`} className="bg-white border border-gray-200 p-5 rounded-lg hover:shadow-md transition-shadow">
                       <div className="flex items-start gap-3 mb-3">
                         {authorPhoto ? (
-                          <>
-                            <img 
-                              src={authorPhoto} 
-                              alt={authorName}
-                              className="w-10 h-10 rounded-full flex-shrink-0 object-cover"
-                              referrerPolicy="no-referrer"
-                            />
-                          </>
+                          <Image 
+                            src={`/api/proxy-image?url=${encodeURIComponent(authorPhoto)}`}
+                            alt={authorName}
+                            width={40}
+                            height={40}
+                            className="w-10 h-10 rounded-full flex-shrink-0 object-cover"
+                            unoptimized
+                          />
                         ) : (
                           <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
                             {(review.initial || authorName?.charAt(0) || '?').toUpperCase()}
