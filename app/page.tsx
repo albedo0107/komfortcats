@@ -254,46 +254,50 @@ export default function Home() {
       <div className="h-screen"></div>
 
       {/* Jak to probíhá Section */}
-      <section id="jak-to-probiha" className="relative z-50 overflow-hidden pt-8 pb-16" style={{ backgroundColor: '#353434' }}>
-        {/* Nadpis v horní pětině */}
-        <div className="relative z-20 pb-2">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-            <h3 className="text-3xl lg:text-4xl font-light text-white text-center">
-              Jak to u nás probíhá?
-            </h3>
-          </div>
+<section id="jak-to-probiha" className="relative z-50 overflow-hidden pt-8 pb-16" style={{ backgroundColor: '#353434' }}>
+  {/* Nadpis */}
+  <div className="relative z-20 pb-8">
+    <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <h3 className="text-3xl lg:text-4xl font-light text-white text-center">
+        Jak to u nás probíhá?
+      </h3>
+    </div>
+  </div>
+
+  {/* Hlavní kontejner s fixním aspect ratio - škáluje se jako celek */}
+  <div className="hidden lg:block relative w-full max-w-[1920px] mx-auto px-6">
+    {/* Aspect ratio wrapper - zachovává proporce 1920x600 */}
+    <div className="relative w-full" style={{ paddingBottom: '31.25%' }}> {/* 600/1920 = 31.25% */}
+      
+      {/* Absolutní kontejner - vše uvnitř se škáluje společně */}
+      <div className="absolute inset-0">
+        
+        {/* SVG Wave na pozadí */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Image
+            src="/wave.svg"
+            alt="Wave"
+            fill
+            className="object-contain"
+            priority
+          />
         </div>
 
-        {/* Responzivní kontejner - škáluje se proporcionálně */}
-        <div className="hidden lg:block relative w-full" style={{ height: 'clamp(400px, 40vw, 600px)' }}>
-          {/* Center Wave - proporcionálně responzivní */}
-          <div className="absolute inset-0 w-full h-full flex items-center justify-center">
-            <Image
-              src="/wave.svg"
-              alt="Wave"
-              fill
-              className="object-cover"
-            />
-                  </div>
-
-          {/* Kroky rozmístěné podél wave křivky - všechno se škáluje společně */}
-          <div className="relative z-20 w-full h-full" style={{ 
-            fontSize: 'clamp(10px, 1vw, 16px)',
-            transform: 'scale(1)',
-            transformOrigin: 'center center'
-          }}>
-          {/* Krok 1 */}
-          <div className="absolute left-0" style={{ top: '35%', paddingLeft: '0.5rem' }}>
-            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
-                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>01</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+        {/* Vnitřní kontejner pro kroky - používá % pozice vůči rodiči */}
+        <div className="absolute inset-0" style={{ fontSize: 'clamp(8px, 0.83vw, 16px)' }}>
+          
+          {/* Krok 1 - levý horní */}
+          <div className="absolute" style={{ left: '2%', top: '35%' }}>
+            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
+              <div className="flex items-start" style={{ gap: '1.5em' }}>
+                <div className="flex" style={{ gap: '1em' }}>
+                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>01</span>
+                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
                     <div>Specifikace</div>
                     <div>vozidla</div>
                   </h4>
                 </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
+                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
                   První konzultace proběhne u nás,<br />
                   nebo v případě větší vzdálenosti telefonicky.
                 </p>
@@ -301,67 +305,73 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Obrázek mezi bodem 1 a 2 */}
-          <div className="absolute left-[8.7%]" style={{ top: '55%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
-          <Image
-              src="/01.jpg"
-              alt="Ilustrace"
-            fill
-              className="rounded-lg shadow-lg object-cover"
-          />
-        </div>
+          {/* Obrázek 01.jpg */}
+          <div className="absolute" style={{ left: '8.7%', top: '55%', width: '8.33%', paddingBottom: '8.33%' }}>
+            <div className="absolute inset-0">
+              <Image
+                src="/01.jpg"
+                alt="Ilustrace"
+                fill
+                className="rounded-lg shadow-lg object-cover"
+              />
+            </div>
+          </div>
 
-          {/* Obrázek 02.jpg mezi 01 a 03 */}
-          <div className="absolute left-[26.9%]" style={{ top: '18%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
-            <Image
-              src="/02.jpg"
-              alt="Ilustrace"
-              fill
-              className="rounded-lg shadow-lg object-cover"
-            />
+          {/* Obrázek 02.jpg */}
+          <div className="absolute" style={{ left: '26.9%', top: '18%', width: '8.33%', paddingBottom: '8.33%' }}>
+            <div className="absolute inset-0">
+              <Image
+                src="/02.jpg"
+                alt="Ilustrace"
+                fill
+                className="rounded-lg shadow-lg object-cover"
+              />
+            </div>
           </div>
           
           {/* Krok 2 */}
-          <div className="absolute left-[22%]" style={{ top: '52%' }}>
-            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
-                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>02</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+          <div className="absolute" style={{ left: '22%', top: '52%' }}>
+            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
+              <div className="flex items-start" style={{ gap: '1.5em' }}>
+                <div className="flex" style={{ gap: '1em' }}>
+                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>02</span>
+                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
                     <div>Hledání</div>
                     <div>vozidla</div>
                   </h4>
                 </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
+                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
                   Posíláme konkrétní nabídky vozidel<br />
                   k osobní kontrole.
                 </p>
               </div>
-                </div>
-              </div>
-              
-          {/* Obrázek pod bodem 3 */}
-          <div className="absolute left-[49.5%] -translate-x-1/2" style={{ top: '55%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
-            <Image
-              src="/03.jpg"
-              alt="Ilustrace"
-              fill
-              className="rounded-lg shadow-lg object-cover"
-            />
+            </div>
+          </div>
+
+          {/* Obrázek 03.jpg */}
+          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '55%', width: '8.33%', paddingBottom: '8.33%' }}>
+            <div className="absolute inset-0">
+              <Image
+                src="/03.jpg"
+                alt="Ilustrace"
+                fill
+                className="rounded-lg shadow-lg object-cover"
+              />
+            </div>
           </div>
           
-          {/* Krok 3 */}
+          {/* Krok 3 - střed */}
           <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '35%' }}>
-            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
-                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>03</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
+              <div className="flex items-start" style={{ gap: '1.5em' }}>
+                <div className="flex" style={{ gap: '1em' }}>
+                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>03</span>
+                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
                     <div>Odjezd</div>
                     <div>do Německa</div>
                   </h4>
                 </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
+                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
                   Posíláme odkazy a ceny vozidel<br />
                   s možností účasti klienta.
                 </p>
@@ -369,65 +379,72 @@ export default function Home() {
             </div>
           </div>
           
-          {/* Obrázek 04.jpg symetricky k 02.jpg */}
-          <div className="absolute right-[28.1%]" style={{ top: '18%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
-            <Image
-              src="/04.jpg"
-              alt="Ilustrace"
-              fill
-              className="rounded-lg shadow-lg object-cover"
-            />
+          {/* Obrázek 04.jpg */}
+          <div className="absolute" style={{ right: '28.1%', top: '18%', width: '8.33%', paddingBottom: '8.33%' }}>
+            <div className="absolute inset-0">
+              <Image
+                src="/04.jpg"
+                alt="Ilustrace"
+                fill
+                className="rounded-lg shadow-lg object-cover"
+              />
+            </div>
           </div>
 
-          {/* Obrázek mezi bodem 4 a 5 */}
-          <div className="absolute right-[9.7%]" style={{ top: '55%', width: 'clamp(100px, 10vw, 160px)', height: 'clamp(100px, 10vw, 160px)' }}>
-            <Image
-              src="/05.jpg"
-              alt="Ilustrace"
-              fill
-              className="rounded-lg shadow-lg object-cover"
-            />
-              </div>
-              
+          {/* Obrázek 05.jpg */}
+          <div className="absolute" style={{ right: '9.7%', top: '55%', width: '8.33%', paddingBottom: '8.33%' }}>
+            <div className="absolute inset-0">
+              <Image
+                src="/05.jpg"
+                alt="Ilustrace"
+                fill
+                className="rounded-lg shadow-lg object-cover"
+              />
+            </div>
+          </div>
+          
           {/* Krok 4 */}
-          <div className="absolute left-[60%]" style={{ top: '52%' }}>
-            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
-                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>04</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+          <div className="absolute" style={{ left: '60%', top: '52%' }}>
+            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
+              <div className="flex items-start" style={{ gap: '1.5em' }}>
+                <div className="flex" style={{ gap: '1em' }}>
+                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>04</span>
+                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
                     <div>Prohlídka</div>
                     <div>vozidla</div>
                   </h4>
                 </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
+                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
                   Kompletní prohlídka<br />
                   a zkušební jízda s technikem.
                 </p>
               </div>
             </div>
-              </div>
-              
-          {/* Krok 5 */}
-          <div className="absolute right-0" style={{ top: '35%', paddingRight: 'clamp(1rem, 2vw, 2rem)' }}>
-            <div className="border-l-2" style={{ borderColor: '#cfb270', paddingLeft: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-              <div className="flex items-start" style={{ gap: 'clamp(1rem, 1.5vw, 1.5rem)' }}>
-                <div className="flex" style={{ gap: 'clamp(0.5rem, 1vw, 1rem)' }}>
-                  <span style={{ color: '#cfb270', fontSize: 'clamp(2rem, 3vw, 3rem)', fontWeight: '300' }}>05</span>
-                  <h4 className="font-medium leading-tight" style={{ color: '#cfb270', fontSize: 'clamp(0.875rem, 1vw, 1rem)' }}>
+          </div>
+          
+          {/* Krok 5 - pravý horní */}
+          <div className="absolute" style={{ right: '2%', top: '35%' }}>
+            <div className="border-l-2 border-[#cfb270]" style={{ paddingLeft: '1.5em' }}>
+              <div className="flex items-start" style={{ gap: '1.5em' }}>
+                <div className="flex" style={{ gap: '1em' }}>
+                  <span className="text-[#cfb270] font-light whitespace-nowrap" style={{ fontSize: '3em' }}>05</span>
+                  <h4 className="font-medium text-[#cfb270] leading-tight whitespace-nowrap" style={{ fontSize: '1em' }}>
                     <div>Předání</div>
                     <div>vozidla</div>
                   </h4>
                 </div>
-                <p className="text-white drop-shadow-md" style={{ fontSize: 'clamp(0.75rem, 0.875vw, 0.875rem)', lineHeight: '1.5', maxWidth: 'clamp(300px, 30vw, 600px)' }}>
+                <p className="text-white drop-shadow-md" style={{ fontSize: '0.875em', lineHeight: '1.5', width: '17.5em' }}>
                   Servisujeme, připravujeme a vyřizujeme<br />
                   vše potřebné - STK, emise, SPZ po dovozu.
                 </p>
               </div>
             </div>
           </div>
+          
         </div>
-        </div>
+      </div>
+    </div>
+  </div>
 
         {/* Mobilní verze - jednoduchý seznam */}
         <div className="lg:hidden relative z-20 py-8">
@@ -488,7 +505,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+</section>
 
       {/* Full Width Image Section */}
       <section className="relative w-full h-[600px] z-50 bg-white">

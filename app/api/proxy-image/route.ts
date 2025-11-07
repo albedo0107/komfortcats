@@ -12,10 +12,13 @@ export async function GET(request: NextRequest) {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
         'Referer': 'https://www.google.com/',
+        'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
       },
+      cache: 'force-cache',
     });
 
     if (!response.ok) {
+      console.error(`Failed to fetch image: ${response.status} ${response.statusText}`);
       throw new Error(`Failed to fetch image: ${response.status}`);
     }
 
@@ -25,7 +28,8 @@ export async function GET(request: NextRequest) {
     return new NextResponse(imageBuffer, {
       headers: {
         'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+        'Access-Control-Allow-Origin': '*',
       },
     });
   } catch (error) {
@@ -33,4 +37,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to fetch image' }, { status: 500 });
   }
 }
+
+export const runtime = 'edge';
 
