@@ -73,6 +73,7 @@ export default function Home() {
   const [googleRating, setGoogleRating] = useState<number>(4.9);
   const [totalReviews, setTotalReviews] = useState<number>(63);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
     // Spustit animaci odhalení videa po načtení stránky
@@ -96,39 +97,54 @@ export default function Home() {
     };
   }, [isMobileMenuOpen, selectedCar]);
 
+  // Detekce velikosti obrazovky
   useEffect(() => {
-    let ticking = false;
+    const checkIfDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
     
+    checkIfDesktop();
+    window.addEventListener('resize', checkIfDesktop);
+    
+    return () => window.removeEventListener('resize', checkIfDesktop);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return; // Scroll efekt pouze pro desktop
+    
+    let rafId: number | null = null;
+    
+    const updateScrollProgress = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      if (scrollTop < windowHeight) {
+        const progress = Math.min(scrollTop / windowHeight, 1);
+        setScrollProgress(progress);
+      } else {
+        setScrollProgress(1);
+      }
+    };
+
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollTop = window.scrollY;
-          const windowHeight = window.innerHeight;
-          
-          // Plynulý přechod na všech zařízeních
-          // První sekce scrolluje 100vh (0-100vh)
-          if (scrollTop < windowHeight) {
-            const progress = scrollTop / windowHeight;
-            setScrollProgress(progress);
-          } else {
-            setScrollProgress(1);
-          }
-          
-          ticking = false;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          updateScrollProgress();
+          rafId = null;
         });
-        
-        ticking = true;
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    updateScrollProgress();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
-  }, []);
-
+  }, [isDesktop]);
 
   const nextReview = () => {
     setCurrentReviewIndex((prev) => (prev + 1) % reviewsData.length);
@@ -248,18 +264,16 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Spacer pro scroll efekt - přechod první sekce */}
-      <div className="h-[100vh]"></div>
+      {/* Spacer pro scroll efekt - pouze desktop */}
+      <div className="hidden md:block h-[200vh]"></div>
 
-      {/* Spacer pro druhou sekce - kratší zobrazení */}
-      <div className="h-[50vh]"></div>
-
-      {/* Hero Section - Hlavní video/foto - Fixed */}
+      {/* Hero Section - Hlavní video */}
       <section 
-        className="fixed top-0 left-0 w-full h-screen overflow-hidden bg-black"
+        className="md:fixed md:top-0 md:left-0 relative w-full h-screen overflow-hidden bg-black"
         style={{ 
           zIndex: 20,
-          pointerEvents: scrollProgress >= 1 ? 'none' : 'auto'
+          pointerEvents: scrollProgress >= 1 ? 'none' : 'auto',
+          willChange: 'transform'
         }}
       >
         {/* Efekt odhalení - černý overlay který zmizí */}
@@ -303,11 +317,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Video Section - Elektrická mobilita - Fixed, vyjíždí zdola */}
+      {/* Video Section - Elektrická mobilita */}
       <section 
-        className="fixed top-0 left-0 w-full h-screen overflow-hidden bg-black"
+        className="md:fixed md:top-0 md:left-0 relative w-full h-screen overflow-hidden bg-black"
         style={{ 
-          transform: `translateY(${(1 - scrollProgress) * 100}%)`,
+          transform: isDesktop ? `translateY(${(1 - scrollProgress) * 100}%)` : 'none',
           zIndex: 30,
           willChange: 'transform'
         }}
@@ -342,8 +356,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Spacer po crossfade efektu */}
-      <div className="h-screen"></div>
+      {/* Spacer po crossfade efektu - pouze desktop */}
+      <div className="hidden md:block h-screen"></div>
 
       {/* Jak to probíhá Section */}
 <section id="jak-to-probiha" className="relative z-50 overflow-hidden pt-8 sm:pt-12 pb-12 sm:pb-16" style={{ backgroundColor: '#353434' }}>

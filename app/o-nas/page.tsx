@@ -127,9 +127,9 @@ export default function ONasPage() {
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20">
             {/* O nás s mapou */}
-            <div className="p-6 sm:p-8 md:p-10 bg-[#f1f1f1] relative overflow-hidden">
+            <div className="p-6 sm:p-8 md:p-10 relative overflow-hidden">
               {/* Background Image */}
-              <div className="absolute inset-0">
+              <div className="absolute inset-0 -z-0">
                 <Image
                   src="/background-sharp-blue.jpg"
                   alt="Background"
