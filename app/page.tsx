@@ -65,7 +65,7 @@ const reviewsData = [
 ];
 
 export default function Home() {
-  const [isVideoRevealed, setIsVideoRevealed] = useState(false);
+  const [isVideoRevealed, setIsVideoRevealed] = useState(true);
   const [selectedCar, setSelectedCar] = useState<string | null>(null);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [googleReviews, setGoogleReviews] = useState<any[]>([]);
@@ -73,23 +73,14 @@ export default function Home() {
   const [totalReviews, setTotalReviews] = useState<number>(63);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    // Spustit animaci odhalení videa po načtení stránky
-    const timer = setTimeout(() => {
-      setIsVideoRevealed(true);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Zablokovat scrollování když je mobilní menu otevřené nebo modal
   useEffect(() => {
     if (isMobileMenuOpen || selectedCar) {
       document.body.style.overflow = 'hidden';
-    } else {
+      } else {
       document.body.style.overflow = 'unset';
-    }
-    
+      }
+
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -138,7 +129,7 @@ export default function Home() {
                 width={180}
                 height={60}
                 className="h-10 sm:h-12 w-auto"
-                priority
+          priority
               />
               <div className="hidden lg:flex gap-8">
                 <Link href="/o-nas" className="text-sm font-medium text-white hover:text-gray-300 transition">O nás</Link>
@@ -214,7 +205,9 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - Hlavní video */}
-      <section className="relative w-full h-screen overflow-hidden bg-black">
+      <section className="relative md:sticky top-0 w-full h-screen overflow-hidden bg-black"
+        style={{ zIndex: 20 }}
+      >
         {/* Efekt odhalení - černý overlay který zmizí */}
         <div 
           className={`absolute inset-0 bg-black transition-opacity duration-[2000ms] ${
@@ -234,6 +227,9 @@ export default function Home() {
         >
           <source src="/video_finall.mp4" type="video/mp4" />
         </video>
+        
+        {/* Gradient na konci - pouze mobil */}
+        <div className="md:hidden absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-black pointer-events-none z-20"></div>
         
         <div className="absolute inset-0 z-40 flex flex-col items-center justify-center text-white px-4 sm:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light tracking-wider text-center mb-4 sm:mb-6 drop-shadow-[0_6px_12px_rgba(0,0,0,1)] [text-shadow:_2px_2px_8px_rgb(0_0_0_/_90%)]">
@@ -257,7 +253,9 @@ export default function Home() {
       </section>
 
       {/* Video Section - Elektrická mobilita */}
-      <section className="relative w-full h-screen overflow-hidden bg-black">
+      <section className="sticky top-0 w-full h-screen overflow-hidden bg-black"
+        style={{ zIndex: 30 }}
+      >
         <div className="absolute inset-0 bg-black/30 z-10" />
         {/* Video elektro */}
         <video
@@ -270,7 +268,10 @@ export default function Home() {
           <source src="/elektro.mp4" type="video/mp4" />
         </video>
         
-        <div className="absolute inset-0 z-20 flex items-center justify-center px-4 sm:px-6">
+        {/* Gradient na začátku - pouze mobil */}
+        <div className="md:hidden absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black to-transparent pointer-events-none z-30"></div>
+        
+        <div className="absolute inset-0 z-40 flex items-center justify-center px-4 sm:px-6">
           <div className="text-center text-white max-w-3xl">
             <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 sm:mb-6 drop-shadow-[0_6px_12px_rgba(0,0,0,1)] [text-shadow:_2px_2px_8px_rgb(0_0_0_/_90%)]">
               Budoucnost začíná dnes
@@ -380,12 +381,12 @@ export default function Home() {
         </div>
 
         {/* Vnitřní kontejner */}
-        <div className="absolute inset-0" style={{ fontSize: 'clamp(10px, 1vw, 18px)' }}>
+        <div className="absolute inset-0" style={{ fontSize: 'clamp(14px, 1.2vw, 20px)' }}>
           
           {/* KROK 1 - Start vlny (x=0-15%, y=35%) - NAD vlnou */}
-          <div className="absolute" style={{ left: '5%', top: '23%' }}>
+          <div className="absolute" style={{ left: '2%', top: '23%' }}>
             {/* Obrázek nahoře */}
-            <div className="relative mx-auto mb-3" style={{ width: '11em', height: '11em' }}>
+            <div className="relative mx-auto mb-3" style={{ width: '13em', height: '13em' }}>
               <Image
                 src="/01.jpg"
                 alt="Specifikace vozidla"
@@ -394,21 +395,21 @@ export default function Home() {
               />
             </div>
             {/* Text pod obrázkem */}
-            <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
-              <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
-                <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>01</span>
-                <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
+            <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl" style={{ paddingLeft: '0.9em', paddingTop: '0.7em', paddingBottom: '0.7em', paddingRight: '0.9em' }}>
+              <div className="flex items-center mb-1" style={{ gap: '0.6em' }}>
+                <span className="text-[#cfb270] font-light" style={{ fontSize: '2em', lineHeight: '1' }}>01</span>
+                <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '0.95em', lineHeight: '1.2' }}>
                   Specifikace<br />vozidla
                 </h4>
               </div>
-              <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
+              <p className="text-white" style={{ fontSize: '0.75em', lineHeight: '1.5', maxWidth: '14em' }}>
                 První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
               </p>
                   </div>
                 </div>
 
           {/* KROK 2 - První propad vlny (x=22%, y=52%) - POD vlnou */}
-          <div className="absolute" style={{ left: '26%', top: '55%' }}>
+          <div className="absolute" style={{ left: '22%', top: '55%' }}>
             {/* Text nahoře */}
             <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl mb-3" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
               <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
@@ -422,7 +423,7 @@ export default function Home() {
               </p>
             </div>
             {/* Obrázek dole */}
-            <div className="relative mx-auto" style={{ width: '11em', height: '11em' }}>
+            <div className="relative mx-auto" style={{ width: '14em', height: '14em' }}>
               <Image
                 src="/02.jpg"
                 alt="Hledání vozidla"
@@ -432,10 +433,10 @@ export default function Home() {
                   </div>
                 </div>
 
-          {/* KROK 3 - Střed vlny (x=50%, y=35%) - NAD vlnou */}
-          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '23%' }}>
+          {/* KROK 3 - Střed vlny (x=48%, y=35%) - NAD vlnou */}
+          <div className="absolute" style={{ left: '49.7%', top: '23%', transform: 'translateX(-50%)' }}>
             {/* Obrázek nahoře */}
-            <div className="relative mx-auto mb-3" style={{ width: '11em', height: '11em' }}>
+            <div className="relative mx-auto mb-3" style={{ width: '14em', height: '14em' }}>
               <Image
                 src="/03.jpg"
                 alt="Odjezd do Německa"
@@ -458,7 +459,7 @@ export default function Home() {
           </div>
 
           {/* KROK 4 - Druhý propad vlny (x=68%, y=52%) - POD vlnou */}
-          <div className="absolute" style={{ left: '64%', top: '55%' }}>
+          <div className="absolute" style={{ left: '60%', top: '55%' }}>
             {/* Text nahoře */}
             <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl mb-3" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
               <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
@@ -472,7 +473,7 @@ export default function Home() {
               </p>
             </div>
             {/* Obrázek dole */}
-            <div className="relative mx-auto" style={{ width: '11em', height: '11em' }}>
+            <div className="relative mx-auto" style={{ width: '14em', height: '14em' }}>
               <Image
                 src="/04.jpg"
                 alt="Prohlídka vozidla"
@@ -482,10 +483,10 @@ export default function Home() {
           </div>
         </div>
 
-          {/* KROK 5 - Konec vlny (x=90%, y=35%) - NAD vlnou */}
-          <div className="absolute" style={{ right: '5%', top: '23%' }}>
+          {/* KROK 5 - Konec vlny (x=92%, y=35%) - NAD vlnou - posunutý doprava */}
+          <div className="absolute" style={{ right: '2%', top: '23%' }}>
             {/* Obrázek nahoře */}
-            <div className="relative mx-auto mb-3" style={{ width: '11em', height: '11em' }}>
+            <div className="relative mx-auto mb-3" style={{ width: '14em', height: '14em' }}>
           <Image
                 src="/05.jpg"
                 alt="Předání vozidla"
@@ -571,7 +572,7 @@ export default function Home() {
                   </linearGradient>
                 </defs>
               </svg>
-            </div>
+              </div>
             
             <div className="space-y-8 relative" style={{ zIndex: 1 }}>
             
@@ -592,12 +593,12 @@ export default function Home() {
                     <h4 className="text-base font-semibold text-[#cfb270]">Specifikace vozidla</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed">
-                    První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
-                  </p>
+                První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
+              </p>
                 </div>
               </div>
-            </div>
-            
+              </div>
+              
             {/* Krok 2 - Text vlevo, obrázek vpravo */}
             <div className="flex gap-4 items-start flex-row-reverse">
               <div className="w-24 h-24 flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg">
@@ -615,12 +616,12 @@ export default function Home() {
                     <h4 className="text-base font-semibold text-[#cfb270]">Hledání vozidla</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed text-right">
-                    Posíláme konkrétní nabídky vozidel k osobní kontrole.
-                  </p>
+                Posíláme konkrétní nabídky vozidel k osobní kontrole.
+              </p>
                 </div>
               </div>
-            </div>
-            
+              </div>
+              
             {/* Krok 3 - Obrázek vlevo, text vpravo */}
             <div className="flex gap-4 items-start">
               <div className="w-24 h-24 flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg">
@@ -638,12 +639,12 @@ export default function Home() {
                     <h4 className="text-base font-semibold text-[#cfb270]">Odjezd do Německa</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed">
-                    Posíláme odkazy a ceny vozidel s možností účasti klienta.
-                  </p>
+                Posíláme odkazy a ceny vozidel s možností účasti klienta.
+              </p>
                 </div>
               </div>
-            </div>
-            
+              </div>
+              
             {/* Krok 4 - Text vlevo, obrázek vpravo */}
             <div className="flex gap-4 items-start flex-row-reverse">
               <div className="w-24 h-24 flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg">
@@ -661,12 +662,12 @@ export default function Home() {
                     <h4 className="text-base font-semibold text-[#cfb270]">Prohlídka vozidla</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed text-right">
-                    Kompletní prohlídka a zkušební jízda s technikem.
-                  </p>
+                Kompletní prohlídka a zkušební jízda s technikem.
+              </p>
                 </div>
               </div>
-            </div>
-            
+              </div>
+              
             {/* Krok 5 - Obrázek vlevo, text vpravo */}
             <div className="flex gap-4 items-start">
               <div className="w-24 h-24 flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg">
@@ -695,16 +696,111 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Full Width Image Section */}
-      <section className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] z-50 bg-white">
+      {/* Proč zvolit nás Section */}
+      <section id="o-nas" className="py-8 sm:py-12 lg:py-16 xl:py-20 relative z-50" style={{ backgroundColor: '#353434' }}>
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white mb-8 sm:mb-12 lg:mb-16 text-center">
+            Proč zvolit nás?
+          </h2>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+            {/* Zkušenosti */}
+            <div className="text-center">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 relative">
         <Image
-          src="/background1.jpg"
-          alt="Komfort Cars"
-          fill
-          className="object-cover brightness-140"
-          quality={100}
-          unoptimized
-        />
+                  src="/video/ikona-osoba-palec.svg"
+                  alt="Zkušenosti"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <h4 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4" style={{ color: '#cfb270' }}>Zkušenosti</h4>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                Při výběru vozidel využíváme dlouholeté znalosti a zkušenosti s německým automobilovým trhem.
+              </p>
+            </div>
+
+            {/* Původ automobilu */}
+            <div className="text-center">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 relative">
+                <Image
+                  src="/video/ikona-rychlomer.svg"
+                  alt="Původ automobilu"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <h4 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4" style={{ color: '#cfb270' }}>Původ automobilu</h4>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                U všech vozidel prověřujeme stav najetých kilometrů, které klientovi kompletně dokládáme v podobě servisní knihy, německé STK. Všechna vozidla osobně prověřujeme, prioritou je původ a historie vozidla.
+              </p>
+            </div>
+
+            {/* Naše standardy */}
+            <div className="text-center">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 relative">
+                <Image
+                  src="/video/ikona-auto.svg"
+                  alt="Naše standardy"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <h4 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4" style={{ color: '#cfb270' }}>Naše standardy</h4>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                Pokud vozidlo nevyhovuje našemu standardu z jakéhokoliv důvodu, AUTO NEKUPUJEME a pokračujeme v DALŠÍM HLEDÁNÍ.
+              </p>
+            </div>
+
+            {/* 100% Důvěra */}
+            <div className="text-center">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 relative">
+                <Image
+                  src="/video/ikona-certifikat.svg"
+                  alt="100% Důvěra"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <h4 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4" style={{ color: '#cfb270' }}>100% Důvěra</h4>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                Dovážíme jen taková vozidla, o kterých jsme přesvědčeni, že splňují požadované parametry.
+              </p>
+            </div>
+
+            {/* Váš komfort */}
+            <div className="text-center">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 relative">
+                <Image
+                  src="/video/ikona-klic.svg"
+                  alt="Váš komfort"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <h4 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4" style={{ color: '#cfb270' }}>Váš komfort</h4>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                Naše práce nekončí výběrem a nákupem vozidla, ale zařizujeme i služby související s dovozem ze zahraničí (transport do ČR, STK + ME, servis, vystavení českých dokladů a přidělení SPZ). Vy si jen převezmete kompletně připravené vozidlo.
+              </p>
+            </div>
+
+            {/* Doplňkové služby */}
+            <div className="text-center">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 relative">
+                <Image
+                  src="/video/ikona-zakaznik.svg"
+                  alt="Doplňkové služby"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <h4 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4" style={{ color: '#cfb270' }}>Doplňkové služby</h4>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                Zajišťujeme pro Vás také pojištění vozidel, likvidace pojistných událostí, pravidelný servis vozidel, pravidelnou STK + ME, vozidel, odtahy vozidel.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Aktuálně předaná vozidla Section */}
@@ -712,7 +808,7 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-light text-gray-900 mb-6 sm:mb-8">
             Aktuálně předaná vozidla našim zákazníkům
-          </h2>
+            </h2>
           
           {/* Galerie vozidel */}
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto mb-8 sm:mb-10">
@@ -729,7 +825,7 @@ export default function Home() {
                 />
               </div>
               <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">Hyundai Staria</p>
-            </div>
+                </div>
 
             {/* Vozidlo 2 */}
             <div onClick={() => setSelectedCar('kodiaq')} className="group cursor-pointer">
@@ -759,7 +855,7 @@ export default function Home() {
                 />
               </div>
               <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">BMW</p>
-            </div>
+              </div>
             
             {/* Vozidlo 4 */}
             <div onClick={() => setSelectedCar('arteon')} className="group cursor-pointer">
@@ -774,7 +870,7 @@ export default function Home() {
                 />
               </div>
               <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">Volkswagen Arteon</p>
-            </div>
+              </div>
           </div>
 
           {/* Tlačítko pro dovoz podobného vozidla */}
@@ -802,7 +898,7 @@ export default function Home() {
             fill
             className="object-cover"
           />
-        </div>
+          </div>
           
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
@@ -816,23 +912,23 @@ export default function Home() {
                   <p className="font-medium mb-1">Provozovna:</p>
                   <p>KOMFORTCARS</p>
                   <p>Ostravská 494, Sviadnov 739 25</p>
-                </div>
+            </div>
             
                 {/* Fakturační údaje */}
-                <div>
+            <div>
                   <p className="font-medium mb-1">Fakturační údaje:</p>
                   <p>Josef Bystřičan</p>
                   <p>Chlebovice 269, Frýdek-Místek 739 42</p>
-                </div>
+            </div>
             
                 {/* IČO a DIČ */}
-                <div>
+            <div>
                   <p>IČO: 69236356</p>
                   <p>DIČ: CZ7908094942</p>
-                </div>
+            </div>
             
                 {/* Kontaktní údaje */}
-                <div>
+            <div>
                   <p>+420 608 808 285</p>
                   <p>info@komfortcars.cz</p>
                 </div>
@@ -846,20 +942,20 @@ export default function Home() {
               </h2>
               
               <form className="space-y-3 sm:space-y-4">
-                <input
-                  type="text"
+                  <input
+                    type="text"
                   placeholder="Jméno a příjmení"
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
                 />
                 
-                <input
-                  type="tel"
+                  <input
+                    type="tel"
                   placeholder="Telefon"
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
                 />
                 
-                <input
-                  type="email"
+                  <input
+                    type="email"
                   placeholder="E-mail"
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
                 />
@@ -870,7 +966,7 @@ export default function Home() {
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
                 />
                 
-                <textarea
+                  <textarea
                   placeholder="Informace o požadovaném autu"
                   rows={4}
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition resize-none text-sm sm:text-base"
@@ -887,12 +983,12 @@ export default function Home() {
                   </label>
                 </div>
 
-                <button
-                  type="submit"
+                  <button
+                    type="submit"
                   className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-black text-white font-medium hover:bg-gray-800 transition text-sm sm:text-base"
-                >
-                  Odeslat
-                </button>
+                  >
+                    Odeslat
+                  </button>
               </form>
             </div>
           </div>
@@ -1102,7 +1198,7 @@ export default function Home() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 {carsData[selectedCar as keyof typeof carsData].images.map((img, idx) => (
                   <div key={idx} className="aspect-video relative overflow-hidden rounded-lg">
-                    <Image
+            <Image
                       src={img}
                       alt={`${carsData[selectedCar as keyof typeof carsData].name} ${idx + 1}`}
                       fill

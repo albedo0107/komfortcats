@@ -173,78 +173,17 @@ export default function ONasPage() {
               </div>
             </div>
 
-            {/* Proč zvolit nás */}
-            <div className="p-6 sm:p-8 md:p-12 lg:p-16 min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] flex flex-col justify-center" style={{ backgroundColor: '#353434' }}>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white mb-8 sm:mb-12 lg:mb-16">
-                Proč zvolit nás?
-              </h3>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:gap-x-12 lg:gap-y-12">
-                {/* Zkušenosti */}
-                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Zkušenosti</h4>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    Dlouholeté znalosti německého trhu.
-                  </p>
-                </div>
-
-                {/* Původ automobilu */}
-                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Původ automobilu</h4>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    Prověřujeme kilometry, historii a původ.
-                  </p>
-                </div>
-
-                {/* Naše standardy */}
-                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Naše standardy</h4>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    Nevyhovující vozidla nekupujeme.
-                  </p>
-                </div>
-
-                {/* 100% Důvěra */}
-                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>100% Důvěra</h4>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    Dovážíme jen ověřená vozidla.
-                  </p>
-                </div>
-
-                {/* Váš komfort */}
-                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Váš komfort</h4>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    Zajišťujeme kompletní servis včetně SPZ.
-                  </p>
-                </div>
-
-                {/* Doplňkové služby */}
-                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Doplňkové služby</h4>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    Pojištění, likvidace škod a pravidelný servis.
-                  </p>
-                </div>
-              </div>
+            {/* Obrázek auta */}
+            <div className="relative min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[600px] overflow-hidden rounded-lg border-4 shadow-2xl" style={{ borderColor: '#cfb270' }}>
+              <Image
+                src="/background.jpg"
+                alt="Komfort Cars"
+                fill
+                className="object-cover"
+                quality={100}
+                unoptimized
+              />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sekce s obrázkem auta */}
-      <section className="py-8 sm:py-12 lg:py-16 bg-black relative z-50">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg border-4 shadow-2xl" style={{ borderColor: '#cfb270' }}>
-            <Image
-              src="/background.jpg"
-              alt="Komfort Cars"
-              fill
-              className="object-cover"
-              quality={100}
-              unoptimized
-            />
           </div>
         </div>
       </section>
