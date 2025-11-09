@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Komfort Cars - Luxusní vozidla pro náročné",
   description: "Objevte prémiové vozidla, které spojují luxus, výkon a inovativní technologie. Komfort Cars - vaše cesta k dokonalosti.",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 export default function ONasPage() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,11 +16,24 @@ export default function ONasPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Zablokovat scrollování když je mobilní menu otevřené
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <div className="min-h-screen bg-black">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black backdrop-blur-sm">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
+      <nav className="fixed top-0 left-0 right-0 z-[100] bg-black">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 lg:h-20">
             <div className="flex items-center gap-12">
               <Link href="/">
@@ -28,35 +42,92 @@ export default function ONasPage() {
                   alt="Komfort Cars Logo"
                   width={180}
                   height={60}
-                  className="h-12 w-auto"
+                  className="h-10 sm:h-12 w-auto"
                   priority
                 />
               </Link>
               <div className="hidden lg:flex gap-8">
                 <Link href="/o-nas" className="text-sm font-medium text-white hover:text-gray-300 transition">O nás</Link>
-                <Link href="/#jak-to-probiha" className="text-sm font-medium text-white hover:text-gray-300 transition">Jak to u nás probíhá?</Link>
-                <Link href="/#vozidla" className="text-sm font-medium text-white hover:text-gray-300 transition">Dovezená vozidla</Link>
-                <Link href="/#kontakt" className="text-sm font-medium text-white hover:text-gray-300 transition">Kontakty</Link>
+                <a href="/#jak-to-probiha" className="text-sm font-medium text-white hover:text-gray-300 transition">Jak to u nás probíhá?</a>
+                <a href="/#vozidla" className="text-sm font-medium text-white hover:text-gray-300 transition">Dovezená vozidla</a>
+                <a href="/#kontakt" className="text-sm font-medium text-white hover:text-gray-300 transition">Kontakty</a>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <Link href="/#formular" className="hidden lg:block px-6 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200 transition">
+              <a href="/#formular" className="hidden lg:block px-6 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200 transition">
                 Chci dovést vozidlo
-              </Link>
+              </a>
+              {/* Hamburger menu pro mobil */}
+              <button 
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="lg:hidden text-white p-2 z-[110]"
+                aria-label="Menu"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {isMobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
             </div>
+          </div>
+        </div>
+        
+        {/* Mobilní menu */}
+        <div className={`lg:hidden bg-black border-t border-gray-800 transition-all duration-300 ease-in-out overflow-hidden ${
+          isMobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="px-4 py-4 space-y-3">
+            <Link 
+              href="/o-nas" 
+              className="block text-white hover:text-gray-300 transition py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              O nás
+            </Link>
+            <a 
+              href="/#jak-to-probiha" 
+              className="block text-white hover:text-gray-300 transition py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Jak to u nás probíhá?
+            </a>
+            <a 
+              href="/#vozidla" 
+              className="block text-white hover:text-gray-300 transition py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Dovezená vozidla
+            </a>
+            <a 
+              href="/#kontakt" 
+              className="block text-white hover:text-gray-300 transition py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Kontakty
+            </a>
+            <a 
+              href="/#formular" 
+              className="block w-full px-6 py-3 bg-white text-black text-center font-medium hover:bg-gray-200 transition mt-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Chci dovést vozidlo
+            </a>
           </div>
         </div>
       </nav>
 
       {/* Spacer for fixed header */}
-      <div className="h-20"></div>
+      <div className="h-16 sm:h-20"></div>
 
       {/* O nás Section */}
-      <section className="py-16 lg:py-20 bg-black relative z-50">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* O nás s mapou - VRÁCENO NA PRVNÍ MÍSTO */}
-            <div className="p-10 bg-[#f1f1f1] relative overflow-hidden">
+      <section className="py-8 sm:py-12 lg:py-16 xl:py-20 bg-black relative z-50">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20">
+            {/* O nás s mapou */}
+            <div className="p-6 sm:p-8 md:p-10 bg-[#f1f1f1] relative overflow-hidden">
               {/* Background Image */}
               <div className="absolute inset-0">
                 <Image
@@ -69,10 +140,10 @@ export default function ONasPage() {
               </div>
               
               <div className="relative z-10">
-                <h2 className="text-3xl lg:text-4xl font-light mb-8" style={{ color: '#cfb270' }}>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light mb-6 sm:mb-8" style={{ color: '#cfb270' }}>
                   O nás
                 </h2>
-                <div className="space-y-4 text-white leading-relaxed drop-shadow-lg">
+                <div className="space-y-3 sm:space-y-4 text-white text-sm sm:text-base leading-relaxed drop-shadow-lg">
                   <p>
                     Firma KomfortCars je na českém trhu s ojetými vozy již od roku 1999.
                   </p>
@@ -87,8 +158,8 @@ export default function ONasPage() {
                   </p>
                   
                   {/* Mapa Německa */}
-                  <div className="mt-10 flex justify-center">
-                    <div className="relative w-full max-w-xl">
+                  <div className="mt-6 sm:mt-8 md:mt-10 flex justify-center">
+                    <div className="relative w-full max-w-xs sm:max-w-md md:max-w-xl">
                       <Image
                         src="/nemecko-transparent.png"
                         alt="Německo"
@@ -102,57 +173,57 @@ export default function ONasPage() {
               </div>
             </div>
 
-            {/* Proč zvolit nás - VRÁCENO NA DRUHÉ MÍSTO */}
-            <div className="p-16 min-h-[600px] flex flex-col justify-center" style={{ backgroundColor: '#353434' }}>
-              <h3 className="text-4xl lg:text-5xl font-light text-white mb-16">
+            {/* Proč zvolit nás */}
+            <div className="p-6 sm:p-8 md:p-12 lg:p-16 min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] flex flex-col justify-center" style={{ backgroundColor: '#353434' }}>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white mb-8 sm:mb-12 lg:mb-16">
                 Proč zvolit nás?
               </h3>
               
-              <div className="grid grid-cols-2 gap-x-12 gap-y-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:gap-x-12 lg:gap-y-12">
                 {/* Zkušenosti */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Zkušenosti</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
+                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
+                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Zkušenosti</h4>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
                     Dlouholeté znalosti německého trhu.
                   </p>
                 </div>
 
                 {/* Původ automobilu */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Původ automobilu</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
+                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
+                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Původ automobilu</h4>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
                     Prověřujeme kilometry, historii a původ.
                   </p>
                 </div>
 
                 {/* Naše standardy */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Naše standardy</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
+                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
+                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Naše standardy</h4>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
                     Nevyhovující vozidla nekupujeme.
                   </p>
                 </div>
 
                 {/* 100% Důvěra */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>100% Důvěra</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
+                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
+                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>100% Důvěra</h4>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
                     Dovážíme jen ověřená vozidla.
                   </p>
                 </div>
 
                 {/* Váš komfort */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Váš komfort</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
+                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
+                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Váš komfort</h4>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
                     Zajišťujeme kompletní servis včetně SPZ.
                   </p>
                 </div>
 
                 {/* Doplňkové služby */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Doplňkové služby</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
+                <div className="border-l-2 pl-4 sm:pl-6" style={{ borderColor: '#cfb270' }}>
+                  <h4 className="text-base sm:text-lg lg:text-xl font-medium mb-2 sm:mb-3" style={{ color: '#cfb270' }}>Doplňkové služby</h4>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
                     Pojištění, likvidace škod a pravidelný servis.
                   </p>
                 </div>
@@ -162,82 +233,24 @@ export default function ONasPage() {
         </div>
       </section>
 
-      {/* Proč zvolit nás Section - druhá sekce */}
-      <section className="bg-black relative z-50">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-20">
-            {/* Levá strana - šedý box */}
-            <div className="p-16 min-h-[600px] flex flex-col justify-center" style={{ backgroundColor: '#353434' }}>
-              <h3 className="text-4xl lg:text-5xl font-light text-white mb-16">
-                Proč zvolit nás?
-              </h3>
-              
-              <div className="grid grid-cols-2 gap-x-12 gap-y-12">
-                {/* Zkušenosti */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Zkušenosti</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Dlouholeté znalosti německého trhu.
-                  </p>
-                </div>
-
-                {/* Původ automobilu */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Původ automobilu</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Prověřujeme kilometry, historii a původ.
-                  </p>
-                </div>
-
-                {/* Naše standardy */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Naše standardy</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Nevyhovující vozidla nekupujeme.
-                  </p>
-                </div>
-
-                {/* 100% Důvěra */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>100% Důvěra</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Dovážíme jen ověřená vozidla.
-                  </p>
-                </div>
-
-                {/* Váš komfort */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Váš komfort</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Zajišťujeme kompletní servis včetně SPZ.
-                  </p>
-                </div>
-
-                {/* Doplňkové služby */}
-                <div className="border-l-2 pl-6" style={{ borderColor: '#cfb270' }}>
-                  <h4 className="text-xl font-medium mb-3" style={{ color: '#cfb270' }}>Doplňkové služby</h4>
-                  <p className="text-gray-300 text-base leading-relaxed">
-                    Pojištění, likvidace škod a pravidelný servis.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Pravá strana - obrázek */}
-            <div className="relative min-h-[600px]">
-              <Image
-                src="/background.jpg"
-                alt="Komfort Cars"
-                fill
-                className="object-cover brightness-140"
-              />
-            </div>
+      {/* Sekce s obrázkem auta */}
+      <section className="py-8 sm:py-12 lg:py-16 bg-black relative z-50">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg border-4 shadow-2xl" style={{ borderColor: '#cfb270' }}>
+            <Image
+              src="/background.jpg"
+              alt="Komfort Cars"
+              fill
+              className="object-cover"
+              quality={100}
+              unoptimized
+            />
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="text-gray-400 py-12 bg-black">
+      <footer className="text-gray-400 py-8 sm:py-12 bg-black">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <Image
@@ -245,12 +258,12 @@ export default function ONasPage() {
               alt="KomfortCars"
               width={200}
               height={60}
-              className="h-12 w-auto mx-auto mb-6"
+              className="h-10 sm:h-12 w-auto mx-auto mb-4 sm:mb-6"
             />
-            <p className="text-gray-400 mb-4">
+            <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
               © 2024 Dovoz aut z Německa | KomfortCars
             </p>
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-sm sm:text-base">
               🌟 Na trhu od 1999 | Více než 3000 spokojených zákazníků
             </p>
           </div>
