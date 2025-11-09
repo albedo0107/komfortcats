@@ -102,11 +102,11 @@ export default function Home() {
       const windowHeight = window.innerHeight;
       const isMobile = window.innerWidth < 768; // md breakpoint
       
-      // Na mobilu jednodušší přechod, na desktopu složitější
+      // Na mobilu i desktopu stejně plynulý přechod
       if (isMobile) {
-        // Na mobilu rychlejší přechod při menším scrollu
-        if (scrollTop < windowHeight * 0.5) {
-          const progress = scrollTop / (windowHeight * 0.5);
+        // Na mobilu plynulý přechod přes celou výšku obrazovky
+        if (scrollTop < windowHeight) {
+          const progress = scrollTop / windowHeight;
           setScrollProgress(progress);
         } else {
           setScrollProgress(1);
@@ -249,8 +249,8 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Spacer pro scroll efekt - menší na mobilu, plný na desktopu */}
-      <div className="h-[100vh] md:h-[200vh]"></div>
+      {/* Spacer pro scroll efekt */}
+      <div className="h-[200vh]"></div>
 
       {/* Hero Section - Hlavní video/foto - Fixed */}
       <section 
@@ -303,10 +303,11 @@ export default function Home() {
 
       {/* Video Section - Elektrická mobilita - Fixed, vyjíždí zdola */}
       <section 
-        className="fixed top-0 left-0 w-full h-screen overflow-hidden bg-black transition-transform duration-200 ease-out"
+        className="fixed top-0 left-0 w-full h-screen overflow-hidden bg-black"
         style={{ 
           transform: `translateY(${(1 - scrollProgress) * 100}%)`,
-          zIndex: 30
+          zIndex: 30,
+          willChange: 'transform'
         }}
       >
         <div className="absolute inset-0 bg-black/30 z-10" />
