@@ -97,32 +97,31 @@ export default function Home() {
   }, [isMobileMenuOpen, selectedCar]);
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const isMobile = window.innerWidth < 768; // md breakpoint
-      
-      // Na mobilu i desktopu stejně plynulý přechod
-      if (isMobile) {
-        // Na mobilu plynulý přechod přes celou výšku obrazovky
-        if (scrollTop < windowHeight) {
-          const progress = scrollTop / windowHeight;
-          setScrollProgress(progress);
-        } else {
-          setScrollProgress(1);
-        }
-      } else {
-        // Desktop - původní logika
-        if (scrollTop < windowHeight) {
-          const progress = scrollTop / windowHeight;
-          setScrollProgress(progress);
-        } else {
-          setScrollProgress(1);
-        }
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const windowHeight = window.innerHeight;
+          
+          // Plynulý přechod na všech zařízeních
+          // První sekce scrolluje 100vh (0-100vh)
+          if (scrollTop < windowHeight) {
+            const progress = scrollTop / windowHeight;
+            setScrollProgress(progress);
+          } else {
+            setScrollProgress(1);
+          }
+          
+          ticking = false;
+        });
+        
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
     return () => {
@@ -249,8 +248,11 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Spacer pro scroll efekt */}
-      <div className="h-[200vh]"></div>
+      {/* Spacer pro scroll efekt - přechod první sekce */}
+      <div className="h-[100vh]"></div>
+
+      {/* Spacer pro druhou sekce - kratší zobrazení */}
+      <div className="h-[50vh]"></div>
 
       {/* Hero Section - Hlavní video/foto - Fixed */}
       <section 
