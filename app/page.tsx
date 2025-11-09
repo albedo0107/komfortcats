@@ -66,7 +66,6 @@ const reviewsData = [
 
 export default function Home() {
   const [isVideoRevealed, setIsVideoRevealed] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [selectedCar, setSelectedCar] = useState<string | null>(null);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [googleReviews, setGoogleReviews] = useState<any[]>([]);
@@ -95,41 +94,6 @@ export default function Home() {
       document.body.style.overflow = 'unset';
     };
   }, [isMobileMenuOpen, selectedCar]);
-
-  useEffect(() => {
-    let rafId: number | null = null;
-    
-    const updateScrollProgress = () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      
-      if (scrollTop < windowHeight) {
-        const progress = Math.min(scrollTop / windowHeight, 1);
-        setScrollProgress(progress);
-      } else {
-        setScrollProgress(1);
-      }
-    };
-
-    const handleScroll = () => {
-      if (rafId === null) {
-        rafId = requestAnimationFrame(() => {
-          updateScrollProgress();
-          rafId = null;
-        });
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    updateScrollProgress();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId);
-      }
-    };
-  }, []);
 
   const nextReview = () => {
     setCurrentReviewIndex((prev) => (prev + 1) % reviewsData.length);
@@ -249,18 +213,8 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Spacer pro scroll efekt */}
-      <div className="h-[200vh]"></div>
-
-      {/* Hero Section - Hlavní video - Fixed */}
-      <section 
-        className="fixed top-0 left-0 w-full h-screen overflow-hidden bg-black"
-        style={{ 
-          zIndex: 20,
-          pointerEvents: scrollProgress >= 1 ? 'none' : 'auto',
-          willChange: 'transform'
-        }}
-      >
+      {/* Hero Section - Hlavní video */}
+      <section className="relative w-full h-screen overflow-hidden bg-black">
         {/* Efekt odhalení - černý overlay který zmizí */}
         <div 
           className={`absolute inset-0 bg-black transition-opacity duration-[2000ms] ${
@@ -277,7 +231,6 @@ export default function Home() {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ transform: 'scale(1)', objectPosition: 'center' }}
         >
           <source src="/video_finall.mp4" type="video/mp4" />
         </video>
@@ -303,15 +256,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Video Section - Elektrická mobilita - Fixed, vyjíždí zdola */}
-      <section 
-        className="fixed top-0 left-0 w-full h-screen overflow-hidden bg-black"
-        style={{ 
-          transform: `translateY(${(1 - scrollProgress) * 100}%)`,
-          zIndex: 30,
-          willChange: 'transform'
-        }}
-      >
+      {/* Video Section - Elektrická mobilita */}
+      <section className="relative w-full h-screen overflow-hidden bg-black">
         <div className="absolute inset-0 bg-black/30 z-10" />
         {/* Video elektro */}
         <video
@@ -320,7 +266,6 @@ export default function Home() {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ transform: 'scale(1)', objectPosition: 'center' }}
         >
           <source src="/elektro.mp4" type="video/mp4" />
         </video>
@@ -342,9 +287,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Spacer po crossfade efektu */}
-      <div className="h-screen"></div>
 
       {/* Jak to probíhá Section */}
 <section id="jak-to-probiha" className="relative z-50 overflow-hidden pt-8 sm:pt-12 pb-12 sm:pb-16" style={{ backgroundColor: '#353434' }}>

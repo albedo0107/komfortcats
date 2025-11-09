@@ -54,12 +54,6 @@ body {
 video {
   -webkit-playsinline: true;
   -webkit-inline-playback: true;
-  transform: scale(1) !important;
-}
-
-/* Zabránění jakéhokoli zoomu */
-* {
-  touch-action: pan-y pan-x;
 }
 
 html, body {
