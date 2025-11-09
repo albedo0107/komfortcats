@@ -292,9 +292,9 @@ export default function Home() {
       {/* Jak to probíhá Section */}
 <section id="jak-to-probiha" className="relative z-50 overflow-hidden pt-8 sm:pt-12 pb-12 sm:pb-16" style={{ backgroundColor: '#353434' }}>
   {/* Nadpis */}
-  <div className="relative z-20 pb-4 sm:pb-6">
+  <div className="relative z-20">
     <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
-      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white text-center">
+      <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white text-center">
         Jak to u nás probíhá?
       </h3>
     </div>
@@ -302,7 +302,7 @@ export default function Home() {
 
   {/* Hlavní kontejner */}
   <div className="hidden lg:block relative w-full max-w-[1920px] mx-auto px-6">
-    <div className="relative w-full" style={{ paddingBottom: '50%' }}>
+    <div className="relative w-full" style={{ paddingBottom: '35%' }}>
       
       <div className="absolute inset-0">
         
