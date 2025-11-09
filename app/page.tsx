@@ -73,7 +73,6 @@ export default function Home() {
   const [googleRating, setGoogleRating] = useState<number>(4.9);
   const [totalReviews, setTotalReviews] = useState<number>(63);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
     // Spustit animaci odhalení videa po načtení stránky
@@ -97,21 +96,7 @@ export default function Home() {
     };
   }, [isMobileMenuOpen, selectedCar]);
 
-  // Detekce velikosti obrazovky
   useEffect(() => {
-    const checkIfDesktop = () => {
-      setIsDesktop(window.innerWidth >= 768);
-    };
-    
-    checkIfDesktop();
-    window.addEventListener('resize', checkIfDesktop);
-    
-    return () => window.removeEventListener('resize', checkIfDesktop);
-  }, []);
-
-  useEffect(() => {
-    if (!isDesktop) return; // Scroll efekt pouze pro desktop
-    
     let rafId: number | null = null;
     
     const updateScrollProgress = () => {
@@ -144,7 +129,7 @@ export default function Home() {
         cancelAnimationFrame(rafId);
       }
     };
-  }, [isDesktop]);
+  }, []);
 
   const nextReview = () => {
     setCurrentReviewIndex((prev) => (prev + 1) % reviewsData.length);
@@ -264,12 +249,12 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Spacer pro scroll efekt - pouze desktop */}
-      <div className="hidden md:block h-[200vh]"></div>
+      {/* Spacer pro scroll efekt */}
+      <div className="h-[200vh]"></div>
 
-      {/* Hero Section - Hlavní video */}
+      {/* Hero Section - Hlavní video - Fixed */}
       <section 
-        className="md:fixed md:top-0 md:left-0 relative w-full h-screen overflow-hidden bg-black"
+        className="fixed top-0 left-0 w-full h-screen overflow-hidden bg-black"
         style={{ 
           zIndex: 20,
           pointerEvents: scrollProgress >= 1 ? 'none' : 'auto',
@@ -292,6 +277,7 @@ export default function Home() {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
+          style={{ transform: 'scale(1)', objectPosition: 'center' }}
         >
           <source src="/video_finall.mp4" type="video/mp4" />
         </video>
@@ -317,11 +303,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Video Section - Elektrická mobilita */}
+      {/* Video Section - Elektrická mobilita - Fixed, vyjíždí zdola */}
       <section 
-        className="md:fixed md:top-0 md:left-0 relative w-full h-screen overflow-hidden bg-black"
+        className="fixed top-0 left-0 w-full h-screen overflow-hidden bg-black"
         style={{ 
-          transform: isDesktop ? `translateY(${(1 - scrollProgress) * 100}%)` : 'none',
+          transform: `translateY(${(1 - scrollProgress) * 100}%)`,
           zIndex: 30,
           willChange: 'transform'
         }}
@@ -334,6 +320,7 @@ export default function Home() {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
+          style={{ transform: 'scale(1)', objectPosition: 'center' }}
         >
           <source src="/elektro.mp4" type="video/mp4" />
         </video>
@@ -356,8 +343,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Spacer po crossfade efektu - pouze desktop */}
-      <div className="hidden md:block h-screen"></div>
+      {/* Spacer po crossfade efektu */}
+      <div className="h-screen"></div>
 
       {/* Jak to probíhá Section */}
 <section id="jak-to-probiha" className="relative z-50 overflow-hidden pt-8 sm:pt-12 pb-12 sm:pb-16" style={{ backgroundColor: '#353434' }}>
