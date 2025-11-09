@@ -248,8 +248,8 @@ export default function Home() {
             <a href="#formular" className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white text-white font-medium hover:bg-white/10 transition text-center text-sm sm:text-base whitespace-nowrap">
               Chci dovést vozidlo
             </a>
-          </div>
-        </div>
+              </div>
+            </div>
       </section>
 
       {/* Video Section - Elektrická mobilita */}
@@ -285,8 +285,8 @@ export default function Home() {
             >
               Dovoz elektroauta
             </a>
-          </div>
-        </div>
+                  </div>
+                </div>
       </section>
 
       {/* Jak to probíhá Section */}
@@ -301,8 +301,8 @@ export default function Home() {
   </div>
 
   {/* Hlavní kontejner */}
-  <div className="hidden lg:block relative w-full max-w-[1920px] mx-auto px-6">
-    <div className="relative w-full" style={{ paddingBottom: '35%' }}>
+  <div className="hidden lg:block relative w-full max-w-[1920px] mx-auto px-6 -mt-20 lg:-mt-32">
+    <div className="relative w-full" style={{ paddingBottom: '50%' }}>
       
       <div className="absolute inset-0">
         
