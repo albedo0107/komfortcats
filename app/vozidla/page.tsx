@@ -470,35 +470,36 @@ export default function VozidlaPage() {
       {/* Modal pro detail vozidla */}
       {selectedCar && (
         <div 
-          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-1 sm:p-3 lg:p-4 overflow-y-auto"
           onClick={() => setSelectedCar(null)}
         >
           <div 
-            className="bg-[#353434] max-w-5xl w-full rounded-lg overflow-hidden relative my-4"
+            className="bg-[#353434] max-w-5xl w-full rounded-lg overflow-hidden relative my-1 sm:my-4"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Zavírací tlačítko */}
             <button
               onClick={() => setSelectedCar(null)}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white text-3xl sm:text-4xl font-light hover:text-[#cfb270] transition z-10 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center"
+              className="absolute top-1 right-1 sm:top-4 sm:right-4 z-[110] w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-black/70 hover:bg-black/90 rounded-full text-white text-2xl sm:text-4xl font-light hover:text-[#cfb270] transition-all shadow-lg"
+              aria-label="Zavřít"
             >
               ×
             </button>
 
-            <div className="p-4 sm:p-6 lg:p-12">
-              <div className="mb-6 sm:mb-8 pr-8">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white" style={{ color: '#cfb270' }}>
+            <div className="p-2 sm:p-6 lg:p-12">
+              <div className="mb-3 sm:mb-8 pr-6 sm:pr-8">
+                <h2 className="text-lg sm:text-3xl lg:text-4xl font-light text-white" style={{ color: '#cfb270' }}>
                   {carsData[selectedCar as keyof typeof carsData].name}
                 </h2>
                 {carsData[selectedCar as keyof typeof carsData].type && (
-                  <p className="text-gray-300 text-lg sm:text-xl mt-2">
+                  <p className="text-gray-300 text-sm sm:text-xl mt-1 sm:mt-2">
                     {carsData[selectedCar as keyof typeof carsData].type}
                   </p>
                 )}
               </div>
 
               {/* Grid fotky */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-8">
                 {carsData[selectedCar as keyof typeof carsData].images.map((img, idx) => (
                   <div key={idx} className="aspect-video relative overflow-hidden rounded-lg">
                     <Image
@@ -506,16 +507,17 @@ export default function VozidlaPage() {
                       alt={`${carsData[selectedCar as keyof typeof carsData].name} ${idx + 1}`}
                       fill
                       className="object-cover"
-                      unoptimized
+                      loading="lazy"
+                      quality={75}
                     />
                   </div>
                 ))}
               </div>
 
               {/* Specifikace - jednoduchý formát */}
-              <div className="border-l-2 pl-4 sm:pl-6 mb-6 sm:mb-8" style={{ borderColor: '#cfb270' }}>
-                <h3 className="text-lg sm:text-xl font-medium mb-3 sm:mb-4" style={{ color: '#cfb270' }}>Specifikace</h3>
-                <p className="text-white text-xl sm:text-2xl font-light">
+              <div className="border-l-2 pl-2 sm:pl-6 mb-3 sm:mb-8" style={{ borderColor: '#cfb270' }}>
+                <h3 className="text-sm sm:text-xl font-medium mb-1 sm:mb-4" style={{ color: '#cfb270' }}>Specifikace</h3>
+                <p className="text-white text-sm sm:text-2xl font-light">
                   {(() => {
                     const car = carsData[selectedCar as keyof typeof carsData];
                     const rok = car.specs.find(s => s.startsWith('Rok výroby:'))?.replace('Rok výroby: ', '') || '';
@@ -533,11 +535,11 @@ export default function VozidlaPage() {
                 <a 
                   href="/#formular" 
                   onClick={() => setSelectedCar(null)}
-                  className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 font-medium hover:bg-[#d4ba7f] transition text-sm sm:text-base"
+                  className="inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-8 py-2 sm:py-4 font-medium hover:bg-[#d4ba7f] transition text-xs sm:text-base"
                   style={{ backgroundColor: '#cfb270', color: '#000' }}
                 >
                   Chci dovést podobné vozidlo
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </a>

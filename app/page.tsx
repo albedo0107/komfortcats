@@ -270,6 +270,19 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detekce mobilního zařízení
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Zablokovat scrollování když je mobilní menu otevřené nebo modal
   useEffect(() => {
@@ -291,6 +304,32 @@ export default function Home() {
   const prevReview = () => {
     const totalLength = googleReviews.length > 0 ? googleReviews.length : reviewsData.length;
     setCurrentReviewIndex((prev) => (prev - 1 + totalLength) % totalLength);
+  };
+
+  // Swipe handlers pro karusel
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe && carouselIndex < Object.keys(carsData).length - 1) {
+      setCarouselIndex(carouselIndex + 1);
+    }
+    if (isRightSwipe && carouselIndex > 0) {
+      setCarouselIndex(carouselIndex - 1);
+    }
   };
 
   // Načíst Google recenze
@@ -1049,7 +1088,7 @@ export default function Home() {
             {carouselIndex > 0 && (
               <button
                 onClick={() => setCarouselIndex(carouselIndex - 1)}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 hover:bg-black/90 text-white p-3 sm:p-4 rounded-full transition-all shadow-lg"
+                className="hidden sm:block absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 hover:bg-black/90 text-white p-3 sm:p-4 rounded-full transition-all shadow-lg"
                 aria-label="Předchozí vozidla"
               >
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1059,11 +1098,19 @@ export default function Home() {
             )}
 
             {/* Container s overflow */}
-            <div className="overflow-hidden px-12 sm:px-16 lg:px-20" ref={carouselRef}>
+            <div 
+              className="overflow-hidden px-4 sm:px-12 lg:px-20" 
+              ref={carouselRef}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               <div 
                 className="flex transition-transform duration-500 ease-in-out gap-3 sm:gap-4"
                 style={{ 
-                  transform: `translateX(calc(-${carouselIndex} * (25% + 0.1875rem)))`
+                  transform: isMobile 
+                    ? `translateX(calc(-${carouselIndex} * (70% + 0.75rem)))`
+                    : `translateX(calc(-${carouselIndex} * (25% + 0.1875rem)))`
                 }}
               >
                 {Object.entries(carsData).map(([key, car]) => (
@@ -1071,7 +1118,9 @@ export default function Home() {
                     key={key} 
                     onClick={() => setSelectedCar(key)} 
                     className="group cursor-pointer flex-shrink-0"
-                    style={{ width: 'calc(25% - 0.5625rem)' }}
+                    style={{ 
+                      width: isMobile ? 'calc(70% - 0.375rem)' : 'calc(25% - 0.5625rem)'
+                    }}
                   >
                     <div className="aspect-square overflow-hidden rounded-lg">
                       <Image
@@ -1080,20 +1129,21 @@ export default function Home() {
                         width={250}
                         height={250}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                        unoptimized
+                        loading="lazy"
+                        quality={75}
                       />
                     </div>
-                    <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">{car.name}</p>
+                    <p className="text-center text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">{car.name}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Šipka vpravo */}
-            {carouselIndex < Object.keys(carsData).length - 4 && (
+            {carouselIndex < (isMobile ? Object.keys(carsData).length - 1 : Object.keys(carsData).length - 4) && (
               <button
-                onClick={() => setCarouselIndex(Math.min(Object.keys(carsData).length - 4, carouselIndex + 1))}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 hover:bg-black/90 text-white p-3 sm:p-4 rounded-full transition-all shadow-lg"
+                onClick={() => setCarouselIndex(Math.min(isMobile ? Object.keys(carsData).length - 1 : Object.keys(carsData).length - 4, carouselIndex + 1))}
+                className="hidden sm:block absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 hover:bg-black/90 text-white p-3 sm:p-4 rounded-full transition-all shadow-lg"
                 aria-label="Další vozidla"
               >
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1414,36 +1464,37 @@ export default function Home() {
       {/* Modal pro detail vozidla */}
       {selectedCar && (
         <div 
-          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-1 sm:p-3 lg:p-4 overflow-y-auto"
           onClick={() => setSelectedCar(null)}
           style={{ overflowY: 'auto' }}
         >
           <div 
-            className="bg-[#353434] max-w-5xl w-full rounded-lg overflow-hidden relative my-4"
+            className="bg-[#353434] max-w-5xl w-full rounded-lg overflow-hidden relative my-1 sm:my-4"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Zavírací tlačítko */}
             <button
               onClick={() => setSelectedCar(null)}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white text-3xl sm:text-4xl font-light hover:text-[#cfb270] transition z-10 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center"
+              className="absolute top-1 right-1 sm:top-4 sm:right-4 z-[110] w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-black/70 hover:bg-black/90 rounded-full text-white text-2xl sm:text-4xl font-light hover:text-[#cfb270] transition-all shadow-lg"
+              aria-label="Zavřít"
             >
               ×
             </button>
 
-            <div className="p-4 sm:p-6 lg:p-12">
-              <div className="mb-6 sm:mb-8 pr-8">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white" style={{ color: '#cfb270' }}>
+            <div className="p-2 sm:p-6 lg:p-12">
+              <div className="mb-3 sm:mb-8 pr-6 sm:pr-8">
+                <h2 className="text-lg sm:text-3xl lg:text-4xl font-light text-white" style={{ color: '#cfb270' }}>
                   {carsData[selectedCar as keyof typeof carsData].name}
                 </h2>
                 {carsData[selectedCar as keyof typeof carsData].type && (
-                  <p className="text-gray-300 text-lg sm:text-xl mt-2">
+                  <p className="text-gray-300 text-sm sm:text-xl mt-1 sm:mt-2">
                     {carsData[selectedCar as keyof typeof carsData].type}
                   </p>
                 )}
               </div>
 
               {/* Grid fotky */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-8">
                 {carsData[selectedCar as keyof typeof carsData].images.map((img, idx) => (
                   <div key={idx} className="aspect-video relative overflow-hidden rounded-lg">
                     <Image
@@ -1451,16 +1502,17 @@ export default function Home() {
                       alt={`${carsData[selectedCar as keyof typeof carsData].name} ${idx + 1}`}
                       fill
                       className="object-cover"
-                      unoptimized
+                      loading="lazy"
+                      quality={75}
                     />
                   </div>
                 ))}
               </div>
 
               {/* Specifikace - jednoduchý formát */}
-              <div className="border-l-2 pl-4 sm:pl-6 mb-6 sm:mb-8" style={{ borderColor: '#cfb270' }}>
-                <h3 className="text-lg sm:text-xl font-medium mb-3 sm:mb-4" style={{ color: '#cfb270' }}>Specifikace</h3>
-                <p className="text-white text-xl sm:text-2xl font-light">
+              <div className="border-l-2 pl-2 sm:pl-6 mb-3 sm:mb-8" style={{ borderColor: '#cfb270' }}>
+                <h3 className="text-sm sm:text-xl font-medium mb-1 sm:mb-4" style={{ color: '#cfb270' }}>Specifikace</h3>
+                <p className="text-white text-sm sm:text-2xl font-light">
                   {(() => {
                     const car = carsData[selectedCar as keyof typeof carsData];
                     const rok = car.specs.find(s => s.startsWith('Rok výroby:'))?.replace('Rok výroby: ', '') || '';
@@ -1478,11 +1530,11 @@ export default function Home() {
                 <a 
                   href="#formular" 
                   onClick={() => setSelectedCar(null)}
-                  className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 font-medium hover:bg-[#d4ba7f] transition text-sm sm:text-base"
+                  className="inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-8 py-2 sm:py-4 font-medium hover:bg-[#d4ba7f] transition text-xs sm:text-base"
                   style={{ backgroundColor: '#cfb270', color: '#000' }}
                 >
                   Chci dovést podobné vozidlo
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </a>
