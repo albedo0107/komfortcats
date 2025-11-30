@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "Komfort Cars - Luxusní vozidla pro náročné",
   description: "Objevte prémiové vozidla, které spojují luxus, výkon a inovativní technologie. Komfort Cars - vaše cesta k dokonalosti.",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+  icons: {
+    icon: '/komfortcars_icon.png',
+    shortcut: '/komfortcars_icon.png',
+    apple: '/komfortcars_icon.png',
+  },
 };
 
 export default function RootLayout({

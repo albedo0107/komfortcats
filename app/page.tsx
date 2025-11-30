@@ -2,52 +2,248 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // Data vozidel
 const carsData = {
-  staria: {
-    name: "Hyundai Staria",
-    images: ["/staria.jpg", "/1-17.png", "/4-18.png", "/4-18.png"],
+  audiA3: {
+    name: "Audi A3",
+    type: "1.4 TSI",
+    images: ["/Audi%20A3/AudiA3_1.jpeg", "/Audi%20A3/AudiA3_2.jpeg", "/Audi%20A3/AudiA3_3.jpeg", "/Audi%20A3/AudiA3_4.jpeg"],
     specs: [
-      "Rok výroby: 2023",
-      "Motor: 2.2 CRDi",
-      "Výkon: 130 kW",
-      "Km: 15 000 km",
-      "Kompletní servisní historie"
-    ]
-  },
-  kodiaq: {
-    name: "Škoda Kodiaq",
-    images: ["/kodiaq1-1.jpg", "/kodiaq1-1.jpg", "/kodiaq1-1.jpg", "/kodiaq1-1.jpg"],
-    specs: [
-      "Rok výroby: 2022",
-      "Motor: 2.0 TDI",
-      "Výkon: 110 kW",
-      "Km: 28 000 km",
-      "Kompletní výbava"
-    ]
-  },
-  bmw: {
-    name: "BMW",
-    images: ["/bmw1.png", "/bmw2.png", "/bmw3.png", "/bmw2.png"],
-    specs: [
-      "Rok výroby: 2021",
-      "Motor: 2.0i",
-      "Výkon: 135 kW",
-      "Km: 32 000 km",
+      "Rok výroby: 2016",
+      "Motor: 1.4 TSI",
+      "Výkon: 92 kW",
+      "Km: 90 000 km",
       "Prověřený původ"
     ]
   },
-  arteon: {
-    name: "Volkswagen Arteon",
-    images: ["/2-18.png", "/arteon2.jpg", "/4-12.jpg", "/4-18.png"],
+  audi: {
+    name: "Audi A4 Avant",
+    type: "2.0 TDI",
+    images: ["/Audi%20A4/audia4_1.jpeg", "/Audi%20A4/audia4_2.jpeg", "/Audi%20A4/audia4_3.jpeg", "/Audi%20A4/audia4_4.jpeg"],
+    specs: [
+      "Rok výroby: 2019",
+      "Motor: 2.0 TDI",
+      "Výkon: 110 kW",
+      "Km: 152 000 km",
+      "Prověřený původ"
+    ]
+  },
+  audiA4Second: {
+    name: "Audi A4 Avant",
+    type: "2.0 TDI",
+    images: ["/Audi_A4/Audi_1.jpg", "/Audi_A4/Audi_2.jpg", "/Audi_A4/Audi_3.jpg", "/Audi_A4/Audi_4.jpg"],
+    specs: [
+      "Rok výroby: 2019",
+      "Motor: 2.0 TDI",
+      "Výkon: 140 kW",
+      "Km: 148 000 km",
+      "Prověřený původ"
+    ]
+  },
+  audiS6: {
+    name: "Audi S6 Avant",
+    type: "3.0",
+    images: ["/Audi%20S6/AudiS6_1.jpeg", "/Audi%20S6/AudiS6_2.jpeg", "/Audi%20S6/AudiS6_3.jpeg", "/Audi%20S6/AudiS6_4.jpeg"],
+    specs: [
+      "Rok výroby: 2020",
+      "Motor: 3.0",
+      "Výkon: 257 kW",
+      "Km: 113 000 km",
+      "Prověřený původ"
+    ]
+  },
+  bmw118: {
+    name: "BMW 118i",
+    type: "118i",
+    images: ["/BMW%20118/118_1.jpeg", "/BMW%20118/118_2.jpeg", "/BMW%20118/118_3.jpeg", "/BMW%20118/118_4.jpeg"],
+    specs: [
+      "Rok výroby: 2023",
+      "Motor: 118i",
+      "Výkon: 100 kW",
+      "Km: 20 500 km",
+      "Prověřený původ"
+    ]
+  },
+  bmw530e: {
+    name: "BMW 530e",
+    type: "X-Drive",
+    images: ["/BMW%20530e/530_1.jpg", "/BMW%20530e/530_2.jpg", "/BMW%20530e/530_3.jpeg", "/BMW%20530e/530_4.jpeg"],
     specs: [
       "Rok výroby: 2022",
-      "Motor: 2.0 TSI R-line",
+      "Motor: X-Drive",
+      "Výkon: 135 kW",
+      "Km: 102 000 km",
+      "Prověřený původ"
+    ]
+  },
+  bmwX3: {
+    name: "BMW X3",
+    type: "X-Drive20i",
+    images: ["/BMWX3/BMWX3_1.jpeg", "/BMWX3/BMWX3_2.jpeg", "/BMWX3/BMWX3_3.jpeg", "/BMWX3/BMWX3_4.jpeg"],
+    specs: [
+      "Rok výroby: 2023",
+      "Motor: X-Drive20i",
+      "Výkon: 135 kW",
+      "Km: 28 000 km",
+      "Prověřený původ"
+    ]
+  },
+  bmwX5: {
+    name: "BMW X5",
+    type: "3.0 X-Drive",
+    images: ["/BMW%20X5/BMW_X5_1.jpeg", "/BMW%20X5/BMW_X5_2.jpeg", "/BMW%20X5/BMW_X5_3.jpeg", "/BMW%20X5/BMW_X5_4.jpeg"],
+    specs: [
+      "Rok výroby: 2017",
+      "Motor: 3.0 X-Drive",
+      "Výkon: 190 kW",
+      "Km: 180 000 km",
+      "Prověřený původ"
+    ]
+  },
+  mazda6: {
+    name: "Mazda 6",
+    type: "2.5 SkyActiv",
+    images: ["/Mazda_6/Mazda6_1.jpeg", "/Mazda_6/Mazda6_2.jpeg", "/Mazda_6/Mazda6_3.jpeg", "/Mazda_6/Mazda6_4.jpeg"],
+    specs: [
+      "Rok výroby: 2023",
+      "Motor: 2.5 SkyActiv",
+      "Výkon: 143 kW",
+      "Km: 46 000 km",
+      "Prověřený původ"
+    ]
+  },
+  mazdaCX5: {
+    name: "Mazda CX-5",
+    type: "2.5 SkyActiv",
+    images: ["/Mazda%20CX-5/CX-5_1.jpg", "/Mazda%20CX-5/CX-5_2.jpeg", "/Mazda%20CX-5/CX-5_3.jpeg", "/Mazda%20CX-5/CX-5_4.jpeg"],
+    specs: [
+      "Rok výroby: 2020",
+      "Motor: 2.5 SkyActiv",
+      "Výkon: 143 kW",
+      "Km: 54 000 km",
+      "Prověřený původ"
+    ]
+  },
+  mazdaCX60: {
+    name: "Mazda CX-60",
+    type: "HOMURA 2.5 L. AWD",
+    images: ["/Mazda_CX-60/MazdaCX-60_1.jpeg", "/Mazda_CX-60/MazdaCX-60_2.jpeg", "/Mazda_CX-60/MazdaCX-60_3.jpeg", "/Mazda_CX-60/MazdaCX-60_4.jpeg"],
+    specs: [
+      "Rok výroby: 2022",
+      "Motor: HOMURA 2.5 L. AWD",
+      "Výkon: 141 kW",
+      "Km: 30 000 km",
+      "Prověřený původ"
+    ]
+  },
+  mbMarcoPolo: {
+    name: "Mercedes Benz Marco Polo",
+    type: "2.0",
+    images: ["/MB_MarcoPolo/MB_1.jpeg", "/MB_MarcoPolo/MB_2.jpeg", "/MB_MarcoPolo/MB_3.jpeg", "/MB_MarcoPolo/MB_4.jpeg"],
+    specs: [
+      "Rok výroby: 2021",
+      "Motor: 2.0",
       "Výkon: 140 kW",
-      "Km: 22 000 km",
-      "Plná výbava R-line"
+      "Km: 74 500 km",
+      "Prověřený původ"
+    ]
+  },
+  fabie: {
+    name: "Škoda Fabie 3",
+    type: "1.2 TSI",
+    images: ["/Fabie/Fabie1.jpeg", "/Fabie/Fabie2.jpeg", "/Fabie/Fabie3.jpeg", "/Fabie/Fabie4.jpeg"],
+    specs: [
+      "Rok výroby: 2015",
+      "Motor: 1.2 TSI",
+      "Výkon: 66 kW",
+      "Km: 104 000 km",
+      "Prověřený původ"
+    ]
+  },
+  superb2: {
+    name: "Škoda Superb 2",
+    type: "2.0TDI",
+    images: ["/Superb%202/SUP2_1.jpeg", "/Superb%202/SUP2_2.jpeg", "/Superb%202/SUP2_3.jpeg", "/Superb%202/SUP2_4.jpeg"],
+    specs: [
+      "Rok výroby: 2015",
+      "Motor: 2.0TDI",
+      "Výkon: 103 kW",
+      "Km: 195 000 km",
+      "Prověřený původ"
+    ]
+  },
+  superb3: {
+    name: "Škoda Superb 3",
+    type: "2.0 TDI",
+    images: ["/Superb3/SUP3_1.jpeg", "/Superb3/SUP3_2.jpeg", "/Superb3/SUP3_3.jpeg", "/Superb3/SUP3_4.jpeg"],
+    specs: [
+      "Rok výroby: 2016",
+      "Motor: 2.0 TDI",
+      "Výkon: 110 kW",
+      "Km: 140 000 km",
+      "Prověřený původ"
+    ]
+  },
+  scrossHybrid: {
+    name: "Suzuki S-Cross",
+    type: "1.4 Hybrid",
+    images: ["/Scross.1.4Hybrid/Scross_1.jpeg", "/Scross.1.4Hybrid/Scross_2.jpeg", "/Scross.1.4Hybrid/Scross_3.jpeg", "/Scross.1.4Hybrid/Scross_4.jpeg"],
+    specs: [
+      "Rok výroby: 2022",
+      "Motor: 1.4 Hybrid",
+      "Výkon: 95 kW",
+      "Km: 23 000 km",
+      "Prověřený původ"
+    ]
+  },
+  suzukiScross: {
+    name: "Suzuki S-Cross",
+    type: "1.4 BoosterJet 4x4",
+    images: ["/Suzuki%20Scross/Suzuki_Scross_1.jpeg", "/Suzuki%20Scross/Suzuki_Scross_2.jpeg", "/Suzuki%20Scross/Suzuki_Scross_3.jpeg", "/Suzuki%20Scross/Suzuki_Scross_4.jpeg"],
+    specs: [
+      "Rok výroby: 2019",
+      "Motor: 1.4 BoosterJet 4x4",
+      "Výkon: 103 kW",
+      "Km: 39 000 km",
+      "Prověřený původ"
+    ]
+  },
+  suzukiVitara: {
+    name: "Suzuki Vitara",
+    type: "1.6 VVT",
+    images: ["/Suzuki_Vitara_1.6/Suzuki_virara1.jpeg", "/Suzuki_Vitara_1.6/Suzuki_vitara2.jpeg", "/Suzuki_Vitara_1.6/Suzuki_vitara3.jpeg", "/Suzuki_Vitara_1.6/Suzuki_vitara4.jpeg"],
+    specs: [
+      "Rok výroby: 2017",
+      "Motor: 1.6 VVT",
+      "Výkon: 88 kW",
+      "Km: 74 000 km",
+      "Prověřený původ"
+    ]
+  },
+  tiguanR: {
+    name: "Volkswagen Tiguan R",
+    type: "2.0 TSI",
+    images: ["/Tiguan%20R/TiguanR_1.jpeg", "/Tiguan%20R/TiguanR_2.jpeg", "/Tiguan%20R/TiguanR_3.jpeg", "/Tiguan%20R/TiguanR_4.jpeg"],
+    specs: [
+      "Rok výroby: 2022",
+      "Motor: 2.0 TSI",
+      "Výkon: 235 kW",
+      "Km: 39 000 km",
+      "Prověřený původ"
+    ]
+  },
+  touran: {
+    name: "Volkswagen Touran",
+    type: "1.4 TSI",
+    images: ["/VW_Touran/Touran_1.jpeg", "/VW_Touran/Touran_2.jpeg", "/VW_Touran/Touran_3.jpeg", "/VW_Touran/Touran_4.jpeg"],
+    specs: [
+      "Rok výroby: 2017",
+      "Motor: 1.4 TSI",
+      "Výkon: 110 kW",
+      "Km: 105 400 km",
+      "Prověřený původ"
     ]
   }
 };
@@ -72,6 +268,8 @@ export default function Home() {
   const [googleRating, setGoogleRating] = useState<number>(4.9);
   const [totalReviews, setTotalReviews] = useState<number>(63);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   // Zablokovat scrollování když je mobilní menu otevřené nebo modal
   useEffect(() => {
@@ -142,6 +340,23 @@ export default function Home() {
               <a href="#formular" className="hidden lg:block px-6 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200 transition">
                 Chci dovést vozidlo
               </a>
+              {/* Instagram odkaz */}
+              <a 
+                href="https://www.instagram.com/komfortcarscz/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hidden lg:block text-white hover:text-gray-300 transition"
+                aria-label="Instagram"
+              >
+                <svg 
+                  className="w-6 h-6" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
               {/* Hamburger menu pro mobil */}
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -198,6 +413,24 @@ export default function Home() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Chci dovést vozidlo
+              </a>
+              {/* Instagram odkaz v mobilním menu */}
+              <a 
+                href="https://www.instagram.com/komfortcarscz/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 text-white hover:text-gray-300 transition py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <svg 
+                  className="w-5 h-5" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                Instagram
               </a>
             </div>
           </div>
@@ -389,7 +622,7 @@ export default function Home() {
             <div className="relative mx-auto mb-3" style={{ width: '13em', height: '13em' }}>
               <Image
                 src="/01.jpg"
-                alt="Specifikace vozidla"
+                alt="Osobní setkání"
                 fill
                 className="rounded-lg shadow-xl object-cover"
               />
@@ -399,11 +632,11 @@ export default function Home() {
               <div className="flex items-center mb-1" style={{ gap: '0.6em' }}>
                 <span className="text-[#cfb270] font-light" style={{ fontSize: '2em', lineHeight: '1' }}>01</span>
                 <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '0.95em', lineHeight: '1.2' }}>
-                  Specifikace<br />vozidla
+                  Osobní<br />setkání
                 </h4>
               </div>
               <p className="text-white" style={{ fontSize: '0.75em', lineHeight: '1.5', maxWidth: '14em' }}>
-                První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
+                Preferujeme osobní setkání, kde si vysvětlíme, jak budeme při dovozu vozidla postupovat. V případě větší vzdálenosti konzultujeme telefonicky (dovážíme vozidla po celé ČR).
               </p>
                   </div>
                 </div>
@@ -415,18 +648,18 @@ export default function Home() {
               <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
                 <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>02</span>
                 <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
-                  Hledání<br />vozidla
+                  Příprava<br />nabídky
                 </h4>
               </div>
               <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
-                Posíláme konkrétní nabídky vozidel k osobní kontrole.
+                Před odjezdem do Německa Vám pošleme konkrétní nabídky vozidel, které pojedeme osobně prověřit.
               </p>
             </div>
             {/* Obrázek dole */}
             <div className="relative mx-auto" style={{ width: '14em', height: '14em' }}>
               <Image
                 src="/02.jpg"
-                alt="Hledání vozidla"
+                alt="Příprava nabídky"
                 fill
                 className="rounded-lg shadow-xl object-cover"
               />
@@ -439,7 +672,7 @@ export default function Home() {
             <div className="relative mx-auto mb-3" style={{ width: '14em', height: '14em' }}>
               <Image
                 src="/03.jpg"
-                alt="Odjezd do Německa"
+                alt="Výběr vozidla"
                 fill
                 className="rounded-lg shadow-xl object-cover"
               />
@@ -449,11 +682,11 @@ export default function Home() {
               <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
                 <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>03</span>
                 <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
-                  Odjezd do<br />Německa
+                  Výběr<br />vozidla
                 </h4>
               </div>
               <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
-                Posíláme odkazy a ceny vozidel s možností účasti klienta.
+                Klientovi posíláme aktuální odkazy na vozidla, která splňují jeho požadavky, včetně ceny. Následně s klientem vše konzultujeme, čímž se sám podílí na výběru vozidla.
               </p>
             </div>
           </div>
@@ -469,7 +702,7 @@ export default function Home() {
                 </h4>
               </div>
               <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
-                Kompletní prohlídka a zkušební jízda s technikem.
+                Po kompletní prohlídce a zkušební jízdě vozidlo buď doporučíme ke koupi nebo hledáme další vhodné vozidlo.
               </p>
             </div>
             {/* Obrázek dole */}
@@ -489,7 +722,7 @@ export default function Home() {
             <div className="relative mx-auto mb-3" style={{ width: '14em', height: '14em' }}>
           <Image
                 src="/05.jpg"
-                alt="Předání vozidla"
+                alt="Příprava k předání"
             fill
                 className="rounded-lg shadow-xl object-cover"
           />
@@ -499,11 +732,11 @@ export default function Home() {
               <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
                 <span className="text-[#cfb270] font-light" style={{ fontSize: '2.2em', lineHeight: '1' }}>05</span>
                 <h4 className="font-semibold text-[#cfb270]" style={{ fontSize: '1em', lineHeight: '1.2' }}>
-                  Předání<br />vozidla
+                  Příprava k<br />předání
                 </h4>
               </div>
               <p className="text-white" style={{ fontSize: '0.8em', lineHeight: '1.5', maxWidth: '15em' }}>
-                Servisujeme, připravujeme a vyřizujeme vše potřebné - STK, emise, SPZ po dovozu.
+                Po dovozu vozidlo ihned servisujeme a připravujeme k předání, včetně veškeré administrativy spojené s dovozem (STK+ME, přidělení SPZ). Vy se nemusíte o nic starat.
               </p>
             </div>
           </div>
@@ -581,7 +814,7 @@ export default function Home() {
               <div className="w-24 h-24 flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src="/01.jpg"
-                  alt="Specifikace vozidla"
+                  alt="Osobní setkání"
                   fill
                   className="object-cover"
                 />
@@ -590,10 +823,10 @@ export default function Home() {
                 <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-lg px-4 py-3">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-2xl font-light text-[#cfb270]">01</span>
-                    <h4 className="text-base font-semibold text-[#cfb270]">Specifikace vozidla</h4>
+                    <h4 className="text-base font-semibold text-[#cfb270]">Osobní setkání</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed">
-                První konzultace proběhne u nás, nebo v případě větší vzdálenosti telefonicky.
+                Preferujeme osobní setkání, kde si vysvětlíme, jak budeme při dovozu vozidla postupovat. V případě větší vzdálenosti konzultujeme telefonicky (dovážíme vozidla po celé ČR).
               </p>
                 </div>
               </div>
@@ -604,7 +837,7 @@ export default function Home() {
               <div className="w-24 h-24 flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src="/02.jpg"
-                  alt="Hledání vozidla"
+                  alt="Příprava nabídky"
                   fill
                   className="object-cover"
                 />
@@ -613,10 +846,10 @@ export default function Home() {
                 <div className="border-r-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-l-lg shadow-lg px-4 py-3">
                   <div className="flex items-center gap-2 mb-2 flex-row-reverse">
                     <span className="text-2xl font-light text-[#cfb270]">02</span>
-                    <h4 className="text-base font-semibold text-[#cfb270]">Hledání vozidla</h4>
+                    <h4 className="text-base font-semibold text-[#cfb270]">Příprava nabídky</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed text-right">
-                Posíláme konkrétní nabídky vozidel k osobní kontrole.
+                Před odjezdem do Německa Vám pošleme konkrétní nabídky vozidel, které pojedeme osobně prověřit.
               </p>
                 </div>
               </div>
@@ -627,7 +860,7 @@ export default function Home() {
               <div className="w-24 h-24 flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src="/03.jpg"
-                  alt="Odjezd do Německa"
+                  alt="Výběr vozidla"
                   fill
                   className="object-cover"
                 />
@@ -636,10 +869,10 @@ export default function Home() {
                 <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-lg px-4 py-3">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-2xl font-light text-[#cfb270]">03</span>
-                    <h4 className="text-base font-semibold text-[#cfb270]">Odjezd do Německa</h4>
+                    <h4 className="text-base font-semibold text-[#cfb270]">Výběr vozidla</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed">
-                Posíláme odkazy a ceny vozidel s možností účasti klienta.
+                Klientovi posíláme aktuální odkazy na vozidla, která splňují jeho požadavky, včetně ceny. Následně s klientem vše konzultujeme, čímž se sám podílí na výběru vozidla.
               </p>
                 </div>
               </div>
@@ -662,7 +895,7 @@ export default function Home() {
                     <h4 className="text-base font-semibold text-[#cfb270]">Prohlídka vozidla</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed text-right">
-                Kompletní prohlídka a zkušební jízda s technikem.
+                Po kompletní prohlídce a zkušební jízdě vozidlo buď doporučíme ke koupi nebo hledáme další vhodné vozidlo.
               </p>
                 </div>
               </div>
@@ -673,7 +906,7 @@ export default function Home() {
               <div className="w-24 h-24 flex-shrink-0 relative rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src="/05.jpg"
-                  alt="Předání vozidla"
+                  alt="Příprava k předání"
                   fill
                   className="object-cover"
                 />
@@ -682,10 +915,10 @@ export default function Home() {
                 <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-lg px-4 py-3">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-2xl font-light text-[#cfb270]">05</span>
-                    <h4 className="text-base font-semibold text-[#cfb270]">Předání vozidla</h4>
+                    <h4 className="text-base font-semibold text-[#cfb270]">Příprava k předání</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed">
-                    Servisujeme, připravujeme a vyřizujeme vše potřebné - STK, emise, SPZ po dovozu.
+                    Po dovozu vozidlo ihned servisujeme a připravujeme k předání, včetně veškeré administrativy spojené s dovozem (STK+ME, přidělení SPZ). Vy se nemusíte o nic starat.
                   </p>
                 </div>
               </div>
@@ -808,73 +1041,79 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-light text-gray-900 mb-6 sm:mb-8">
             Aktuálně předaná vozidla našim zákazníkům
-            </h2>
+          </h2>
           
-          {/* Galerie vozidel */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto mb-8 sm:mb-10">
-            {/* Vozidlo 1 */}
-            <div onClick={() => setSelectedCar('staria')} className="group cursor-pointer">
-              <div className="aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/staria.jpg"
-                  alt="Hyundai Staria"
-                  width={250}
-                  height={250}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  unoptimized
-                />
-              </div>
-              <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">Hyundai Staria</p>
-                </div>
+          {/* Karusel s vozidly */}
+          <div className="relative mb-8 sm:mb-10">
+            {/* Šipka vlevo */}
+            {carouselIndex > 0 && (
+              <button
+                onClick={() => setCarouselIndex(carouselIndex - 1)}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 hover:bg-black/90 text-white p-3 sm:p-4 rounded-full transition-all shadow-lg"
+                aria-label="Předchozí vozidla"
+              >
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            )}
 
-            {/* Vozidlo 2 */}
-            <div onClick={() => setSelectedCar('kodiaq')} className="group cursor-pointer">
-              <div className="aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/kodiaq1-1.jpg"
-                  alt="Škoda Kodiaq"
-                  width={250}
-                  height={250}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  unoptimized
-                />
+            {/* Container s overflow */}
+            <div className="overflow-hidden px-12 sm:px-16 lg:px-20" ref={carouselRef}>
+              <div 
+                className="flex transition-transform duration-500 ease-in-out gap-3 sm:gap-4"
+                style={{ 
+                  transform: `translateX(calc(-${carouselIndex} * (25% + 0.1875rem)))`
+                }}
+              >
+                {Object.entries(carsData).map(([key, car]) => (
+                  <div 
+                    key={key} 
+                    onClick={() => setSelectedCar(key)} 
+                    className="group cursor-pointer flex-shrink-0"
+                    style={{ width: 'calc(25% - 0.5625rem)' }}
+                  >
+                    <div className="aspect-square overflow-hidden rounded-lg">
+                      <Image
+                        src={car.images[0]}
+                        alt={car.name}
+                        width={250}
+                        height={250}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        unoptimized
+                      />
+                    </div>
+                    <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">{car.name}</p>
+                  </div>
+                ))}
               </div>
-              <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">Škoda Kodiaq</p>
             </div>
-            
-            {/* Vozidlo 3 */}
-            <div onClick={() => setSelectedCar('bmw')} className="group cursor-pointer">
-              <div className="aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/bmw1.png"
-                  alt="BMW"
-                  width={250}
-                  height={250}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  unoptimized
-                />
-              </div>
-              <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">BMW</p>
-              </div>
-            
-            {/* Vozidlo 4 */}
-            <div onClick={() => setSelectedCar('arteon')} className="group cursor-pointer">
-              <div className="aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/2-18.png"
-                  alt="Volkswagen Arteon"
-                  width={250}
-                  height={250}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  unoptimized
-                />
-              </div>
-              <p className="text-center text-xs sm:text-sm font-medium mt-1.5 sm:mt-2 text-gray-700 group-hover:text-[#cfb270] transition">Volkswagen Arteon</p>
-              </div>
+
+            {/* Šipka vpravo */}
+            {carouselIndex < Object.keys(carsData).length - 4 && (
+              <button
+                onClick={() => setCarouselIndex(Math.min(Object.keys(carsData).length - 4, carouselIndex + 1))}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/70 hover:bg-black/90 text-white p-3 sm:p-4 rounded-full transition-all shadow-lg"
+                aria-label="Další vozidla"
+              >
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
           </div>
 
-          {/* Tlačítko pro dovoz podobného vozidla */}
-          <div className="text-center">
+          {/* Tlačítka */}
+          <div className="text-center flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a 
+              href="/vozidla" 
+              className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#cfb270] text-black font-medium hover:bg-[#d4ba7f] transition text-sm sm:text-base"
+            >
+              Všechna dovezená vozidla
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
             <a 
               href="#formular" 
               className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-black text-white font-medium hover:bg-gray-800 transition text-sm sm:text-base"
@@ -906,31 +1145,32 @@ export default function Home() {
             <div className="text-gray-900">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light mb-6 sm:mb-8">Kontakt</h2>
               
-              <div className="space-y-4 sm:space-y-6 text-sm">
+              <div className="space-y-4 sm:space-y-6 text-base sm:text-lg">
                 {/* Provozovna */}
                 <div>
-                  <p className="font-medium mb-1">Provozovna:</p>
-                  <p>KOMFORTCARS</p>
-                  <p>Ostravská 494, Sviadnov 739 25</p>
+                  <p className="font-medium mb-1 text-lg sm:text-xl">Provozovna:</p>
+                  <p className="text-lg sm:text-xl">KOMFORTCARS</p>
+                  <p className="text-lg sm:text-xl">Ostravská 494, Sviadnov 739 25</p>
             </div>
             
                 {/* Fakturační údaje */}
             <div>
-                  <p className="font-medium mb-1">Fakturační údaje:</p>
-                  <p>Josef Bystřičan</p>
-                  <p>Chlebovice 269, Frýdek-Místek 739 42</p>
+                  <p className="font-medium mb-1 text-lg sm:text-xl">Fakturační údaje:</p>
+                  <p className="text-lg sm:text-xl">Josef Bystřičan</p>
+                  <p className="text-lg sm:text-xl">Chlebovice 269, Frýdek-Místek 739 42</p>
             </div>
             
                 {/* IČO a DIČ */}
             <div>
-                  <p>IČO: 69236356</p>
-                  <p>DIČ: CZ7908094942</p>
+                  <p className="text-lg sm:text-xl">IČO: 69236356</p>
+                  <p className="text-lg sm:text-xl">DIČ: CZ7908094942</p>
             </div>
             
                 {/* Kontaktní údaje */}
             <div>
-                  <p>+420 608 808 285</p>
-                  <p>info@komfortcars.cz</p>
+                  <p className="text-xl sm:text-2xl font-medium">+420 608 808 285</p>
+                  <p className="text-xl sm:text-2xl font-medium">+420 608 200 021</p>
+                  <p className="text-lg sm:text-xl">info@komfortcars.cz</p>
                 </div>
               </div>
             </div>
@@ -1176,6 +1416,7 @@ export default function Home() {
         <div 
           className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
           onClick={() => setSelectedCar(null)}
+          style={{ overflowY: 'auto' }}
         >
           <div 
             className="bg-[#353434] max-w-5xl w-full rounded-lg overflow-hidden relative my-4"
@@ -1189,16 +1430,23 @@ export default function Home() {
               ×
             </button>
 
-            <div className="p-4 sm:p-6 lg:p-12 max-h-[90vh] overflow-y-auto">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white mb-6 sm:mb-8 pr-8" style={{ color: '#cfb270' }}>
-                {carsData[selectedCar as keyof typeof carsData].name}
-              </h2>
+            <div className="p-4 sm:p-6 lg:p-12">
+              <div className="mb-6 sm:mb-8 pr-8">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white" style={{ color: '#cfb270' }}>
+                  {carsData[selectedCar as keyof typeof carsData].name}
+                </h2>
+                {carsData[selectedCar as keyof typeof carsData].type && (
+                  <p className="text-gray-300 text-lg sm:text-xl mt-2">
+                    {carsData[selectedCar as keyof typeof carsData].type}
+                  </p>
+                )}
+              </div>
 
               {/* Grid fotky */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 {carsData[selectedCar as keyof typeof carsData].images.map((img, idx) => (
                   <div key={idx} className="aspect-video relative overflow-hidden rounded-lg">
-            <Image
+                    <Image
                       src={img}
                       alt={`${carsData[selectedCar as keyof typeof carsData].name} ${idx + 1}`}
                       fill
@@ -1209,17 +1457,20 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* Specifikace */}
+              {/* Specifikace - jednoduchý formát */}
               <div className="border-l-2 pl-4 sm:pl-6 mb-6 sm:mb-8" style={{ borderColor: '#cfb270' }}>
                 <h3 className="text-lg sm:text-xl font-medium mb-3 sm:mb-4" style={{ color: '#cfb270' }}>Specifikace</h3>
-                <ul className="space-y-2">
-                  {carsData[selectedCar as keyof typeof carsData].specs.map((spec, idx) => (
-                    <li key={idx} className="text-gray-300 text-xs sm:text-sm flex items-start">
-                      <span className="mr-2 flex-shrink-0" style={{ color: '#cfb270' }}>•</span>
-                      {spec}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-white text-xl sm:text-2xl font-light">
+                  {(() => {
+                    const car = carsData[selectedCar as keyof typeof carsData];
+                    const rok = car.specs.find(s => s.startsWith('Rok výroby:'))?.replace('Rok výroby: ', '') || '';
+                    const vykonRaw = car.specs.find(s => s.startsWith('Výkon:'))?.replace('Výkon: ', '') || '';
+                    const vykon = vykonRaw.toLowerCase().replace(/\s/g, '');
+                    const kmRaw = car.specs.find(s => s.startsWith('Km:'))?.replace('Km: ', '').replace(' km', 'km') || '';
+                    const km = kmRaw;
+                    return `${rok} / ${vykon} / ${km}`;
+                  })()}
+                </p>
               </div>
 
               {/* Tlačítko pro dovoz podobného vozidla */}
