@@ -170,7 +170,9 @@ export default function ONasPage() {
                   alt="Background"
                   fill
                   className="object-cover brightness-140"
-                  unoptimized
+                  quality={50}
+                  priority
+                  sizes="100vw"
                 />
               </div>
               
@@ -191,13 +193,15 @@ export default function ONasPage() {
                   
                   {/* Obrázek Europa */}
                   <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center">
-                    <div className="relative w-full max-w-lg sm:max-w-2xl md:max-w-3xl aspect-video rounded-lg overflow-hidden border-2" style={{ borderColor: '#cfb270' }}>
+                    <div className="relative w-full max-w-lg sm:max-w-2xl md:max-w-3xl aspect-video rounded-lg overflow-hidden border-2 bg-gray-800" style={{ borderColor: '#cfb270' }}>
                       <Image
                         src="/europa.jpg"
                         alt="Europa"
                         fill
                         className="object-cover"
-                        unoptimized
+                        quality={60}
+                        sizes="(max-width: 640px) 100vw, 768px"
+                        loading="lazy"
                       />
                     </div>
                   </div>
@@ -218,16 +222,64 @@ export default function ONasPage() {
               </div>
             </div>
 
-            {/* Obrázek auta */}
-            <div className="relative min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[600px] overflow-hidden rounded-lg border-4 shadow-2xl" style={{ borderColor: '#cfb270' }}>
-              <Image
-                src="/background.jpg"
-                alt="Komfort Cars"
-                fill
-                className="object-cover"
-                quality={100}
-                unoptimized
-              />
+            {/* Formulář pro dovoz vozidla */}
+            <div className="rounded-lg border-4 shadow-2xl p-6 sm:p-8 md:p-10 flex flex-col justify-center" style={{ borderColor: '#cfb270', backgroundColor: '#353434' }}>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light mb-4 sm:mb-6" style={{ color: '#cfb270' }}>
+                Mám zájem o dovoz auta
+              </h2>
+              
+              <form className="space-y-3 sm:space-y-4">
+                <input
+                  type="text"
+                  placeholder="Jméno a příjmení"
+                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition text-sm sm:text-base rounded"
+                  style={{ outline: 'none' }}
+                />
+                
+                <input
+                  type="tel"
+                  placeholder="Telefon"
+                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition text-sm sm:text-base rounded"
+                />
+                
+                <input
+                  type="email"
+                  placeholder="E-mail"
+                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition text-sm sm:text-base rounded"
+                />
+                
+                <input
+                  type="text"
+                  placeholder="Typ automobilu"
+                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition text-sm sm:text-base rounded"
+                />
+                
+                <textarea
+                  placeholder="Informace o požadovaném autu"
+                  rows={4}
+                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition resize-none text-sm sm:text-base rounded"
+                />
+                
+                <div className="flex items-start gap-3 pt-2">
+                  <input
+                    type="checkbox"
+                    id="terms-onas"
+                    className="mt-1 w-4 h-4 flex-shrink-0"
+                    style={{ accentColor: '#cfb270' }}
+                  />
+                  <label htmlFor="terms-onas" className="text-xs sm:text-sm text-white">
+                    Souhlasím se všeobecnými obchodními podmínkami
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full px-6 sm:px-8 py-3 sm:py-4 font-medium hover:opacity-90 transition text-sm sm:text-base rounded"
+                  style={{ backgroundColor: '#cfb270', color: '#000' }}
+                >
+                  Odeslat
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -256,4 +308,3 @@ export default function ONasPage() {
     </div>
   );
 }
-

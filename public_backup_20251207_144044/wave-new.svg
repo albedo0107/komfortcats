@@ -1,0 +1,72 @@
+<svg width="1920" height="864" viewBox="0 0 1920 864" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hlavní vlnovka -->
+  <path 
+    d="M 0 302 
+       Q 200 302 300 350 
+       Q 400 398 422 449 
+       Q 444 500 550 480 
+       Q 656 460 800 380 
+       Q 900 330 960 302 
+       Q 1020 274 1120 330 
+       Q 1220 386 1300 449 
+       Q 1380 512 1500 480 
+       Q 1620 448 1750 350 
+       Q 1850 280 1920 302" 
+    stroke="url(#gradient)" 
+    stroke-width="3" 
+    fill="none"
+    opacity="0.6"
+  />
+  
+  <!-- Tečkovaná vlnovka nad hlavní -->
+  <path 
+    d="M 0 302 
+       Q 200 302 300 350 
+       Q 400 398 422 449 
+       Q 444 500 550 480 
+       Q 656 460 800 380 
+       Q 900 330 960 302 
+       Q 1020 274 1120 330 
+       Q 1220 386 1300 449 
+       Q 1380 512 1500 480 
+       Q 1620 448 1750 350 
+       Q 1850 280 1920 302" 
+    stroke="url(#gradient)" 
+    stroke-width="2" 
+    fill="none"
+    opacity="0.3"
+    stroke-dasharray="10 10"
+    transform="translate(0, -40)"
+  />
+  
+  <!-- Tečkovaná vlnovka pod hlavní -->
+  <path 
+    d="M 0 302 
+       Q 200 302 300 350 
+       Q 400 398 422 449 
+       Q 444 500 550 480 
+       Q 656 460 800 380 
+       Q 900 330 960 302 
+       Q 1020 274 1120 330 
+       Q 1220 386 1300 449 
+       Q 1380 512 1500 480 
+       Q 1620 448 1750 350 
+       Q 1850 280 1920 302" 
+    stroke="url(#gradient)" 
+    stroke-width="2" 
+    fill="none"
+    opacity="0.3"
+    stroke-dasharray="10 10"
+    transform="translate(0, 40)"
+  />
+  
+  <!-- Gradient definice -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#cfb270;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#d4ba7f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cfb270;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
+

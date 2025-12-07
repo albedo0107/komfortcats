@@ -402,20 +402,24 @@ export default function VozidlaPage() {
           
           {/* Galerie vozidel - grid layout */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 mb-12">
-            {Object.entries(carsData).map(([key, car]) => (
+            {Object.entries(carsData).map(([key, car], index) => (
               <div 
                 key={key} 
                 onClick={() => setSelectedCar(key)} 
                 className="group cursor-pointer"
               >
-                <div className="aspect-square overflow-hidden rounded-lg mb-4 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="aspect-square overflow-hidden rounded-lg mb-4 shadow-lg hover:shadow-xl transition-shadow bg-gray-200">
                   <Image
                     src={car.images[0]}
                     alt={car.name}
                     width={400}
                     height={400}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                    unoptimized
+                    loading={index < 8 ? "eager" : "lazy"}
+                    quality={60}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAHxAAAgICAgMBAAAAAAAAAAAAAQIDEQAEBSESMUFR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANO4nkuQj0YoNaZ45QyiRvNgVJBs0APR/O8Rdjl97YnkkmZ5JGLMzGyST7JxJKpXJGxWf//Z"
                   />
                 </div>
                 <h3 className="text-center text-lg sm:text-xl font-medium text-gray-900 group-hover:text-[#cfb270] transition">
@@ -470,54 +474,57 @@ export default function VozidlaPage() {
       {/* Modal pro detail vozidla */}
       {selectedCar && (
         <div 
-          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-1 sm:p-3 lg:p-4 overflow-y-auto"
+          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-1 sm:p-3 lg:p-8 overflow-y-auto"
           onClick={() => setSelectedCar(null)}
         >
           <div 
-            className="bg-[#353434] max-w-5xl w-full rounded-lg overflow-hidden relative my-1 sm:my-4"
+            className="bg-[#353434] w-full max-w-5xl lg:max-w-2xl xl:max-w-3xl rounded-lg overflow-hidden relative my-1 sm:my-4"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Zavírací tlačítko */}
             <button
               onClick={() => setSelectedCar(null)}
-              className="absolute top-1 right-1 sm:top-4 sm:right-4 z-[110] w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-black/70 hover:bg-black/90 rounded-full text-white text-2xl sm:text-4xl font-light hover:text-[#cfb270] transition-all shadow-lg"
+              className="absolute top-1 right-1 sm:top-4 sm:right-4 lg:top-3 lg:right-3 z-[110] w-8 h-8 sm:w-12 sm:h-12 lg:w-10 lg:h-10 flex items-center justify-center bg-black/70 hover:bg-black/90 rounded-full text-white text-2xl sm:text-4xl lg:text-3xl font-light hover:text-[#cfb270] transition-all shadow-lg"
               aria-label="Zavřít"
             >
               ×
             </button>
 
-            <div className="p-2 sm:p-6 lg:p-12">
-              <div className="mb-3 sm:mb-8 pr-6 sm:pr-8">
-                <h2 className="text-lg sm:text-3xl lg:text-4xl font-light text-white" style={{ color: '#cfb270' }}>
+            <div className="p-2 sm:p-6 lg:p-6">
+              <div className="mb-3 sm:mb-8 lg:mb-4 pr-6 sm:pr-8">
+                <h2 className="text-lg sm:text-3xl lg:text-2xl font-light text-white" style={{ color: '#cfb270' }}>
                   {carsData[selectedCar as keyof typeof carsData].name}
                 </h2>
                 {carsData[selectedCar as keyof typeof carsData].type && (
-                  <p className="text-gray-300 text-sm sm:text-xl mt-1 sm:mt-2">
+                  <p className="text-gray-300 text-sm sm:text-xl lg:text-base mt-1 sm:mt-2 lg:mt-1">
                     {carsData[selectedCar as keyof typeof carsData].type}
                   </p>
                 )}
               </div>
 
               {/* Grid fotky */}
-              <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-8">
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-4 lg:gap-3 mb-3 sm:mb-8 lg:mb-4">
                 {carsData[selectedCar as keyof typeof carsData].images.map((img, idx) => (
-                  <div key={idx} className="aspect-video relative overflow-hidden rounded-lg">
+                  <div key={idx} className="aspect-video relative overflow-hidden rounded-lg bg-gray-700">
                     <Image
                       src={img}
                       alt={`${carsData[selectedCar as keyof typeof carsData].name} ${idx + 1}`}
                       fill
                       className="object-cover"
-                      loading="lazy"
-                      quality={75}
+                      loading={idx < 2 ? "eager" : "lazy"}
+                      quality={60}
+                      sizes="(max-width: 640px) 50vw, 400px"
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAHxAAAgICAgMBAAAAAAAAAAAAAQIDEQAEBSESMUFR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANO4nkuQj0YoNaZ45QyiRvNgVJBs0APR/O8Rdjl97YnkkmZ5JGLMzGyST7JxJKpXJGxWf//Z"
                     />
                   </div>
                 ))}
               </div>
 
               {/* Specifikace - jednoduchý formát */}
-              <div className="border-l-2 pl-2 sm:pl-6 mb-3 sm:mb-8" style={{ borderColor: '#cfb270' }}>
-                <h3 className="text-sm sm:text-xl font-medium mb-1 sm:mb-4" style={{ color: '#cfb270' }}>Specifikace</h3>
-                <p className="text-white text-sm sm:text-2xl font-light">
+              <div className="border-l-2 pl-2 sm:pl-6 lg:pl-4 mb-3 sm:mb-8 lg:mb-4" style={{ borderColor: '#cfb270' }}>
+                <h3 className="text-sm sm:text-xl lg:text-base font-medium mb-1 sm:mb-4 lg:mb-2" style={{ color: '#cfb270' }}>Specifikace</h3>
+                <p className="text-white text-sm sm:text-2xl lg:text-lg font-light">
                   {(() => {
                     const car = carsData[selectedCar as keyof typeof carsData];
                     const rok = car.specs.find(s => s.startsWith('Rok výroby:'))?.replace('Rok výroby: ', '') || '';
@@ -535,11 +542,11 @@ export default function VozidlaPage() {
                 <a 
                   href="/#formular" 
                   onClick={() => setSelectedCar(null)}
-                  className="inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-8 py-2 sm:py-4 font-medium hover:bg-[#d4ba7f] transition text-xs sm:text-base"
+                  className="inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-8 lg:px-6 py-2 sm:py-4 lg:py-3 font-medium hover:bg-[#d4ba7f] transition text-xs sm:text-base lg:text-sm"
                   style={{ backgroundColor: '#cfb270', color: '#000' }}
                 >
                   Chci dovést podobné vozidlo
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </a>
