@@ -6,6 +6,58 @@ import { useState, useEffect } from "react";
 export default function ONasPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Formulář state
+  const [formData, setFormData] = useState({
+    jmeno: '',
+    telefon: '',
+    email: '',
+    typAuta: '',
+    info: '',
+    souhlas: false
+  });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  // Odeslání formuláře
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.souhlas) {
+      alert('Prosím potvrďte souhlas s obchodními podmínkami.');
+      return;
+    }
+    
+    setFormStatus('sending');
+    
+    try {
+      const response = await fetch('https://albedo01.app.n8n.cloud/webhook/formular_komfortcars', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jmeno: formData.jmeno,
+          telefon: formData.telefon,
+          email: formData.email,
+          typ_auta: formData.typAuta,
+          informace: formData.info,
+          zdroj: 'stranka_o_nas'
+        }),
+      });
+      
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ jmeno: '', telefon: '', email: '', typAuta: '', info: '', souhlas: false });
+        setTimeout(() => setFormStatus('idle'), 5000);
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 5000);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -228,10 +280,13 @@ export default function ONasPage() {
                 Mám zájem o dovoz auta
               </h2>
               
-              <form className="space-y-3 sm:space-y-4">
+              <form className="space-y-3 sm:space-y-4" onSubmit={handleFormSubmit}>
                 <input
                   type="text"
                   placeholder="Jméno a příjmení"
+                  value={formData.jmeno}
+                  onChange={(e) => setFormData({...formData, jmeno: e.target.value})}
+                  required
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition text-sm sm:text-base rounded"
                   style={{ outline: 'none' }}
                 />
@@ -239,24 +294,34 @@ export default function ONasPage() {
                 <input
                   type="tel"
                   placeholder="Telefon"
+                  value={formData.telefon}
+                  onChange={(e) => setFormData({...formData, telefon: e.target.value})}
+                  required
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition text-sm sm:text-base rounded"
                 />
                 
                 <input
                   type="email"
                   placeholder="E-mail"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  required
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition text-sm sm:text-base rounded"
                 />
                 
                 <input
                   type="text"
                   placeholder="Typ automobilu"
+                  value={formData.typAuta}
+                  onChange={(e) => setFormData({...formData, typAuta: e.target.value})}
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition text-sm sm:text-base rounded"
                 />
                 
                 <textarea
                   placeholder="Informace o požadovaném autu"
                   rows={4}
+                  value={formData.info}
+                  onChange={(e) => setFormData({...formData, info: e.target.value})}
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition resize-none text-sm sm:text-base rounded"
                 />
                 
@@ -264,6 +329,8 @@ export default function ONasPage() {
                   <input
                     type="checkbox"
                     id="terms-onas"
+                    checked={formData.souhlas}
+                    onChange={(e) => setFormData({...formData, souhlas: e.target.checked})}
                     className="mt-1 w-4 h-4 flex-shrink-0"
                     style={{ accentColor: '#cfb270' }}
                   />
@@ -272,12 +339,25 @@ export default function ONasPage() {
                   </label>
                 </div>
 
+                {formStatus === 'success' && (
+                  <div className="p-3 bg-green-500/20 text-green-300 rounded text-sm border border-green-500/30">
+                    ✅ Formulář byl úspěšně odeslán! Brzy vás budeme kontaktovat.
+                  </div>
+                )}
+                
+                {formStatus === 'error' && (
+                  <div className="p-3 bg-red-500/20 text-red-300 rounded text-sm border border-red-500/30">
+                    ❌ Chyba při odesílání. Zkuste to prosím znovu.
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full px-6 sm:px-8 py-3 sm:py-4 font-medium hover:opacity-90 transition text-sm sm:text-base rounded"
+                  disabled={formStatus === 'sending'}
+                  className="w-full px-6 sm:px-8 py-3 sm:py-4 font-medium hover:opacity-90 transition text-sm sm:text-base rounded disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ backgroundColor: '#cfb270', color: '#000' }}
                 >
-                  Odeslat
+                  {formStatus === 'sending' ? 'Odesílám...' : 'Odeslat'}
                 </button>
               </form>
             </div>
@@ -297,10 +377,13 @@ export default function ONasPage() {
               className="h-10 sm:h-12 w-auto mx-auto mb-4 sm:mb-6"
             />
             <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
-              © 2024 Dovoz aut z Německa | KomfortCars
+              © 2025 Dovoz aut z Německa | KomfortCars
             </p>
             <p className="text-gray-400 text-sm sm:text-base">
               Na trhu od 1999 | Více než 3000 spokojených zákazníků
+            </p>
+            <p className="text-gray-500 text-xs mt-4">
+              Custom web design & automation by <a href="https://albedoai.cz" target="_blank" rel="noopener noreferrer" className="text-[#cfb270] hover:text-[#e0c885] transition">albedoAI.cz</a>
             </p>
           </div>
         </div>

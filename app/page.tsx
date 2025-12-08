@@ -261,7 +261,7 @@ const reviewsData = [
 ];
 
 export default function Home() {
-  const [isVideoRevealed, setIsVideoRevealed] = useState(true);
+  const [isVideoRevealed, setIsVideoRevealed] = useState(false);
   const [selectedCar, setSelectedCar] = useState<string | null>(null);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [googleReviews, setGoogleReviews] = useState<any[]>([]);
@@ -273,6 +273,59 @@ export default function Home() {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+  
+  // Formulář state
+  const [formData, setFormData] = useState({
+    jmeno: '',
+    telefon: '',
+    email: '',
+    typAuta: '',
+    info: '',
+    souhlas: false
+  });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  // Odeslání formuláře
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.souhlas) {
+      alert('Prosím potvrďte souhlas s obchodními podmínkami.');
+      return;
+    }
+    
+    setFormStatus('sending');
+    
+    try {
+      const response = await fetch('https://albedo01.app.n8n.cloud/webhook/formular_komfortcars', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jmeno: formData.jmeno,
+          telefon: formData.telefon,
+          email: formData.email,
+          typ_auta: formData.typAuta,
+          informace: formData.info,
+          zdroj: 'hlavni_stranka'
+        }),
+      });
+      
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ jmeno: '', telefon: '', email: '', typAuta: '', info: '', souhlas: false });
+        setTimeout(() => setFormStatus('idle'), 5000);
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 5000);
+    }
+  };
 
   // Detekce mobilního zařízení
   useEffect(() => {
@@ -282,6 +335,27 @@ export default function Home() {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Hero video - snížíme z-index jakmile video hraje
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+
+    const handlePlaying = () => {
+      setIsVideoRevealed(true);
+    };
+
+    video.addEventListener('playing', handlePlaying);
+    
+    // Pokud už video hraje
+    if (!video.paused) {
+      handlePlaying();
+    }
+
+    return () => {
+      video.removeEventListener('playing', handlePlaying);
+    };
   }, []);
 
   // Zablokovat scrollování když je mobilní menu otevřené nebo modal
@@ -371,7 +445,7 @@ export default function Home() {
               <div className="hidden lg:flex gap-8">
                 <Link href="/o-nas" className="text-sm font-medium text-white hover:text-gray-300 transition">O nás</Link>
                 <a href="#jak-to-probiha" className="text-sm font-medium text-white hover:text-gray-300 transition">Jak to u nás probíhá?</a>
-                <a href="#vozidla" className="text-sm font-medium text-white hover:text-gray-300 transition">Dovezená vozidla</a>
+                <Link href="/vozidla" className="text-sm font-medium text-white hover:text-gray-300 transition">Dovezená vozidla</Link>
                 <a href="#kontakt" className="text-sm font-medium text-white hover:text-gray-300 transition">Kontakty</a>
               </div>
             </div>
@@ -432,13 +506,13 @@ export default function Home() {
               >
                 Jak to u nás probíhá?
               </a>
-              <a 
-                href="#vozidla" 
+              <Link 
+                href="/vozidla" 
                 className="block text-white hover:text-gray-300 transition py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Dovezená vozidla
-              </a>
+              </Link>
               <a 
                 href="#kontakt" 
                 className="block text-white hover:text-gray-300 transition py-2"
@@ -477,26 +551,19 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - Hlavní video */}
-      <section className="relative md:sticky top-0 w-full h-screen overflow-hidden bg-black"
-        style={{ zIndex: 20 }}
+      <section 
+        className="relative md:sticky top-0 w-full h-screen overflow-hidden bg-black"
+        style={{ zIndex: isVideoRevealed ? 20 : 100 }}
       >
-        {/* Efekt odhalení - černý overlay který zmizí */}
-        <div 
-          className={`absolute inset-0 bg-black transition-opacity duration-[2000ms] ${
-            isVideoRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          }`}
-          style={{ zIndex: 30 }}
-        />
-        
         <div className="absolute inset-0 bg-black/50 z-10" />
-        {/* Hero video - optimalizované */}
+        {/* Hero video */}
         <video
+          ref={heroVideoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
-          poster="/01.jpg"
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/video_finall.mp4" type="video/mp4" />
@@ -516,9 +583,9 @@ export default function Home() {
             Zkušenosti od roku 1999 • Přes 3000 spokojených zákazníků
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md mx-auto px-4">
-            <a href="#vozidla" className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-black font-medium hover:bg-gray-100 transition text-center text-sm sm:text-base whitespace-nowrap">
+            <Link href="/vozidla" className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-black font-medium hover:bg-gray-100 transition text-center text-sm sm:text-base whitespace-nowrap">
               Dovezená vozidla
-            </a>
+            </Link>
             <a href="#formular" className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white text-white font-medium hover:bg-white/10 transition text-center text-sm sm:text-base whitespace-nowrap">
               Chci dovést vozidlo
             </a>
@@ -1266,41 +1333,56 @@ export default function Home() {
                 Mám zájem o dovoz auta
               </h2>
               
-              <form className="space-y-3 sm:space-y-4">
+              <form className="space-y-3 sm:space-y-4" onSubmit={handleFormSubmit}>
                   <input
                     type="text"
-                  placeholder="Jméno a příjmení"
-                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
+                    placeholder="Jméno a příjmení"
+                    value={formData.jmeno}
+                    onChange={(e) => setFormData({...formData, jmeno: e.target.value})}
+                    required
+                    className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
                 />
                 
                   <input
                     type="tel"
-                  placeholder="Telefon"
-                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
+                    placeholder="Telefon"
+                    value={formData.telefon}
+                    onChange={(e) => setFormData({...formData, telefon: e.target.value})}
+                    required
+                    className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
                 />
                 
                   <input
                     type="email"
-                  placeholder="E-mail"
-                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
+                    placeholder="E-mail"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    required
+                    className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
                 />
                 
                 <input
                   type="text"
                   placeholder="Typ automobilu"
+                  value={formData.typAuta}
+                  onChange={(e) => setFormData({...formData, typAuta: e.target.value})}
                   className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition text-sm sm:text-base"
                 />
                 
                   <textarea
-                  placeholder="Informace o požadovaném autu"
-                  rows={4}
-                  className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition resize-none text-sm sm:text-base"
+                    placeholder="Informace o požadovaném autu"
+                    rows={4}
+                    value={formData.info}
+                    onChange={(e) => setFormData({...formData, info: e.target.value})}
+                    className="w-full px-4 py-3 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-black transition resize-none text-sm sm:text-base"
                 />
                 
                 <div className="flex items-start gap-3 pt-2">
                   <input
                     type="checkbox"
                     id="terms"
+                    checked={formData.souhlas}
+                    onChange={(e) => setFormData({...formData, souhlas: e.target.checked})}
                     className="mt-1 w-4 h-4 accent-black flex-shrink-0"
                   />
                   <label htmlFor="terms" className="text-xs sm:text-sm text-gray-900">
@@ -1308,11 +1390,24 @@ export default function Home() {
                   </label>
                 </div>
 
+                {formStatus === 'success' && (
+                  <div className="p-3 bg-green-100 text-green-800 rounded text-sm">
+                    ✅ Formulář byl úspěšně odeslán! Brzy vás budeme kontaktovat.
+                  </div>
+                )}
+                
+                {formStatus === 'error' && (
+                  <div className="p-3 bg-red-100 text-red-800 rounded text-sm">
+                    ❌ Chyba při odesílání. Zkuste to prosím znovu.
+                  </div>
+                )}
+
                   <button
                     type="submit"
-                  className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-black text-white font-medium hover:bg-gray-800 transition text-sm sm:text-base"
+                    disabled={formStatus === 'sending'}
+                    className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-black text-white font-medium hover:bg-gray-800 transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Odeslat
+                    {formStatus === 'sending' ? 'Odesílám...' : 'Odeslat'}
                   </button>
               </form>
             </div>
@@ -1490,7 +1585,10 @@ export default function Home() {
               className="h-10 sm:h-12 w-auto mx-auto mb-4 sm:mb-6"
             />
             <p className="text-gray-400 text-sm sm:text-base">
-              © 2024 Dovoz aut z Německa | KomfortCars
+              © 2025 Dovoz aut z Německa | KomfortCars
+            </p>
+            <p className="text-gray-500 text-xs mt-4">
+              Custom web design & automation by <a href="https://albedoai.cz" target="_blank" rel="noopener noreferrer" className="text-[#cfb270] hover:text-[#e0c885] transition">albedoAI.cz</a>
             </p>
           </div>
         </div>
