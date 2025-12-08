@@ -465,7 +465,10 @@ export default function VozidlaPage() {
               className="h-10 sm:h-12 w-auto mx-auto mb-4 sm:mb-6"
             />
             <p className="text-gray-400 text-sm sm:text-base">
-              © 2024 Dovoz aut z Německa | KomfortCars
+              © 2025 Dovoz aut z Německa | KomfortCars
+            </p>
+            <p className="text-gray-500 text-xs mt-4">
+              Custom web design & automation by <a href="https://albedoai.cz" target="_blank" rel="noopener noreferrer" className="text-[#cfb270] hover:text-[#e0c885] transition">albedoAI.cz</a>
             </p>
           </div>
         </div>
