@@ -662,8 +662,7 @@ export default function Home() {
           loop
           muted
           playsInline
-          preload="none"
-          poster="/elektro/3-12.jpg"
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/elektro.mp4" type="video/mp4" />
