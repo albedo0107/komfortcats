@@ -22,6 +22,7 @@ const carsData = {
     name: "Audi A4 Avant",
     type: "2.0 TDI",
     images: ["/Audi%20A4/audia4_1.jpeg", "/Audi%20A4/audia4_2.jpeg", "/Audi%20A4/audia4_3.jpeg", "/Audi%20A4/audia4_4.jpeg"],
+    imagePositions: ["center 70%", "center 70%", "center", "center"],
     specs: [
       "Rok výroby: 2019",
       "Motor: 2.0 TDI",
@@ -34,6 +35,7 @@ const carsData = {
     name: "Audi A4 Avant",
     type: "2.0 TDI",
     images: ["/Audi_A4/Audi_1.jpg", "/Audi_A4/Audi_2.jpg", "/Audi_A4/Audi_3.jpg", "/Audi_A4/Audi_4.jpg"],
+    imagePositions: ["center 70%", "center 70%", "center", "center"],
     specs: [
       "Rok výroby: 2019",
       "Motor: 2.0 TDI",
@@ -106,6 +108,7 @@ const carsData = {
     name: "Mazda 6",
     type: "2.5 SkyActiv",
     images: ["/Mazda_6/Mazda6_1.jpeg", "/Mazda_6/Mazda6_2.jpeg", "/Mazda_6/Mazda6_3.jpeg", "/Mazda_6/Mazda6_4.jpeg"],
+    imagePositions: ["center 72%", "center 72%", "center", "center"],
     specs: [
       "Rok výroby: 2023",
       "Motor: 2.5 SkyActiv",
@@ -130,6 +133,7 @@ const carsData = {
     name: "Mazda CX-60",
     type: "HOMURA 2.5 L. AWD",
     images: ["/Mazda_CX-60/MazdaCX-60_1.jpeg", "/Mazda_CX-60/MazdaCX-60_2.jpeg", "/Mazda_CX-60/MazdaCX-60_3.jpeg", "/Mazda_CX-60/MazdaCX-60_4.jpeg"],
+    imagePositions: ["center 72%", "center 72%", "center", "center"],
     specs: [
       "Rok výroby: 2022",
       "Motor: HOMURA 2.5 L. AWD",
@@ -154,6 +158,7 @@ const carsData = {
     name: "Škoda Fabie 3",
     type: "1.2 TSI",
     images: ["/Fabie/Fabie1.jpeg", "/Fabie/Fabie2.jpeg", "/Fabie/Fabie3.jpeg", "/Fabie/Fabie4.jpeg"],
+    imagePositions: ["center 72%", "center 72%", "center", "center"],
     specs: [
       "Rok výroby: 2015",
       "Motor: 1.2 TSI",
@@ -166,6 +171,7 @@ const carsData = {
     name: "Škoda Superb 2",
     type: "2.0TDI",
     images: ["/Superb%202/SUP2_1.jpeg", "/Superb%202/SUP2_2.jpeg", "/Superb%202/SUP2_3.jpeg", "/Superb%202/SUP2_4.jpeg"],
+    imagePositions: ["center 72%", "center 72%", "center", "center"],
     specs: [
       "Rok výroby: 2015",
       "Motor: 2.0TDI",
@@ -214,6 +220,7 @@ const carsData = {
     name: "Suzuki Vitara",
     type: "1.6 VVT",
     images: ["/Suzuki_Vitara_1.6/Suzuki_virara1.jpeg", "/Suzuki_Vitara_1.6/Suzuki_vitara2.jpeg", "/Suzuki_Vitara_1.6/Suzuki_vitara3.jpeg", "/Suzuki_Vitara_1.6/Suzuki_vitara4.jpeg"],
+    imagePositions: ["center 72%", "center 72%", "center", "center"],
     specs: [
       "Rok výroby: 2017",
       "Motor: 1.6 VVT",
@@ -226,6 +233,7 @@ const carsData = {
     name: "Volkswagen Tiguan R",
     type: "2.0 TSI",
     images: ["/Tiguan%20R/TiguanR_1.jpeg", "/Tiguan%20R/TiguanR_2.jpeg", "/Tiguan%20R/TiguanR_3.jpeg", "/Tiguan%20R/TiguanR_4.jpeg"],
+    imagePositions: ["center 72%", "center 72%", "center", "center"],
     specs: [
       "Rok výroby: 2022",
       "Motor: 2.0 TSI",
@@ -243,6 +251,56 @@ const carsData = {
       "Motor: 1.4 TSI",
       "Výkon: 110 kW",
       "Km: 105 400 km",
+      "Prověřený původ"
+    ]
+  },
+  bmwX5_30d: {
+    name: "BMW X5 xDrive",
+    type: "30d",
+    images: ["/BMW_X5/BMWX5_1.jpeg", "/BMW_X5/BMWX5_2.jpeg", "/BMW_X5/BMWX5_3.jpeg", "/BMW_X5/BMWX5_4.jpeg"],
+    specs: [
+      "Rok výroby: 2022",
+      "Motor: 30d X-drive",
+      "Výkon: 210 kW",
+      "Km: 110 000 km",
+      "Prověřený původ"
+    ]
+  },
+  mitsubishiASX: {
+    name: "Mitsubishi ASX",
+    type: "1.6 MIVEC",
+    images: ["/Mitsubishi_ASX/ASX_1.jpeg", "/Mitsubishi_ASX/ASX_2.jpeg", "/Mitsubishi_ASX/ASX_3.jpeg", "/Mitsubishi_ASX/ASX_4.jpeg"],
+    specs: [
+      "Rok výroby: 2019",
+      "Motor: 1.6 MIVEC",
+      "Výkon: 86 kW",
+      "Km: 64 000 km",
+      "Prověřený původ"
+    ]
+  },
+  seatLeon: {
+    name: "Seat Leon",
+    type: "1.4 TSI",
+    images: ["/Seat_Leon/Leon_1.jpeg", "/Seat_Leon/Leon_2.jpeg", "/Seat_Leon/Leon_3.jpeg", "/Seat_Leon/Leon_4.jpeg"],
+    imagePositions: ["center 72%", "center 72%", "center", "center"],
+    specs: [
+      "Rok výroby: 2018",
+      "Motor: 1.4 TSI",
+      "Výkon: 110 kW",
+      "Km: 105 000 km",
+      "Prověřený původ"
+    ]
+  },
+  volvoV90: {
+    name: "Volvo V90",
+    type: "2.0 B4",
+    images: ["/Volvo%20V90%20B4/Volvo_1.jpeg", "/Volvo%20V90%20B4/Volvo_2.jpeg", "/Volvo%20V90%20B4/Volvo3.jpeg", "/Volvo%20V90%20B4/Volvo4.jpeg"],
+    imagePositions: ["center 72%", "center 72%", "center", "center"],
+    specs: [
+      "Rok výroby: 2021",
+      "Motor: 2.0 B4",
+      "Výkon: 145 kW",
+      "Km: 98 000 km",
       "Prověřený původ"
     ]
   }
@@ -626,7 +684,7 @@ export default function Home() {
               href="#formular" 
               className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white text-white font-bold hover:bg-white/10 transition text-center text-sm sm:text-base whitespace-nowrap inline-block drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
             >
-              Dovoz elektroauta
+              Dovoz elektrovozidla
             </a>
                   </div>
                 </div>
@@ -753,8 +811,8 @@ export default function Home() {
                   </div>
                 </div>
 
-          {/* KROK 2 - První propad vlny (x=22%, y=52%) - POD vlnou */}
-          <div className="absolute" style={{ left: '22%', top: '55%' }}>
+          {/* KROK 2 - První propad vlny - POD vlnou */}
+          <div className="absolute" style={{ left: '21%', top: '55%' }}>
             {/* Text nahoře */}
             <div className="border-l-4 border-[#cfb270] bg-[#353434]/90 backdrop-blur-sm rounded-r-lg shadow-xl mb-3" style={{ paddingLeft: '1em', paddingTop: '0.8em', paddingBottom: '0.8em', paddingRight: '1em' }}>
               <div className="flex items-center mb-1" style={{ gap: '0.7em' }}>
@@ -952,7 +1010,7 @@ export default function Home() {
                     <h4 className="text-base font-semibold text-[#cfb270]">Osobní setkání</h4>
                   </div>
                   <p className="text-white text-xs leading-relaxed">
-                Preferujeme osobní setkání, kde si vysvětlíme, jak budeme při dovozu vozidla postupovat. V případě větší vzdálenosti konzultujeme telefonicky (dovážíme vozidla po celé ČR).
+                Preferujeme osobní setkání, při kterém si vysvětlíme, jak budeme při dovozu vozidla postupovat. V případě větší vzdálenosti konzultujeme telefonicky (dovážíme vozidla po celé ČR).
               </p>
                 </div>
               </div>
@@ -1628,21 +1686,26 @@ export default function Home() {
 
               {/* Grid fotky */}
               <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-4 lg:gap-3 mb-3 sm:mb-8 lg:mb-4">
-                {carsData[selectedCar as keyof typeof carsData].images.map((img, idx) => (
-                  <div key={idx} className="aspect-video relative overflow-hidden rounded-lg bg-gray-700">
-                    <Image
-                      src={img}
-                      alt={`${carsData[selectedCar as keyof typeof carsData].name} ${idx + 1}`}
-                      fill
-                      className="object-cover"
-                      loading={idx < 2 ? "eager" : "lazy"}
-                      quality={60}
-                      sizes="(max-width: 640px) 50vw, 400px"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAHxAAAgICAgMBAAAAAAAAAAAAAQIDEQAEBSESMUFR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANO4nkuQj0YoNaZ45QyiRvNgVJBs0APR/O8Rdjl97YnkkmZ5JGLMzGyST7JxJKpXJGxWf//Z"
-                    />
-                  </div>
-                ))}
+                {carsData[selectedCar as keyof typeof carsData].images.map((img, idx) => {
+                  const car = carsData[selectedCar as keyof typeof carsData];
+                  const imagePosition = (car as { imagePositions?: string[] }).imagePositions?.[idx] || "center";
+                  return (
+                    <div key={idx} className="aspect-video relative overflow-hidden rounded-lg bg-gray-700">
+                      <Image
+                        src={img}
+                        alt={`${car.name} ${idx + 1}`}
+                        fill
+                        className="object-cover"
+                        style={{ objectPosition: imagePosition }}
+                        loading={idx < 2 ? "eager" : "lazy"}
+                        quality={60}
+                        sizes="(max-width: 640px) 50vw, 400px"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAHxAAAgICAgMBAAAAAAAAAAAAAQIDEQAEBSESMUFR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANO4nkuQj0YoNaZ45QyiRvNgVJBs0APR/O8Rdjl97YnkkmZ5JGLMzGyST7JxJKpXJGxWf//Z"
+                      />
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Specifikace - jednoduchý formát */}
