@@ -683,7 +683,7 @@ export default function Home() {
               href="#formular" 
               className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-white text-white font-bold hover:bg-white/10 transition text-center text-sm sm:text-base whitespace-nowrap inline-block drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
             >
-              Dovoz elektrovozidla
+              Dovoz elektromobilu
             </a>
                   </div>
                 </div>
