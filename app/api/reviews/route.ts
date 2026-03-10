@@ -8,45 +8,57 @@ export async function GET() {
 
   if (!apiKey) {
     console.error('GOOGLE_PLACE_API_KEY is not configured');
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'API key not configured',
-      hasApiKey: false 
+      hasApiKey: false
     }, { status: 500 });
   }
 
   try {
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,reviews,user_ratings_total&key=${apiKey}&language=cs`;
-    console.log('Fetching from Google Places API...');
-    
-    // Google Places API - Place Details request
+    // Nové Places API (New)
+    const url = `https://places.googleapis.com/v1/places/${placeId}`;
+    console.log('Fetching from Google Places API (New)...');
+
     const response = await fetch(url, {
+      headers: {
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'displayName,rating,userRatingCount,reviews',
+        'Accept-Language': 'cs'
+      },
       next: { revalidate: 3600 } // Cache na 1 hodinu
     });
 
     const data = await response.json();
-    console.log('Google API Response status:', data.status);
-    console.log('Total reviews from API:', data.result?.user_ratings_total);
-    console.log('Reviews returned:', data.result?.reviews?.length || 0);
+    console.log('Google API Response:', JSON.stringify(data).slice(0, 500));
 
-    if (data.status === 'OK') {
+    if (data.error) {
+      console.error('Google API Error:', data.error);
       return NextResponse.json({
-        rating: data.result.rating,
-        totalReviews: data.result.user_ratings_total,
-        reviews: data.result.reviews || []
-      });
-    } else {
-      console.error('Google API Error:', data.status, data.error_message);
-      return NextResponse.json({ 
-        error: data.status,
-        message: data.error_message 
+        error: data.error.status,
+        message: data.error.message
       }, { status: 400 });
     }
+
+    // Transformace dat z nového formátu na starý formát pro kompatibilitu s frontendem
+    const reviews = (data.reviews || []).map((review: any) => ({
+      author_name: review.authorAttribution?.displayName || 'Anonym',
+      profile_photo_url: review.authorAttribution?.photoUri || null,
+      rating: review.rating || 5,
+      text: review.text?.text || review.originalText?.text || '',
+      relative_time_description: review.relativePublishTimeDescription || ''
+    }));
+
+    return NextResponse.json({
+      rating: data.rating || 0,
+      totalReviews: data.userRatingCount || 0,
+      reviews: reviews
+    });
+
   } catch (error) {
     console.error('Error fetching reviews:', error);
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Failed to fetch reviews',
       details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }
-
