@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Komfort Cars - Dovoz vozidel z Německa | Ostrava, Frýdek-Místek, Karviná",
-  description: "Profesionální dovoz vozidel z Německa na objednávku. Působíme v Ostravě, Frýdku-Místku, Karviné a celém Moravskoslezském kraji. Dovážíme i do Prahy a Brna. Zkušenosti od roku 1999, přes 3000 spokojených zákazníků.",
+  title: "Dovoz vozidel Ostrava, Frýdek-Místek, Karviná | Komfort Cars - Dovoz aut z Německa",
+  description: "Dovoz vozidel Ostrava a Moravskoslezský kraj. Profesionální dovoz aut z Německa na objednávku. Frýdek-Místek, Karviná, Havířov, Opava. Zkušenosti od roku 1999, přes 3000 spokojených zákazníků. Dovážíme i do Prahy a Brna.",
   keywords: "dovoz vozidel, dovoz aut z Německa, dovoz vozidel Ostrava, dovoz vozidel Frýdek-Místek, dovoz vozidel Karviná, dovoz aut Moravskoslezský kraj, dovoz vozidel Praha, dovoz vozidel Brno, import aut z Německa, Komfort Cars",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
   icons: {
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     apple: '/komfortcars_icon.png',
   },
   openGraph: {
-    title: "Komfort Cars - Dovoz vozidel z Německa | Ostrava, Frýdek-Místek, Karviná",
-    description: "Profesionální dovoz vozidel z Německa na objednávku. Působíme v Ostravě, Frýdku-Místku, Karviné a celém Moravskoslezském kraji.",
+    title: "Dovoz vozidel Ostrava, Frýdek-Místek, Karviná | Komfort Cars",
+    description: "Dovoz vozidel Ostrava a Moravskoslezský kraj. Profesionální dovoz aut z Německa na objednávku. Frýdek-Místek, Karviná, Havířov, Opava.",
     type: "website",
     locale: "cs_CZ",
     siteName: "Komfort Cars",

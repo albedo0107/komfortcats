@@ -638,7 +638,7 @@ export default function Home() {
             Spolehlivost, kvalita a individuální přístup k vašim potřebám
           </p>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl font-light tracking-wide mb-8 sm:mb-12 text-center max-w-2xl px-4 drop-shadow-[0_4px_8px_rgba(0,0,0,1)] [text-shadow:_1px_1px_6px_rgb(0_0_0_/_80%)]">
-            Zkušenosti od roku 1999 • Přes 3000 spokojených zákazníků
+            Zkušenosti od roku 1999 • Přes 3000 spokojených zákazníků • Ostrava, Frýdek-Místek a celá ČR
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md mx-auto px-4">
             <Link href="/vozidla" className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-black font-medium hover:bg-gray-100 transition text-center text-sm sm:text-base whitespace-nowrap">
