@@ -1231,6 +1231,153 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Kde působíme - SEO Section */}
+      <section id="kde-pusobime" className="py-8 sm:py-12 lg:py-16 xl:py-20 relative z-50 bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4 sm:mb-6 text-center">
+            Dovoz vozidel z Německa pro celou ČR
+          </h2>
+          <p className="text-gray-600 text-center max-w-3xl mx-auto mb-8 sm:mb-12 text-sm sm:text-base lg:text-lg">
+            Specializujeme se na profesionální dovoz kvalitních vozidel z Německa. Naše služby jsou dostupné zákazníkům z celé České republiky.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {/* Moravskoslezský kraj - hlavní region */}
+            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 border-2 border-[#cfb270]">
+              <div className="flex items-center mb-4">
+                <svg className="w-8 h-8 mr-3" style={{ color: '#cfb270' }} fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <h3 className="text-xl sm:text-2xl font-semibold" style={{ color: '#cfb270' }}>Moravskoslezský kraj</h3>
+              </div>
+              <p className="text-gray-600 mb-4 text-sm sm:text-base">
+                Náš domovský region, kde máme sídlo a kde působíme nejintenzivněji. Osobní předání vozidla, kompletní servis a péče o zákazníka.
+              </p>
+              <ul className="space-y-2 text-gray-700">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 rounded-full mr-3" style={{ backgroundColor: '#cfb270' }}></span>
+                  <strong>Dovoz vozidel Frýdek-Místek</strong> - naše sídlo
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 rounded-full mr-3" style={{ backgroundColor: '#cfb270' }}></span>
+                  <strong>Dovoz vozidel Ostrava</strong> - krajské město
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 rounded-full mr-3" style={{ backgroundColor: '#cfb270' }}></span>
+                  <strong>Dovoz vozidel Karviná</strong>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 rounded-full mr-3" style={{ backgroundColor: '#cfb270' }}></span>
+                  <strong>Dovoz vozidel Havířov</strong>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 rounded-full mr-3" style={{ backgroundColor: '#cfb270' }}></span>
+                  <strong>Dovoz vozidel Opava</strong>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 rounded-full mr-3" style={{ backgroundColor: '#cfb270' }}></span>
+                  <strong>Dovoz vozidel Třinec</strong>
+                </li>
+              </ul>
+            </div>
+
+            {/* Velká města ČR */}
+            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8">
+              <div className="flex items-center mb-4">
+                <svg className="w-8 h-8 mr-3 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/>
+                </svg>
+                <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">Velká města ČR</h3>
+              </div>
+              <p className="text-gray-600 mb-4 text-sm sm:text-base">
+                Pravidelně dovážíme vozidla i pro zákazníky z velkých českých měst. Zajistíme kompletní servis včetně dovozu vozidla.
+              </p>
+              <ul className="space-y-2 text-gray-700">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                  <strong>Dovoz vozidel Praha</strong> - hlavní město
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                  <strong>Dovoz vozidel Brno</strong>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                  <strong>Dovoz vozidel Olomouc</strong>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                  <strong>Dovoz vozidel Zlín</strong>
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                  <strong>Dovoz vozidel Hradec Králové</strong>
+                </li>
+              </ul>
+            </div>
+
+            {/* Proč zvolit nás pro dovoz */}
+            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 md:col-span-2 lg:col-span-1">
+              <div className="flex items-center mb-4">
+                <svg className="w-8 h-8 mr-3 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">Proč Komfort Cars?</h3>
+              </div>
+              <p className="text-gray-600 mb-4 text-sm sm:text-base">
+                Ať jste z Ostravy, Frýdku-Místku, Karviné, Prahy nebo Brna - dovoz vozidel z Německa zvládneme profesionálně a spolehlivě.
+              </p>
+              <ul className="space-y-2 text-gray-700">
+                <li className="flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                  Zkušenosti od roku 1999
+                </li>
+                <li className="flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                  Přes 3000 spokojených zákazníků
+                </li>
+                <li className="flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                  Kompletní vyřízení dokladů
+                </li>
+                <li className="flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                  Dovoz vozidla až k vám
+                </li>
+                <li className="flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                  Prověřená kvalita vozidel
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* CTA sekce */}
+          <div className="mt-10 sm:mt-12 text-center">
+            <p className="text-gray-600 mb-4 text-sm sm:text-base">
+              Hledáte spolehlivý dovoz vozidel z Německa v Ostravě, Frýdku-Místku, Karviné nebo kdekoliv v ČR?
+            </p>
+            <a
+              href="#kontakt"
+              className="inline-block px-8 py-3 text-white font-semibold rounded-full transition-all hover:opacity-90"
+              style={{ backgroundColor: '#cfb270' }}
+            >
+              Nezávazná poptávka
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Aktuálně předaná vozidla Section */}
       <section id="vozidla" className="py-8 sm:py-12 lg:py-16 bg-white relative z-50">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
