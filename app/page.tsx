@@ -1513,7 +1513,7 @@ export default function Home() {
             <div>
                   <p className="font-medium mb-1 text-lg sm:text-xl">Fakturační údaje:</p>
                   <p className="text-lg sm:text-xl">Josef Bystřičan</p>
-                  <p className="text-lg sm:text-xl">Chlebovice 269, Frýdek-Místek 739 42</p>
+                  <p className="text-lg sm:text-xl">Fryčovice 813, 739 45</p>
             </div>
             
                 {/* IČO a DIČ */}
