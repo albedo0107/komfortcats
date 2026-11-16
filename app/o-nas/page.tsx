@@ -30,7 +30,7 @@ export default function ONasPage() {
     setFormStatus('sending');
     
     try {
-      const response = await fetch('https://albedo01.app.n8n.cloud/webhook/formular_komfortcars', {
+      const response = await fetch('/api/formular', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
