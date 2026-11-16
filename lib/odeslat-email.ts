@@ -121,3 +121,38 @@ export async function zdraviFormulare(): Promise<Response> {
     return chyba(`Resend nedostupný: ${e instanceof Error ? e.message : String(e)}`);
   }
 }
+
+/** Podpis kopie zprávy pro portál: HMAC-SHA256 z "<cas>.<tělo>" klíčem RESEND_API_KEY (portál má stejný klíč). */
+export async function podpis(cas: string, telo: string, klic: string): Promise<string> {
+  const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(klic), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const s = await crypto.subtle.sign("HMAC", k, new TextEncoder().encode(`${cas}.${telo}`));
+  return Array.from(new Uint8Array(s), (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/**
+ * Kopie zprávy z formuláře do portálu ALBEDO (albedoai.cz/apps), aby šlo vidět,
+ * co přišlo, i když e-mail neodešel. Selhání kopie nikdy neshodí formulář.
+ */
+export async function zaznamenat(z: {
+  web: string;
+  predmet: string;
+  pole: [string, string][];
+  stav: "odeslano" | "chyba";
+  chyba?: string;
+}): Promise<void> {
+  const klic = process.env.RESEND_API_KEY;
+  if (!klic) return;
+  const url = process.env.FORMULAR_ZAZNAM_URL ?? "https://albedoai.cz/api/formulare/zaznam";
+  try {
+    const telo = JSON.stringify(z);
+    const cas = String(Date.now());
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-cas": cas, "x-podpis": await podpis(cas, telo, klic) },
+      body: telo,
+      signal: AbortSignal.timeout(5000),
+    });
+  } catch (e) {
+    console.error("[formular] kopie do portálu neodešla:", e);
+  }
+}

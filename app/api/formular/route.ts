@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { casIso, escapeHtml as e, odeslatEmail, zdraviFormulare } from "@/lib/odeslat-email";
+import { casIso, escapeHtml as e, odeslatEmail, zaznamenat, zdraviFormulare } from "@/lib/odeslat-email";
 
 /**
  * Poptávka z formuláře (hlavní stránka a O nás) → e-mail Pepimu.
@@ -70,13 +70,17 @@ export async function POST(request: Request) {
   </p>
 </div>`;
 
+  const predmet = "Nová poptávka - KomfortCars";
+  const polozky: [string, string][] = [["Jméno a příjmení", d.jmeno], ["Telefon", d.telefon], ["E-mail", d.email], ["Typ automobilu", d.typ_auta], ["Informace", d.informace], ["Zdroj", d.zdroj]];
   try {
     await odeslatEmail({ komu: PRIJEMCE, predmet: "Nová poptávka - KomfortCars", html, odpovedetNa: d.email });
   } catch (chyba) {
     // Celá poptávka do logu Vercelu, aby šla dohledat i při výpadku e-mailu.
     console.error("[formular] e-mail neodešel:", chyba, JSON.stringify(d));
+    await zaznamenat({ web: "komfortcars", predmet, pole: polozky, stav: "chyba", chyba: String(chyba instanceof Error ? chyba.message : chyba) });
     return NextResponse.json({ error: "Odeslání selhalo." }, { status: 502 });
   }
+  await zaznamenat({ web: "komfortcars", predmet, pole: polozky, stav: "odeslano" });
   return NextResponse.json({ ok: true });
 }
 
