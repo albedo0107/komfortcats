@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { casIso, escapeHtml as e, odeslatEmail } from "@/lib/odeslat-email";
+import { casIso, escapeHtml as e, odeslatEmail, zdraviFormulare } from "@/lib/odeslat-email";
 
 /**
  * Poptávka z formuláře (hlavní stránka a O nás) → e-mail Pepimu.
@@ -78,4 +78,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Odeslání selhalo." }, { status: 502 });
   }
   return NextResponse.json({ ok: true });
+}
+
+/** Kontrola pro Uptime Kumu: nic neodesílá, jen ověří nastavení a klíč Resendu. */
+export async function GET() {
+  return zdraviFormulare();
 }

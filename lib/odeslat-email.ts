@@ -91,3 +91,33 @@ export async function odeslatEmail(email: Email): Promise<string> {
   }
   throw new Error(posledniChyba);
 }
+
+/**
+ * Kontrola zdraví pro Uptime Kumu (GET na route formuláře). Nic neodesílá.
+ * Ověří, že jsou nastavené proměnné a že Resend klíč přijímá (klíč „jen
+ * odesílání“ dostane na seznam domén 401 restricted_api_key = klíč platí).
+ * Odpověď obsahuje "status":"ok", jinak HTTP 503 a důvod.
+ */
+export async function zdraviFormulare(): Promise<Response> {
+  const hlavicky = { "Cache-Control": "no-store" };
+  const chyba = (duvod: string) =>
+    Response.json({ status: "chyba", duvod }, { status: 503, headers: hlavicky });
+
+  const klic = process.env.RESEND_API_KEY;
+  if (!klic) return chyba("Chybí RESEND_API_KEY.");
+  if (!process.env.FORMULAR_OD) return chyba("Chybí FORMULAR_OD.");
+  try {
+    const r = await fetch("https://api.resend.com/domains", {
+      headers: { Authorization: `Bearer ${klic}` },
+      signal: AbortSignal.timeout(8000),
+      cache: "no-store",
+    });
+    const j = (await r.json().catch(() => ({}))) as { name?: string; message?: string };
+    if (r.ok || j.name === "restricted_api_key") {
+      return Response.json({ status: "ok" }, { headers: hlavicky });
+    }
+    return chyba(`Resend odmítl klíč: ${j.message ?? r.status}`);
+  } catch (e) {
+    return chyba(`Resend nedostupný: ${e instanceof Error ? e.message : String(e)}`);
+  }
+}
